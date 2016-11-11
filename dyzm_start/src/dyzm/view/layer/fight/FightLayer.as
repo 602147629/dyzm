@@ -1,7 +1,9 @@
 package dyzm.view.layer.fight
 {
-	import dyzm.data.BgData;
+	import flash.display.Sprite;
+	
 	import dyzm.data.FightData;
+	import dyzm.data.vo.RoleVo;
 	import dyzm.manager.AssetManager;
 	import dyzm.manager.EventManager;
 	import dyzm.view.base.BaseLayer;
@@ -16,6 +18,16 @@ package dyzm.view.layer.fight
 		public var mainLayer:MainLayer;
 		public var uiLayer:UiLayer;
 		public var isLoadOver:Boolean = false;
+		
+		public var fightContainer:Sprite;
+		/**
+		 * 振幅
+		 */
+		public var curRange:int;
+		/**
+		 * 是否暴击
+		 */
+		public var isCrit:Boolean;
 		public function FightLayer()
 		{
 			super();
@@ -27,11 +39,15 @@ package dyzm.view.layer.fight
 			mainLayer = new MainLayer;
 			uiLayer = new UiLayer;
 			
-			this.addChild(bgLayer);
-			this.addChild(mainLayer);
-			this.addChild(bgFrontLayer);
-			this.addChild(uiLayer);
+			fightContainer = new Sprite();
 			
+			this.addChild(fightContainer);
+			
+			fightContainer.addChild(bgLayer);
+			fightContainer.addChild(mainLayer);
+			fightContainer.addChild(bgFrontLayer);
+			
+			this.addChild(uiLayer);
 			load();
 		}
 		
@@ -67,19 +83,72 @@ package dyzm.view.layer.fight
 			bgLayer.start();
 			bgFrontLayer.start();
 			isLoadOver = true;
+			EventManager.addEvent(RoleVo.RANGE_EVENT, onHit);
+		}
+		
+		private function onHit(range:int, isCrit:Boolean):void
+		{
+			this.isCrit = isCrit;
+			if (isCrit){
+				curRange = range*2;
+			}else{
+				curRange = range;
+			}
+			
 		}
 		
 		override public function frameUpdate():void
 		{
 			super.frameUpdate();
 			if (!isLoadOver) return;
-			
-			FightData.frameUpdate();
-			
-			mainLayer.frameUpdate();
-			uiLayer.frameUpdate();
-			bgLayer.frameUpdate();
-			bgFrontLayer.frameUpdate();
+			if (curRange == 0){
+				curRange --;
+				fightContainer.x = fightContainer.y = 0;
+			}else if (curRange > 0){
+				curRange --;
+				var i:int = 3;
+				if (isCrit){
+					i *= 2;
+				}
+				switch(curRange % 4)
+				{
+					case 0:
+					{
+						fightContainer.x = i;
+						fightContainer.y = i;
+						break;
+					}
+					case 1:
+					{
+						fightContainer.x = i;
+						fightContainer.y = -i;
+						break;
+					}
+					case 2:
+					{
+						fightContainer.x = -i;
+						fightContainer.y = -i;
+						break;
+					}
+					case 3:
+					{
+						fightContainer.x = -i;
+						fightContainer.y = i;
+						break;
+					}
+					default:
+					{
+						break;
+					}
+				}
+			}else{
+				FightData.frameUpdate();
+				
+				mainLayer.frameUpdate();
+				uiLayer.frameUpdate();
+				bgLayer.frameUpdate();
+				bgFrontLayer.frameUpdate();
+			}
 		}
 	}
 }

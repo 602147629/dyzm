@@ -45,21 +45,23 @@ package dyzm.data.skill
 		
 		public var addX:Number = 0;
 		
-		
 		public function SkillYingTi(role:RoleVo)
 		{
 			super(role);
 			
-			attSpot.isFly = false;
-			attSpot.x = 100;
-			attSpot.xFrame = 1;
+			attSpot.isFly = true;
+			attSpot.x = 300;
+			attSpot.xFrame = 10;
 			attSpot.z = -30;
 			attSpot.upY = 30;
 			attSpot.downY = 30;
 			attSpot.zDecline = 0.1;
-			attSpot.hp = 1;
+			attSpot.att = 1;
 			attSpot.armor = 1;
-			attSpot.stiffFrame = 60;
+			attSpot.stiffFrame = 45;
+			attSpot.curAttSpot = 1;
+			attSpot.range = 8;
+			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
@@ -99,7 +101,6 @@ package dyzm.data.skill
 		 */
 		override public function start():void
 		{
-			attSpot.curAttSpot = 0;
 			roleVo.frameName = frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
@@ -140,19 +141,13 @@ package dyzm.data.skill
 			
 			// 攻击中
 			if (roleVo.attState == RoleState.ATT_ING){ // 45度向下冲击
-				// 攻击属性设置
-				attSpot.isFly = false;
-				attSpot.x = 50;
-				attSpot.z = 10;
-				attSpot.curAttSpot = 1;
-				
 				roleVo.z += speedZ;
 				if (roleVo.z >= 0){ // 落地,进入该技能的耍帅动作
 					roleVo.curFrame ++;
 					roleVo.x += (speedX + addX - roleVo.z) * roleVo.curTurn;
 					roleVo.z = 0;
 					roleVo.curState = RoleState.STATE_NORMAL;
-					roleVo.attState = RoleState.ATT_AFTER_CANCEL;
+					roleVo.attState = RoleState.ATT_AFTER;
 					roleVo.setSkillComboTime(SKILL_COMBO_TIME);
 					roleVo.reAction();
 				}else{

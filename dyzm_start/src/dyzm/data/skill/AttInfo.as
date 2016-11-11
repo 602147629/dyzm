@@ -78,7 +78,7 @@ package dyzm.data.skill
 		/**
 		 * 攻击力
 		 */
-		public var hp:int = 0;
+		public var att:int = 0;
 		/**
 		 * 破甲
 		 */
@@ -105,6 +105,18 @@ package dyzm.data.skill
 		public var defFireType:int = FIRE_TYPE_SHARP_TRANSVERSE;
 		
 		public var foeAction:String = YANG_TIAN;
+		
+		/**
+		 * 震幅
+		 */
+		public var range:int = 4;
+		
+		
+		/**
+		 * 技能发动时,是否可以改变方向
+		 */
+		public var canTurn:Boolean = false;
+		
 		 
 		public function AttInfo()
 		{

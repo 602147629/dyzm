@@ -40,6 +40,11 @@ package dyzm.data.vo
 		public static const REMOVE_FIRE_EVENT:String = "REMOVE_FIRE_EVENT";
 		
 		/**
+		 * 震动事件
+		 */
+		public static const RANGE_EVENT:String = "RANGE_EVENT";
+		
+		/**
 		 * 势力
 		 */		
 		public var team:int = 0;
@@ -173,7 +178,7 @@ package dyzm.data.vo
 		/**
 		 * 无敌帧数
 		 */
-		public var invincibleFrame:int = 0;
+		public var curInvincibleFrame:int = 0;
 		
 		/**
 		 * 连击数记录
@@ -199,6 +204,7 @@ package dyzm.data.vo
 		{
 			keyToSkill = new KeyToSkillVo(this);
 			byAttInfo = new ByAttInfo();
+			attr = new AttrVo();
 		}
 		
 		/**
@@ -224,6 +230,25 @@ package dyzm.data.vo
 				return;
 			}
 			
+			if (attState == RoleState.ATT_AFTER_CANCEL){
+				attState = RoleState.ATT_NORMAL;
+				curSkill = null;
+			}
+			if (attState == RoleState.ATT_NORMAL && curState == RoleState.STATE_NORMAL){
+				if (isRuning){
+					if (frameName != TAG_RUN){
+						frameName = TAG_RUN;
+						curFrame = 1;
+					}
+				}else{
+					if (frameName != TAG_MOVE){
+						frameName = TAG_MOVE;
+						curFrame = 1;
+					}
+				}
+			}
+			
+			
 			var mx:Number = moveSpeedX;
 			if (isRuning){
 				mx = runSpeedX;
@@ -240,33 +265,17 @@ package dyzm.data.vo
 			}
 			
 			if (dir == 1 || dir == 4 || dir == 7){ // 左
-				curTurn = -1;
+				if (curSkill == null || curSkill.attSpot.canTurn){
+					curTurn = -1;
+				}
 				curMoveSpeedX = -mx;
 			}else if (dir == 3 || dir == 6 || dir == 9){ // 右
-				curTurn = 1;
+				if (curSkill == null || curSkill.attSpot.canTurn){
+					curTurn = 1;
+				}
 				curMoveSpeedX = mx;
 			}
 			
-			if (attState == RoleState.ATT_AFTER_CANCEL){
-				attState = RoleState.ATT_NORMAL;
-				curSkill = null;
-			}else if(attState != RoleState.ATT_NORMAL){
-				return;
-			}
-			
-			if (curState == RoleState.STATE_NORMAL){
-				if (isRuning){
-					if (frameName != TAG_RUN){
-						frameName = TAG_RUN;
-						curFrame = 1;
-					}
-				}else{
-					if (frameName != TAG_MOVE){
-						frameName = TAG_MOVE;
-						curFrame = 1;
-					}
-				}
-			}
 		}
 		
 		/**
@@ -297,7 +306,6 @@ package dyzm.data.vo
 			
 			frameName = TAG_JUMP;
 			curFrame = 1;
-			
 		}
 		
 		/**
@@ -403,6 +411,8 @@ package dyzm.data.vo
 			var firePoint:Point = new Point(rect.x + rect.width/2, rect.y + rect.height/2); // 火花全局坐标
 			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1);
 			
+			EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
+			
 			// 被攻击记录
 			if (byAttInfo.hitDict){
 				if (byAttInfo.hitDict[skill]){
@@ -453,6 +463,8 @@ package dyzm.data.vo
 				n = n * skill.attSpot.zDecline;
 				byAttInfo.z = skill.attSpot.z - skill.attSpot.z * n;
 			}
+			
+			curTurn = -attRole.curTurn;
 		}
 		
 		public function addHit(foeRole:RoleVo):void
@@ -492,8 +504,8 @@ package dyzm.data.vo
 		 */
 		public function frameUpdate():void
 		{
-			if (invincibleFrame > 0){
-				invincibleFrame --;
+			if (curInvincibleFrame > 0){
+				curInvincibleFrame --;
 			}
 			if (skillComboAllTime != 0){
 				skillComboTime ++;
@@ -576,6 +588,7 @@ package dyzm.data.vo
 						z = 0;
 						if (roleMc && roleMc.role && roleMc.role.currentFrame == roleMc.role.totalFrames){ // 倒地动作结束, 进入倒地状态
 							curState = RoleState.STATE_FLOOD;
+							frameName = TAG_DAO_DI;
 							curFrame = 1;
 						}else{
 							curFrame ++;
@@ -597,18 +610,20 @@ package dyzm.data.vo
 				}
 				case RoleState.STATE_FLOOD: // 倒地状态
 				{
-					if (roleMc && roleMc.role && roleMc.role.currentFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态
+					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态
 						curState = RoleState.STATE_STAND_UP;
+						frameName = TAG_ZHAN_QI;
 						curFrame = 1;
 					}else{
 						curFrame ++;
 					}
+					break;
 				}
 				case RoleState.STATE_STAND_UP: // 站起状态
 				{
-					if (roleMc && roleMc.role && roleMc.role.currentFrame == roleMc.role.totalFrames){ // 站起结束,设置2秒无敌,进入正常状态
+					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 站起结束,设置2秒无敌,进入正常状态
 						curState = RoleState.STATE_NORMAL;
-						invincibleFrame = 120;
+						curInvincibleFrame = attr.invincibleFrame;
 						reAction();
 					}else{
 						curFrame ++;

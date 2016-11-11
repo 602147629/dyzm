@@ -5,7 +5,6 @@ package dyzm.data.skill
 	
 	import dyzm.data.FightData;
 	import dyzm.data.vo.RoleVo;
-	import dyzm.manager.GameConfig;
 	import dyzm.view.layer.fight.childLayer.MainLayer;
 	
 	/**
@@ -97,17 +96,17 @@ package dyzm.data.skill
 						for (var j:int = 0; j < foeTeamList.length; j++) // 循环执行所有队伍里的玩家
 						{
 							foeRole = foeTeamList[j];
-							if (foeRole.invincibleFrame <= 0 && roleVo.y - foeRole.y < attSpot.upY && foeRole.y - roleVo.y < attSpot.downY){ // 判断对方,不在无敌状态并且在Y轴攻击范围内
-								//判断是否有打到过对方
-								var isHitAgain:Boolean = false;
-								for each (var r:RoleVo in attInfo[a]){
-									if (r == foeRole){
-										isHitAgain = true;
-										break;
+							if (foeRole.curInvincibleFrame <= 0 && roleVo.y - foeRole.y < attSpot.upY && foeRole.y - roleVo.y < attSpot.downY){ // 判断对方,不在无敌状态并且在Y轴攻击范围内
+								if (foeRole.roleMc && foeRole.roleMc.role){
+									//判断是否有打到过对方
+									var isHitAgain:Boolean = false;
+									for each (var r:RoleVo in attInfo[attSpot.curAttSpot]){
+										if (r == foeRole){
+											isHitAgain = true;
+											break;
+										}
 									}
-								}
-								if (isHitAgain == false){ // 这个招式没有打到过对方
-									if (foeRole.roleMc && foeRole.roleMc.role){
+									if (isHitAgain == false){ // 这个招式没有打到过对方
 										for each (var byAtt:int in attSpot.byList) // 循环执行该技能可以攻击的被攻击块
 										{
 											b = 1;
@@ -118,12 +117,12 @@ package dyzm.data.skill
 													byRect = by.getBounds(MainLayer.me);
 													focusRect = attRect.intersection(byRect);
 													if (focusRect.width != 0){ // 攻击到
-														if (attInfo[a]){
-															attInfo[a].push(foeRole);
+														if (attInfo[attSpot.curAttSpot]){
+															attInfo[attSpot.curAttSpot].push(foeRole);
 														}else{
-															attInfo[a] = [foeRole];
+															attInfo[attSpot.curAttSpot] = [foeRole];
 														}
-														foeRole.byHit(roleVo, this, a, focusRect);
+														foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect);
 														break;
 													}
 													b ++;

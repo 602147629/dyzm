@@ -91,6 +91,10 @@ package dyzm.data.attr
 		 * 毒防
 		 */
 		public var toxinDef:int = 0;
+		/**
+		 * 起身无敌帧数
+		 */
+		public var invincibleFrame:int = 120;
 		
 		public function BaseAttrVo()
 		{

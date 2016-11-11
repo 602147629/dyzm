@@ -59,7 +59,7 @@ package dyzm.data.skill
 			attSpot.upY = 30;
 			attSpot.downY = 30;
 			attSpot.zDecline = 0.1;
-			attSpot.hp = 1;
+			attSpot.att = 1;
 			attSpot.armor = 1;
 			attSpot.stiffFrame = 60;
 			// 该技能可以攻击到的攻击块
