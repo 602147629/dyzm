@@ -405,7 +405,7 @@ package dyzm.data.vo
 		 * @param a		技能段
 		 * @param rect	攻击交接范围
 		 */
-		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, rect:Rectangle):void
+		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, rect:Rectangle, b:int):void
 		{
 			// 火花处理
 			var firePoint:Point = new Point(rect.x + rect.width/2, rect.y + rect.height/2); // 火花全局坐标
@@ -449,7 +449,11 @@ package dyzm.data.vo
 				byAttInfo.curStiffFrame = 0;
 				curSkill = null;
 				curState = RoleState.STATE_STIFF;
-				frameName = skill.attSpot.foeAction;
+				if (b == 1){
+					frameName = skill.attSpot.foeActionToHead;
+				}else{
+					frameName = skill.attSpot.foeAction;
+				}
 				curFrame = 1;
 				byAttInfo.x = (skill.attSpot.x / byAttInfo.stiffFrame) * attRole.curTurn; // 每帧位移量
 			}else{ // 浮空状态
@@ -567,8 +571,8 @@ package dyzm.data.vo
 						curState = RoleState.STATE_NORMAL;
 						reAction();
 					}else{
-						if(byAttInfo.stiffFrame - byAttInfo.curStiffFrame <= 4){
-							curFrame = 5 + byAttInfo.stiffFrame - byAttInfo.curStiffFrame;
+						if(byAttInfo.stiffFrame - byAttInfo.curStiffFrame <= 8){
+							curFrame = 17 - (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
 						}else{
 							x += byAttInfo.x;
 							if (roleMc && roleMc.role && roleMc.role.currentFrameLabel != "stop"){

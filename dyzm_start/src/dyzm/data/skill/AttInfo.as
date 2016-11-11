@@ -104,7 +104,14 @@ package dyzm.data.skill
 		 */
 		public var defFireType:int = FIRE_TYPE_SHARP_TRANSVERSE;
 		
-		public var foeAction:String = YANG_TIAN;
+		/**
+		 * 攻击到头的动作
+		 */
+		public var foeActionToHead:String = YANG_TIAN;
+		/**
+		 * 攻击到身体的动作
+		 */
+		public var foeAction:String = DI_TOU;
 		
 		/**
 		 * 震幅

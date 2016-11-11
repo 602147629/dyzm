@@ -49,7 +49,7 @@ package dyzm.data.skill
 		{
 			super(role);
 			
-			attSpot.isFly = true;
+			attSpot.isFly = false;
 			attSpot.x = 300;
 			attSpot.xFrame = 10;
 			attSpot.z = -30;
@@ -71,7 +71,9 @@ package dyzm.data.skill
 			// 防御火花类型
 			attSpot.defFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
 			
-			attSpot.foeAction = AttInfo.YANG_TIAN;
+			attSpot.foeActionToHead = AttInfo.YANG_TIAN;
+			
+			attSpot.foeAction = AttInfo.DI_TOU;
 		}	
 		
 		/**

@@ -122,7 +122,7 @@ package dyzm.data.skill
 														}else{
 															attInfo[attSpot.curAttSpot] = [foeRole];
 														}
-														foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect);
+														foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect, b);
 														break;
 													}
 													b ++;
