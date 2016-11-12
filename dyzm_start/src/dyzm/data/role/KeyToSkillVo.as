@@ -1,4 +1,4 @@
-package dyzm.data.vo
+package dyzm.data.role
 {
 	import dyzm.data.skill.SkillJian1;
 	import dyzm.data.skill.SkillJian2;

@@ -5,7 +5,7 @@ package dyzm.view.layer.fight.childLayer
 	import flash.utils.Dictionary;
 	
 	import dyzm.data.FightData;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.manager.EventManager;
 	import dyzm.manager.GameConfig;
 	import dyzm.view.base.BaseLayer;

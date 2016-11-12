@@ -2,7 +2,7 @@
  * Knob.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于选择数值的旋钮组件。
  * A knob component for choosing a numerical value.
  * 
  * Copyright (c) 2011 Keith Peters
@@ -101,7 +101,8 @@
 			addChild(_valueLabel);
 			
 			_width = _radius * 2;
-			_height = _radius * 2 + 40;		}
+			_height = _radius * 2 + 40;
+		}
 		
 		/**
 		 * Draw the knob at the specified radius.

@@ -2,7 +2,7 @@
  * Window.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 可拖动的窗口。可以作为其他组件的容器。
  * A draggable window. Can be used as a container for other components.
  * 
  * Copyright (c) 2011 Keith Peters

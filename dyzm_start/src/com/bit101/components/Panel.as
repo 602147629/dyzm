@@ -2,7 +2,7 @@
  * Panel.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 矩形板。可以作为其他组件的容器。
  * A rectangular panel. Can be used as a container for other components.
  * 
  * Copyright (c) 2011 Keith Peters

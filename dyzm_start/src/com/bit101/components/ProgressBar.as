@@ -2,7 +2,7 @@
  * ProgressBar.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个用于显示关系中的更改值的进度条组件。 
  * A progress bar component for showing a changing value in relation to a total.
  * 
  * Copyright (c) 2011 Keith Peters

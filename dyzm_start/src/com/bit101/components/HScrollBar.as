@@ -2,7 +2,7 @@
  * HScrollBar.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于其他组件的水平滚动条。
  * A horizontal scroll bar for use in other components. 
  * 
  * Copyright (c) 2011 Keith Peters

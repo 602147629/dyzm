@@ -2,7 +2,7 @@
  * List.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 可选择项目的滚动列表。
  * A scrolling list of selectable items. 
  * 
  * Copyright (c) 2011 Keith Peters

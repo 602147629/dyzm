@@ -2,7 +2,7 @@
  * IndicatorLight.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个指示灯，可以打开，关闭，或设置为闪光。
  * An indicator light that can be turned on, off, or set to flash.
  * 
  * Copyright (c) 2011 Keith Peters

@@ -2,7 +2,7 @@
  * ListItem.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 列表中的单个项目。
  * A single item in a list. 
  * 
  * Copyright (c) 2011 Keith Peters

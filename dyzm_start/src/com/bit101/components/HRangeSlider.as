@@ -3,6 +3,7 @@
  * Keith Peters
  * version 0.9.10
  * 
+ * 用于选择一系列值的具有两个手柄的水平滑块。 
  * A horizontal slider with two handles for selecting a range of values.
  * 
  * Copyright (c) 2011 Keith Peters

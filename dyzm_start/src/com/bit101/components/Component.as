@@ -2,7 +2,7 @@
  * Component.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 所有组件的基类
  * Base class for all components
  * 
  * Copyright (c) 2011 Keith Peters
@@ -45,18 +45,6 @@ package com.bit101.components
 	[Event(name="draw", type="flash.events.Event")]
 	public class Component extends Sprite
 	{
-		// NOTE: Flex 4 introduces DefineFont4, which is used by default and does not work in native text fields.
-		// Use the embedAsCFF="false" param to switch back to DefineFont4. In earlier Flex 4 SDKs this was cff="false".
-		// So if you are using the Flex 3.x sdk compiler, switch the embed statment below to expose the correct version.
-		
-		// Flex 4.7 (labs/beta) sdk:
-		// SWF generated with fontswf utility bundled with the AIR SDK released on labs.adobe.com with Flash Builder 4.7 (including ASC 2.0) 
-//		[Embed(source="../../../../assets/pf_ronda_seven.swf", symbol="PF Ronda Seven")]
-
-		// Flex 4.x sdk:
-		// [Embed(source="/assets/pf_ronda_seven.ttf", embedAsCFF="false", fontName="PF Ronda Seven", mimeType="application/x-font")]
-		// Flex 3.x sdk:
-//		[Embed(source="/assets/pf_ronda_seven.ttf", fontName="PF Ronda Seven", mimeType="application/x-font")]
 		protected var Ronda:Class;
 		
 		protected var _width:Number = 0;

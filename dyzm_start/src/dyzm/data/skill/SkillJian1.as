@@ -2,7 +2,7 @@ package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
 	import dyzm.data.SkillData;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	
 	public class SkillJian1 extends BaseSkillVo
 	{

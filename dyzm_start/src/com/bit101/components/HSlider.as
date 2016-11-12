@@ -2,7 +2,7 @@
  * HSlider.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于选择值的水平滑块组件。
  * A Horizontal Slider component for choosing values.
  * 
  * Copyright (c) 2011 Keith Peters

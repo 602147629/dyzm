@@ -2,7 +2,7 @@
  * ColorChooser.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 颜色选择器组件，允许文本输入，默认或自定义图像的梯度。
  * A Color Chooser component, allowing textual input, a default gradient, or custom image.
  * 
  * Copyright (c) 2011 Keith Peters

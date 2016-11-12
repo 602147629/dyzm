@@ -4,7 +4,7 @@ package dyzm.data.skill
 	import flash.geom.Rectangle;
 	
 	import dyzm.data.FightData;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.view.layer.fight.childLayer.MainLayer;
 	
 	/**

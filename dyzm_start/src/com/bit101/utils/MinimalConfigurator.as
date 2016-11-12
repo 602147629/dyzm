@@ -2,7 +2,7 @@
  * MinimalConfigurator.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于解析XML布局代码创建最小的组件声明的类。
  * A class for parsing xml layout code to create minimal components declaratively.
  * 
  * Copyright (c) 2011 Keith Peters

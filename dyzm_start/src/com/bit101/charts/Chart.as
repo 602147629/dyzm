@@ -2,7 +2,7 @@
  * Chart.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一种图形化的数字数据数组基础图表组件。 
  * A base chart component for graphing an array of numeric data.
  * 
  * Copyright (c) 2011 Keith Peters

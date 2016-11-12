@@ -2,7 +2,7 @@
  * Component.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于显示和选择日期的日历组件。 
  * Calendar component for showing and selecting a date.
  * 
  * Copyright (c) 2011 Keith Peters

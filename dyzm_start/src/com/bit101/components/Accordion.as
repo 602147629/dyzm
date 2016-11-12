@@ -2,7 +2,7 @@
  * Accordion.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 基本上一个VBox满窗。只有一个窗口将在任何时间扩大。
  * Essentially a VBox full of Windows. Only one Window will be expanded at any time.
  * 
  * Copyright (c) 2011 Keith Peters

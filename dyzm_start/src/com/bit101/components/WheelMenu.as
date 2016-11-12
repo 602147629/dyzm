@@ -3,6 +3,7 @@
  * Keith Peters
  * version 0.9.10
  * 
+ * 弹出鼠标周围的一个径向菜单。
  * A radial menu that pops up around the mouse.
  * 
  * Copyright (c) 2011 Keith Peters

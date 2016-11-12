@@ -2,7 +2,9 @@ package dyzm.data
 {
 	import dyzm.data.level.BaseLevel;
 	import dyzm.data.level.Level1;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.BaseAiControl;
+	import dyzm.data.role.PlayerControl;
+	import dyzm.data.role.RoleVo;
 
 	/**
 	 * 当前战斗数据
@@ -26,7 +28,7 @@ package dyzm.data
 		/**
 		 * 主角数据
 		 */
-		public static var mainRole:RoleVo;
+		public static var mainRole:PlayerControl;
 		
 		
 		/**
@@ -51,7 +53,7 @@ package dyzm.data
 		{
 			level = new levelObj[levelId]();
 			
-			mainRole = new RoleVo();
+			mainRole = new PlayerControl();
 			mainRole.x = 0;
 			mainRole.y = 800;
 			mainRole.team = 0;
@@ -60,6 +62,12 @@ package dyzm.data
 			team = {};
 			team[0] = [mainRole];
 			team[1] = foeList.concat();
+			
+			for (var i:int = 0; i < foeList.length; i++) 
+			{
+				foeList[i].start(team[0]);
+			}
+			
 		}
 		
 		/**
@@ -77,7 +85,7 @@ package dyzm.data
 		
 		public static function initFoe():RoleVo
 		{
-			var role:RoleVo = new RoleVo();
+			var role:BaseAiControl = new BaseAiControl();
 			role.x = 800;
 			role.y = 500;
 			role.team = 1;

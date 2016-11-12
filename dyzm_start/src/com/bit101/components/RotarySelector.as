@@ -2,7 +2,7 @@
  * RotarySelector.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一种用于在不同的值之间选择的旋转选择器组件。
  * A rotary selector component for choosing among different values.
  * 
  * Copyright (c) 2011 Keith Peters

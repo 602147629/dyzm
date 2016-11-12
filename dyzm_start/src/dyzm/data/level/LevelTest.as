@@ -4,7 +4,7 @@ package dyzm.data.level
 	
 	import dyzm.data.BgData;
 	import dyzm.data.attr.foe.XiaoGuai;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.manager.EventManager;
 
 	public class LevelTest extends BaseLevel

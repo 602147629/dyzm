@@ -1,7 +1,7 @@
 package dyzm.data.equip
 {
 	import dyzm.data.attr.BaseAttrVo;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 
 	public class BaseEquip
 	{

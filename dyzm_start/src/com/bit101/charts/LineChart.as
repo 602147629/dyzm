@@ -2,7 +2,7 @@
  * LineChart.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个图形的数据作为一个数组图表组件线图。
  * A chart component for graphing an array of numeric data as a line graph.
  * 
  * Copyright (c) 2011 Keith Peters

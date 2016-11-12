@@ -2,7 +2,7 @@ package dyzm.view.layer.fight.item
 {
 	import asset.Role_1;
 	
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.PlayerControl;
 
 	/**
 	 * 主角
@@ -10,12 +10,14 @@ package dyzm.view.layer.fight.item
 	 */
 	public class MainRole extends BaseRole
 	{
-		public function MainRole(role:RoleVo)
+		public var mianRoleControl:PlayerControl;
+		public function MainRole(role:PlayerControl)
 		{
 			super(role);
 			mc = new Role_1();
 			this.addChild(mc);
 			roleVo.roleMc = mc;
+			mianRoleControl = role;
 		}
 		
 		/**
@@ -24,23 +26,23 @@ package dyzm.view.layer.fight.item
 		 */		
 		public function setDir(dir:int):void
 		{
-			roleVo.setDir(dir);
+			mianRoleControl.setDir(dir);
 		}
 		
 		public function setRun(isRun:Boolean):void
 		{
-			roleVo.setRun(isRun);
+			mianRoleControl.setRun(isRun);
 		}
 		
 		public function setJump():void
 		{
-			roleVo.setJump();
+			mianRoleControl.setJump();
 		}
 		
 		
 		public function setSkill(id:int):void
 		{
-			roleVo.setSkill(id);
+			mianRoleControl.setSkill(id);
 		}
 		
 	}

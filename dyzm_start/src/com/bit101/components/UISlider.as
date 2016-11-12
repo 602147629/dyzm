@@ -2,7 +2,7 @@
  * UISlider.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 具有标签和值标签的滑块。对于vuislider和HUISlider的抽象基类 
  * A Slider with a label and value label. Abstract base class for VUISlider and HUISlider
  * 
  * Copyright (c) 2011 Keith Peters

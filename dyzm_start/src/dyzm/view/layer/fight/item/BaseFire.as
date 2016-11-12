@@ -6,7 +6,7 @@ package dyzm.view.layer.fight.item
 	
 	import asset.fire_1;
 	
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.manager.EventManager;
 
 	public class BaseFire extends Sprite

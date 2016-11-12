@@ -3,6 +3,7 @@
  * Keith Peters
  * version 0.9.10
  * 
+ * 对于hrangeslider和VRangeSlider的抽象基类。 
  * Abstract base class for HRangeSlider and VRangeSlider.
  * 
  * Copyright (c) 2011 Keith Peters

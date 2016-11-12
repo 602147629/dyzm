@@ -2,7 +2,7 @@
  * BarChart.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个图形的数据作为一个条形图阵列图表组件。 
  * A chart component for graphing an array of numeric data as a bar graph.
  * 
  * Copyright (c) 2011 Keith Peters

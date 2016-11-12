@@ -2,7 +2,7 @@
  * NumericStepper.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 允许进入一个数字值与键盘，或按上/下按钮的一个组件。
  * A component allowing for entering a numeric value with the keyboard, or by pressing up/down buttons.
  * 
  * Copyright (c) 2011 Keith Peters

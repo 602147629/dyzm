@@ -2,7 +2,7 @@
  * HUISlider.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 带有标签和值标签的水平滑块。
  * A Horizontal slider with a label and a value label.
  * 
  * Copyright (c) 2011 Keith Peters

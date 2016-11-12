@@ -2,7 +2,7 @@
  * PushButton.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 带有标签的基本按钮组件。 
  * A basic button component with a label.
  * 
  * Copyright (c) 2011 Keith Peters

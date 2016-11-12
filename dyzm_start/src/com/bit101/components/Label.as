@@ -2,7 +2,7 @@
  * Label.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于显示单行文本的标签组件。 
  * A Label component for displaying a single line of text.
  * 
  * Copyright (c) 2011 Keith Peters

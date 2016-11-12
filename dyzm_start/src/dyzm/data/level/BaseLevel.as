@@ -1,7 +1,7 @@
 package dyzm.data.level
 {
 	import dyzm.data.attr.foe.BaseFoe;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 
 	public class BaseLevel
 	{

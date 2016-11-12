@@ -1,5 +1,6 @@
 package dyzm
 {
+	import com.bit101.UiTest;
 	import com.bit101.components.FPSMeter;
 	import com.bit101.components.Style;
 	
@@ -21,8 +22,6 @@ package dyzm
 			
 			this.addEventListener(Event.ENTER_FRAME, loop);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded);
-			
-			
 		}
 		
 		public function onAdded(e:Event):void
@@ -42,10 +41,14 @@ package dyzm
 			Style.fontSize = 12;
 			Style.embedFonts = false;
 			Style.fontName = 'Microsoft YaHei';
-			Style.BACKGROUND = 0x000000;
-			Style.BUTTON_FACE = 0xCCCCCC;
+//			Style.BACKGROUND = 0x000000;
+//			Style.BUTTON_FACE = 0xCCCCCC;
 			var fps:FPSMeter = new FPSMeter(this);
 			this.addChild(fps);
+			
+//			var uiTest:UiTest = new UiTest();
+//			this.addChild(uiTest);
+//			uiTest.testKnob();
 		}
 		
 		

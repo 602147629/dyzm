@@ -2,7 +2,7 @@
  * Meter.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一种类似于电压表的仪表组件，具有一个刻度盘和一个指针，指示一个值。
  * A meter component similar to a voltage meter, with a dial and a needle that indicates a value.
  * 
  * Copyright (c) 2011 Keith Peters

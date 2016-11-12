@@ -2,7 +2,7 @@
  * ComboBox.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个按钮，公开了一个选项列表，并显示所选择的项目。
  * A button that exposes a list of choices and displays the chosen item. 
  * 
  * Copyright (c) 2011 Keith Peters

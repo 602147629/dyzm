@@ -2,7 +2,7 @@
  * CheckBox.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个基本的复选框组件。
  * A basic CheckBox component.
  * 
  * Copyright (c) 2011 Keith Peters

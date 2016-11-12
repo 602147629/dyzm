@@ -2,7 +2,7 @@
  * VBox.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于垂直对齐其他组件的布局容器。
  * A layout container for vertically aligning other components.
  * 
  * Copyright (c) 2011 Keith Peters

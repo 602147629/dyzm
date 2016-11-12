@@ -2,7 +2,7 @@
  * Slider.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 滑块基类
  * Abstract base slider class for HSlider and VSlider.
  * 
  * Copyright (c) 2011 Keith Peters

@@ -5,7 +5,7 @@ package dyzm.view.layer.fight.item
 	
 	import asset.Shadow;
 	
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 
 	public class BaseRole extends BaseItem
 	{

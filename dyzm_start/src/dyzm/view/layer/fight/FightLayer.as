@@ -3,7 +3,7 @@ package dyzm.view.layer.fight
 	import flash.display.Sprite;
 	
 	import dyzm.data.FightData;
-	import dyzm.data.vo.RoleVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.manager.AssetManager;
 	import dyzm.manager.EventManager;
 	import dyzm.view.base.BaseLayer;

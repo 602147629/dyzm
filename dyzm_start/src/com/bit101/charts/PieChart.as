@@ -2,7 +2,7 @@
  * PieChart.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 一个图形的数据作为一个饼图图表组件的数组。
  * A chart component for graphing an array of numeric data as a pie chart.
  * 
  * Copyright (c) 2011 Keith Peters

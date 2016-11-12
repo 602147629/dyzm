@@ -2,7 +2,7 @@
  * TextArea.as
  * Keith Peters
  * version 0.9.10
- * 
+ * 用于显示多行文本的滚动条组件。
  * A Text component for displaying multiple lines of text with a scrollbar.
  * 
  * Copyright (c) 2011 Keith Peters
