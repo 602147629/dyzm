@@ -2,7 +2,6 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 {
 	import dyzm.data.FightData;
 	import dyzm.view.base.BaseLayer;
-	import dyzm.view.layer.fight.childLayer.mainLayer.FoeArrow;
 
 	public class UiLayer extends BaseLayer
 	{
@@ -18,7 +17,7 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 			arrowList = new Vector.<FoeArrow>;
 			for (var i:int = 0; i < FightData.foeList.length; i++) 
 			{
-				arrowList[i] = new FoeArrow(FightData.foeList[i]);
+				arrowList[i] = new FoeArrow(FightData.foeList[i], i);
 				this.addChild(arrowList[i]);
 			}
 		}
@@ -29,8 +28,7 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 			
 			for (var i:int = 0; i < arrowList.length; i++) 
 			{
-				arrowList[i] = new FoeArrow(FightData.foeList[i]);
-				this.addChild(arrowList[i]);
+				arrowList[i].frameUpdate();
 			}
 		}
 	}

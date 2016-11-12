@@ -14,6 +14,7 @@ package dyzm.data
 	 */
 	public class FightData
 	{
+		
 		/**
 		 * 总关卡数据
 		 */
