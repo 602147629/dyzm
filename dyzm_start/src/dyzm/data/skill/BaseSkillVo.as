@@ -5,7 +5,7 @@ package dyzm.data.skill
 	
 	import dyzm.data.FightData;
 	import dyzm.data.role.RoleVo;
-	import dyzm.view.layer.fight.childLayer.MainLayer;
+	import dyzm.view.layer.fight.childLayer.mainLayer.MainLayer;
 	
 	/**
 	 * 技能基类

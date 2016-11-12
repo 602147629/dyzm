@@ -1,4 +1,4 @@
-package dyzm.view.layer.fight.item
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -6,6 +6,7 @@ package dyzm.view.layer.fight.item
 	import asset.Shadow;
 	
 	import dyzm.data.role.RoleVo;
+	import dyzm.view.layer.fight.item.BaseItem;
 
 	public class BaseRole extends BaseItem
 	{

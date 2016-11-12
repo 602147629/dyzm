@@ -8,7 +8,7 @@ package dyzm.view.layer.fight
 	import flash.utils.getTimer;
 	
 	import dyzm.data.KeyData;
-	import dyzm.view.layer.fight.item.MainRole;
+	import dyzm.view.layer.fight.childLayer.mainLayer.MainRole;
 	
 	public class HandleView
 	{

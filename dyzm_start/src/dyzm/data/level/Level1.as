@@ -1,13 +1,19 @@
 package dyzm.data.level
 {
 	import dyzm.data.BgData;
-	import dyzm.data.attr.foe.XiaoGuai;
+	import dyzm.data.role.foe.BaseAiControl;
+	import dyzm.data.role.foe.XiaoGuai;
 
 	public class Level1 extends BaseLevel
 	{
 		public function Level1()
 		{
-			foeList = [new XiaoGuai, new XiaoGuai, new XiaoGuai, new XiaoGuai];
+			foeList = new Vector.<BaseAiControl>();
+			foeList[0] = new XiaoGuai();
+			foeList[1] = new XiaoGuai();
+			foeList[2] = new XiaoGuai();
+			foeList[3] = new XiaoGuai();
+			
 			boss = new XiaoGuai;
 			bgBg = BgData.bg1bg;
 			bgFront = BgData.bg1Front;
@@ -16,6 +22,9 @@ package dyzm.data.level
 			time = 0;
 			drop = [];
 			firstDrop = [];
+			
+			minFoe = 1;
+			maxFoe = 1;
 		}
 	}
 }

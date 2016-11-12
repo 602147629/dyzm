@@ -93,7 +93,6 @@ package dyzm.data.skill
 						return true;
 					}
 				}
-				return false;
 			}
 			return false;
 		}
@@ -140,7 +139,6 @@ package dyzm.data.skill
 			
 			// 更新当前攻击状态
 			roleVo.attState = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
-			
 			// 攻击中
 			if (roleVo.attState == RoleState.ATT_ING){ // 45度向下冲击
 				roleVo.z += speedZ;
@@ -164,6 +162,7 @@ package dyzm.data.skill
 					roleVo.curFrame ++;
 				}
 			}
+			
 			super.run();
 		}
 	}

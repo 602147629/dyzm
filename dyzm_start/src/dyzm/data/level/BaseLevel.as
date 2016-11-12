@@ -1,7 +1,7 @@
 package dyzm.data.level
 {
-	import dyzm.data.attr.foe.BaseFoe;
 	import dyzm.data.role.RoleVo;
+	import dyzm.data.role.foe.BaseAiControl;
 
 	public class BaseLevel
 	{
@@ -9,9 +9,19 @@ package dyzm.data.level
 		/**
 		 * 怪物列表
 		 */
-		public var foeList:Array;
+		public var foeList:Vector.<BaseAiControl>;
 		
-		public var boss:BaseFoe;
+		public var boss:BaseAiControl;
+		
+		/**
+		 * 最大刷怪数
+		 */
+		public var maxFoe:int;
+		
+		/**
+		 * 最小刷怪数, 当前怪数量低于这个值时会刷到最大值
+		 */
+		public var minFoe:int;
 		
 		/**
 		 * 背景
@@ -48,10 +58,15 @@ package dyzm.data.level
 		 */
 		public var mainRole:RoleVo;
 		
+		/**
+		 * 上边
+		 */
 		public var topY:int;
 		
+		/**
+		 * 下边
+		 */
 		public var bottomY:int;
-		
 		
 		public function BaseLevel()
 		{

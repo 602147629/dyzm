@@ -1,4 +1,4 @@
-package dyzm.view.layer.fight.item
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;

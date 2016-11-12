@@ -1,8 +1,8 @@
-package dyzm.view.layer.fight.item
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import asset.Role_1;
 	
-	import dyzm.data.role.BaseAiControl;
+	import dyzm.data.role.foe.BaseAiControl;
 
 	/**
 	 * 敌方人物,带AI

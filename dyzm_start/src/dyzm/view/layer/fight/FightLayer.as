@@ -7,9 +7,9 @@ package dyzm.view.layer.fight
 	import dyzm.manager.AssetManager;
 	import dyzm.manager.EventManager;
 	import dyzm.view.base.BaseLayer;
-	import dyzm.view.layer.fight.childLayer.BgLayer;
-	import dyzm.view.layer.fight.childLayer.MainLayer;
-	import dyzm.view.layer.fight.childLayer.UiLayer;
+	import dyzm.view.layer.fight.childLayer.bgLayer.BgLayer;
+	import dyzm.view.layer.fight.childLayer.mainLayer.MainLayer;
+	import dyzm.view.layer.fight.childLayer.uiLayer.UiLayer;
 	
 	public class FightLayer extends BaseLayer
 	{

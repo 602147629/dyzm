@@ -1,6 +1,5 @@
 package dyzm
 {
-	import com.bit101.UiTest;
 	import com.bit101.components.FPSMeter;
 	import com.bit101.components.Style;
 	

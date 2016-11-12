@@ -1,9 +1,10 @@
-package dyzm.data.role
+package dyzm.data.role.foe
 {
 	import flash.geom.Point;
 	
 	import dyzm.data.RoleState;
 	import dyzm.util.Maths;
+	import dyzm.data.role.RoleVo;
 	
 	public class BaseAiControl extends RoleVo
 	{
@@ -20,6 +21,16 @@ package dyzm.data.role
 		 * 攻击状态
 		 */
 		public static const AI_STATE_ATT:int = 2;
+		
+		/**
+		 * 名字
+		 */
+		public var name:String;
+		
+		/**
+		 * 模型
+		 */
+		public var style:Class;
 		
 		/**
 		 * 当前状态

@@ -1,8 +1,7 @@
-package dyzm.view.layer.fight.childLayer
+package dyzm.view.layer.fight.childLayer.bgLayer
 {
 	import dyzm.data.FightData;
 	import dyzm.view.base.BaseLayer;
-	import dyzm.view.layer.fight.item.BaseBgItem;
 
 	public class BgLayer extends BaseLayer
 	{

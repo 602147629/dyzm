@@ -200,6 +200,12 @@ package dyzm.data.role
 		 */
 		public var attr:AttrVo;
 		
+		/**
+		 * 需要删除该人物时,为true
+		 */
+		public var needDel:Boolean = false;
+		
+		
 		public function RoleVo()
 		{
 			byAttInfo = new ByAttInfo();

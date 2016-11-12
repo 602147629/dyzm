@@ -1,4 +1,4 @@
-package dyzm.view.layer.fight.childLayer
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import flash.events.Event;
 	import flash.geom.Point;
@@ -10,10 +10,6 @@ package dyzm.view.layer.fight.childLayer
 	import dyzm.manager.GameConfig;
 	import dyzm.view.base.BaseLayer;
 	import dyzm.view.layer.fight.HandleView;
-	import dyzm.view.layer.fight.item.BaseFire;
-	import dyzm.view.layer.fight.item.BaseRole;
-	import dyzm.view.layer.fight.item.FoeRole;
-	import dyzm.view.layer.fight.item.MainRole;
 
 	public class MainLayer extends BaseLayer
 	{
@@ -28,7 +24,8 @@ package dyzm.view.layer.fight.childLayer
 		/**
 		 * 怪物
 		 */
-		public var foeList:Array;
+		public var foeList:Vector.<FoeRole>;
+		
 		
 		/**
 		 * 火花
@@ -63,15 +60,15 @@ package dyzm.view.layer.fight.childLayer
 			handleView.start(this.stage, mainRole);
 			
 			// 初始化怪物
-			foeList = [];
+			foeList = new Vector.<FoeRole>;
 			for (var i:int = 0; i < FightData.foeList.length; i++) 
 			{
 				foeList[i] = new FoeRole(FightData.foeList[i]);
 				this.addChild(foeList[i]);
 			}
 			fireDict = new Dictionary();
-			EventManager.addEvent(RoleVo.ADD_FIRE_EVENT, addFire);
 			
+			EventManager.addEvent(RoleVo.ADD_FIRE_EVENT, addFire);
 			EventManager.addEvent(RoleVo.REMOVE_FIRE_EVENT, removeFire);
 		}
 		

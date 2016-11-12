@@ -1,4 +1,4 @@
-package dyzm.view.layer.fight.item
+package dyzm.view.layer.fight.childLayer.bgLayer
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;

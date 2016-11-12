@@ -3,7 +3,7 @@ package dyzm.data.level
 	import flash.events.Event;
 	
 	import dyzm.data.BgData;
-	import dyzm.data.attr.foe.XiaoGuai;
+	import dyzm.data.role.foe.XiaoGuai;
 	import dyzm.data.role.RoleVo;
 	import dyzm.manager.EventManager;
 

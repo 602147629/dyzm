@@ -1,4 +1,4 @@
-package dyzm.view.layer.fight.item
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import asset.Role_1;
 	
