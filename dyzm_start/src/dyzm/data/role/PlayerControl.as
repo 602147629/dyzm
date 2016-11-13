@@ -30,8 +30,8 @@ package dyzm.data.role
 		 */
 		public function setDir(dir:int):void
 		{
-			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
 			curDir = dir;
+			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
 			curMoveSpeedX = 0;
 			curMoveSpeedY = 0;
 			
@@ -66,14 +66,11 @@ package dyzm.data.role
 			}
 			
 			
-			var mx:Number = moveSpeedX;
+			var mx:Number = curAttr.moveSpeed;
 			if (isRuning){
-				mx = runSpeedX;
+				mx = curAttr.runSpeed;
 			}
-			var my:Number = moveSpeedY;
-			if (isRuning){
-				my = runSpeedY;
-			}
+			var my:Number = mx / 2;
 			
 			if (dir == 7 || dir == 8 || dir == 9){ // 上
 				curMoveSpeedY = -my;
@@ -113,11 +110,10 @@ package dyzm.data.role
 		 */
 		public function setJump():void
 		{
-			if (curState != RoleState.STATE_NORMAL || attState != RoleState.ATT_NORMAL)
-				return;
+			if (curState != RoleState.STATE_NORMAL || attState != RoleState.ATT_NORMAL) return;
 			
-			z = jumpPower;
-			curFlyPower = jumpPower - WorldData.G;
+			z = curAttr.jumpPower;
+			curFlyPower = curAttr.jumpPower - WorldData.G;
 			
 			curState = RoleState.STATE_AIR;
 			
@@ -133,39 +129,44 @@ package dyzm.data.role
 		{
 			var bindObj:Object;
 			var skillObj:Object;
+			var curForm:int;
 			if (curState == RoleState.STATE_NORMAL && isRuning == false){ // 地面正常状态
+				curForm = 1;
 				bindObj = keyToSkill.skillFloorBind;
 				skillObj = keyToSkill.skillFloorVo;
 			}else if (curState == RoleState.STATE_NORMAL && isRuning == true){ // 地面跑步状态
+				curForm = 2
 				bindObj = keyToSkill.skillRunBind;
 				skillObj = keyToSkill.skillRunVo;
-				
+				if (bindObj[id] == null){ // 如果跑步状态没有绑定技能,那么使用正常状态的
+					curForm = 1;
+					bindObj = keyToSkill.skillFloorBind;
+					skillObj = keyToSkill.skillFloorVo;
+				}
 			}else if (curState == RoleState.STATE_AIR){ // 空中状态
+				curForm = 3
 				bindObj = keyToSkill.skillSkyBind;
 				skillObj = keyToSkill.skillSkyVo;
+			}else{
+				return;
 			}
 			
 			var c:int = skillCombo;
-			if (skillComboAllTime == 0){ // 已经过了连招时间,不进行连招判断
-				c = skillCombo = 0;
-				skillComboTime = 0;
-			}
-			
-			if (skillId != id){ //发招不同
+			if (skillComboAllTime == 0 || skillId != id || curForm != attForm){ //已经过了连招时间或发招不同,不进行连招判断
 				c = 0;
 			}
-			
 			if (bindObj[id] && bindObj[id][c]){
 				var skill:BaseSkillVo = skillObj[id][c];
 				var isCan:Boolean = skill.startTest();
 				if (isCan){ // 检测通过,该技能可以释放
-					if (skillId != id){
+					if (skillComboAllTime == 0 || skillId != id || curForm != attForm){
 						skillCombo = 0;
 					}
 					skill.start(); //启动技能
 					curSkill = skill;
 					curSkillClass = bindObj[id][c];
 					skillId = id;
+					attForm = curForm;
 				}
 			}
 		}

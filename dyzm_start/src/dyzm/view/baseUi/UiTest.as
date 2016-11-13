@@ -1,7 +1,8 @@
-package com.bit101
+package dyzm.view.baseUi
 {
 	import com.bit101.components.Knob;
 	import com.bit101.components.Panel;
+	import com.bit101.components.ProgressBar;
 	import com.bit101.components.RotarySelector;
 	import com.bit101.components.Window;
 	
@@ -103,6 +104,19 @@ package com.bit101
 //			win.mode = Knob.HORIZONTAL;
 //			win.mode = Knob.ROTATE;
 //			win.mode = Knob.VERTICAL;
+		}
+		
+		public function testProgressBar():void
+		{
+			var win:ProgressBar = new ProgressBar(this, 200, 200);
+			// 设置窗口大小
+			win.setSize(300, 30);
+			win.maximum = 100;
+			win.value = 30;
+			// 设置拖动方式
+			//			win.mode = Knob.HORIZONTAL;
+			//			win.mode = Knob.ROTATE;
+			//			win.mode = Knob.VERTICAL;
 			
 			win.addEventListener(Event.CLOSE, onClose);
 			

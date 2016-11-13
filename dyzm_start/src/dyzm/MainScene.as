@@ -6,9 +6,11 @@ package dyzm
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import dyzm.data.DataManager;
 	import dyzm.manager.EventManager;
 	import dyzm.manager.GameConfig;
 	import dyzm.view.base.BaseLayer;
+	import dyzm.view.baseUi.UiTest;
 	import dyzm.view.layer.fight.FightLayer;
 	
 	public class MainScene extends Sprite
@@ -16,9 +18,7 @@ package dyzm
 		public var curLayer:BaseLayer;
 		public function MainScene()
 		{
-			curLayer = new FightLayer();
-			this.addChild(curLayer);
-			
+			DataManager.init();
 			this.addEventListener(Event.ENTER_FRAME, loop);
 			this.addEventListener(Event.ADDED_TO_STAGE, onAdded);
 		}
@@ -36,18 +36,21 @@ package dyzm
 			this.scaleX = GameConfig.scale;
 			this.scaleY = GameConfig.scale;
 			
+			curLayer = new FightLayer();
+			this.addChild(curLayer);
+			
 			// UI框架初始化
 			Style.fontSize = 12;
 			Style.embedFonts = false;
 			Style.fontName = 'Microsoft YaHei';
-//			Style.BACKGROUND = 0x000000;
-//			Style.BUTTON_FACE = 0xCCCCCC;
+			Style.setStyle(Style.LIGHT);
+			
 			var fps:FPSMeter = new FPSMeter(this);
 			this.addChild(fps);
 			
 //			var uiTest:UiTest = new UiTest();
 //			this.addChild(uiTest);
-//			uiTest.testKnob();
+//			uiTest.testProgressBar();
 		}
 		
 		

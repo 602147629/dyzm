@@ -46,13 +46,8 @@ package dyzm.data.role
 			skillSkyBind[1] = [SkillYingTi];
 			skillSkyVo[1] = [new SkillYingTi(roleVo)];
 			
-			
-			
 			skillFloorBind[1] = [SkillJian1, SkillJian2, SkillJian3, SkillJian4];
 			skillFloorVo[1] = [new SkillJian1(roleVo), new SkillJian2(roleVo), new SkillJian3(roleVo), new SkillJian4(roleVo)];
-			
-			skillRunBind[1] = [SkillJian1, SkillJian2, SkillJian3, SkillJian4];
-			skillRunVo[1] = [new SkillJian1(roleVo), new SkillJian2(roleVo), new SkillJian3(roleVo), new SkillJian4(roleVo)];
 		}
 	}
 }

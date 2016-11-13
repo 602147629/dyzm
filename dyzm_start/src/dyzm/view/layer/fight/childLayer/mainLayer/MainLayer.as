@@ -102,10 +102,17 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			
 			var sortArr:Array = [mainRole];
 			mainRole.frameUpdate();
+			
 			for (var i:int = 0; i < foeList.length; i++) 
 			{
-				foeList[i].frameUpdate();
-				sortArr.push(foeList[i]);
+				if (foeList[i].roleVo.needDel){
+					if (FightData.foeList[i]){
+						foeList[i].setRole(FightData.foeList[i]);
+					}
+				}else{
+					foeList[i].frameUpdate();
+					sortArr.push(foeList[i]);
+				}
 			}
 			
 			for (var fire:BaseFire in fireDict){

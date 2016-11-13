@@ -43,9 +43,9 @@ package dyzm.data.skill
 		/**
 		 * 该技能出招时的位移效果
 		 */
-		public const speedX:int = 1;
-		public const stopX:int = 0;
-		public const addX:int = 2;
+		public const speedX:int = 12;
+		public const stopX:int = 6;
+		public const addX:int = 20;
 		public var curSpeedX:int = 0;
 		
 		public function SkillJian2(role:RoleVo)
@@ -56,12 +56,13 @@ package dyzm.data.skill
 			attSpot.x = 100;
 			attSpot.xFrame = 1;
 			attSpot.z = -30;
-			attSpot.upY = 30;
-			attSpot.downY = 30;
+			attSpot.upY = 40;
+			attSpot.downY = 40;
 			attSpot.zDecline = 0.1;
-			attSpot.att = 1;
-			attSpot.armor = 1;
-			attSpot.stiffFrame = 60;
+			attSpot.attr.attMin = 1;
+			attSpot.attr.attMax = 1;
+			attSpot.attr.attArmor = 1;
+			attSpot.stiffFrame = 45;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL];
@@ -131,22 +132,22 @@ package dyzm.data.skill
 					if (roleVo.curTurn == 1){
 						curSpeedX = addX;
 					}else{
-						curSpeedX = stopX;
+						curSpeedX = -stopX;
 					}
 				}else if (roleVo.curDir == 7 || roleVo.curDir == 4 || roleVo.curDir == 1){
 					if (roleVo.curTurn == 1){
-						curSpeedX = -stopX;
+						curSpeedX = stopX;
 					}else{
 						curSpeedX = -addX;
 					}
 				}
 			}
 			
-			if (roleVo.curFrame >= 5 && roleVo.curFrame <= 13){
+			if (roleVo.curFrame >= 5 && roleVo.curFrame <= 17){
 				roleVo.x += curSpeedX;
 			}
 			
-			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER_CANCEL){
+			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER){
 				roleVo.attState = toState;
 				roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
 				roleVo.reAction();
@@ -158,7 +159,6 @@ package dyzm.data.skill
 			}
 			
 			roleVo.curFrame ++;
-			
 			super.run();
 		}
 	}

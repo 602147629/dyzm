@@ -43,27 +43,32 @@ package dyzm.data.skill
 		/**
 		 * 该技能出招时的位移效果
 		 */
-		public const speedX:int = 1;
-		public const stopX:int = 0;
-		public const addX:int = 2;
+		public const speedX:int = 12;
+		public const stopX:int = 6;
+		public const addX:int = 20;
 		public var curSpeedX:int = 0;
 		
 		public function SkillJian1(role:RoleVo)
 		{
 			super(role);
-			
 			attSpot.isFly = false;
-			attSpot.x = 100;
-			attSpot.xFrame = 1;
+			attSpot.x = 300;
+			attSpot.xFrame = 10;
 			attSpot.z = -30;
-			attSpot.upY = 30;
-			attSpot.downY = 30;
-			attSpot.zDecline = 0.1;
-			attSpot.att = 1;
-			attSpot.armor = 1;
-			attSpot.stiffFrame = 60;
+			attSpot.upY = 40;
+			attSpot.downY = 40;
+			attSpot.stiffDecline = 0.1;
+			attSpot.zDecline = 0.01;
+			attSpot.attDecline = 0.1;
+			attSpot.armorDecline = 0.1;
+			attSpot.attr.attMin = 1;
+			attSpot.attr.attMax = 1;
+			attSpot.attr.attArmor = 1;
+			attSpot.stiffFrame = 45;
+			attSpot.curAttSpot = 1;
+			attSpot.range = 8;
+			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
-			// 鹰踢可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL];
 			// 攻击火花类型
 			attSpot.attFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
@@ -71,7 +76,9 @@ package dyzm.data.skill
 			// 防御火花类型
 			attSpot.defFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
 			
-			attSpot.foeAction = AttInfo.YANG_TIAN;
+			attSpot.foeActionToHead = AttInfo.YANG_TIAN;
+			
+			attSpot.foeAction = AttInfo.DI_TOU;
 		}	
 		/**
 		 * 技能检测, 在通过初步检测后调用,进入进一步判断
@@ -119,7 +126,6 @@ package dyzm.data.skill
 			// 更新当前攻击状态
 			var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
 			
-			
 			if (roleVo.curFrame == 5){
 				if (roleVo.curDir == 2 || roleVo.curDir == 5 || roleVo.curDir == 8){
 					if (roleVo.curTurn == 1){
@@ -131,22 +137,21 @@ package dyzm.data.skill
 					if (roleVo.curTurn == 1){
 						curSpeedX = addX;
 					}else{
-						curSpeedX = stopX;
+						curSpeedX = -stopX;
 					}
 				}else if (roleVo.curDir == 7 || roleVo.curDir == 4 || roleVo.curDir == 1){
 					if (roleVo.curTurn == 1){
-						curSpeedX = -stopX;
+						curSpeedX = stopX;
 					}else{
 						curSpeedX = -addX;
 					}
 				}
 			}
-			
 			if (roleVo.curFrame >= 5 && roleVo.curFrame <= 13){
 				roleVo.x += curSpeedX;
 			}
 			
-			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER_CANCEL){
+			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER){
 				roleVo.attState = toState;
 				roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
 				roleVo.reAction();
@@ -158,7 +163,6 @@ package dyzm.data.skill
 			}
 			
 			roleVo.curFrame ++;
-			
 			super.run();
 		}
 	}

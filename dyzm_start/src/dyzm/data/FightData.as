@@ -1,5 +1,7 @@
 package dyzm.data
 {
+	import asset.Role_1;
+	
 	import dyzm.data.level.BaseLevel;
 	import dyzm.data.level.Level1;
 	import dyzm.data.role.PlayerControl;
@@ -74,6 +76,9 @@ package dyzm.data
 			
 			// 初始化主角
 			mainRole = new PlayerControl();
+			mainRole.initAttr(MainAttrData.attr);
+			
+			mainRole.style = Role_1;
 			mainRole.x = Maths.random(-1000, 1000);
 			mainRole.y = Maths.random(level.topY, level.bottomY);
 			mainRole.team = 0;
@@ -106,13 +111,16 @@ package dyzm.data
 			var b:Boolean = false;
 			for (var i:int = 0; i < foeList.length; i++) 
 			{
-				foeList[i].frameUpdate();
-				
-				if (foeList[i].needDel){
-					foeList[i] = null;
-					foeNum --;
-					if (needAddFoe){
-						b = true;
+				if (foeList[i]){
+					foeList[i].frameUpdate();
+					
+					if (foeList[i].needDel){
+						delFromTeam(foeList[i]);
+						foeList[i] = null;
+						foeNum --;
+						if (needAddFoe){
+							b = true;
+						}
 					}
 				}
 			}
@@ -140,7 +148,7 @@ package dyzm.data
 				for (var j:int = 0; j < foeList.length; j++) 
 				{
 					if (foeList[j] == null){
-						foeList[j] = initFoe();
+						foeList[j] = initFoe(level.foeList[curFoeIndex]);
 					}
 				}
 			}
@@ -148,20 +156,30 @@ package dyzm.data
 				for (j = 0; j < foeList.length; j++) 
 				{
 					if (foeList[j] == null){
-						foeList[j] = level.boss;
-						foeList[j].x = Maths.random(-500, 500);
-						foeList[j].y = Maths.random(level.topY, level.bottomY);
-						foeList[j].team = 1;
+						foeList[j] = initFoe(level.boss);
+						break;
 					}
 				}
 			}
 		}
 		
-		private static function initFoe():RoleVo
+		private static function delFromTeam(r:RoleVo):void
 		{
-			var role:BaseAiControl = level.foeList[curFoeIndex];
+			var a:Array = team[r.team];
+			for (var i:int = 0; i < a.length; i++) 
+			{
+				if (a[i] == r){
+					a.splice(i, 1);
+					return;
+				}
+			}
+		}
+		
+		private static function initFoe(role:BaseAiControl):RoleVo
+		{
 			curFoeIndex ++;
-			role.x = Maths.random(-500, 500);
+			foeNum ++;
+			role.x = mainRole.x + Maths.random(-500, 500);
 			role.y = Maths.random(level.topY, level.bottomY);
 			role.team = 1;
 			team[1].push(role);

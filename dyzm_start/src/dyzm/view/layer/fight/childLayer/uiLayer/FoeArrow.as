@@ -1,7 +1,5 @@
 package dyzm.view.layer.fight.childLayer.uiLayer
 {
-	import flash.display.Sprite;
-	
 	import dyzm.data.FightData;
 	import dyzm.data.role.RoleVo;
 	import dyzm.manager.GameConfig;
@@ -52,6 +50,10 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 						spr.scaleX = -1;
 					}
 					spr.y = roleVo.y + -100;
+				}
+			}else{
+				if (spr.parent){
+					this.removeChild(spr);
 				}
 			}
 		}

@@ -1,7 +1,5 @@
 package dyzm.view.layer.fight.childLayer.mainLayer
 {
-	import asset.Role_1;
-	
 	import dyzm.data.role.PlayerControl;
 
 	/**
@@ -14,9 +12,6 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		public function MainRole(role:PlayerControl)
 		{
 			super(role);
-			mc = new Role_1();
-			this.addChild(mc);
-			roleVo.roleMc = mc;
 			mianRoleControl = role;
 		}
 		

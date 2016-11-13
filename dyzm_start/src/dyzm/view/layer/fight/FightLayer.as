@@ -63,7 +63,7 @@ package dyzm.view.layer.fight
 			}
 			
 			// 加载前景
-			for (i = 0; i < bgFrontLayer.bgInfo.length; i++) 
+			for (i = 0; i < bgFrontLayer.bgInfo.length; i++)
 			{
 				a = bgFrontLayer.bgInfo[i];
 				url = a[0];

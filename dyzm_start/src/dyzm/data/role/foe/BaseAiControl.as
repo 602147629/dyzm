@@ -28,11 +28,6 @@ package dyzm.data.role.foe
 		public var name:String;
 		
 		/**
-		 * 模型
-		 */
-		public var style:Class;
-		
-		/**
 		 * 当前状态
 		 */
 		public var aiState:int = 0;
@@ -101,15 +96,13 @@ package dyzm.data.role.foe
 		override public function reAction():void
 		{
 			super.reAction();
-			if (attState == RoleState.ATT_NORMAL || attState == RoleState.ATT_AFTER_CANCEL){ //如果在可以打断的后摇中,如果有方向,则执行
-				if (curState == RoleState.STATE_NORMAL){
-					curTime = 0;
-					aiState = AI_STATE_STOP;
-					curMoveSpeedX = 0;
-					curMoveSpeedY = 0;
-					frameName = TAG_STOOD;
-					curFrame = 1;
-				}
+			if (attState == RoleState.ATT_NORMAL && curState == RoleState.STATE_NORMAL){ //如果在可以打断的后摇中,如果有方向,则执行
+				curTime = 0;
+				aiState = AI_STATE_STOP;
+				curMoveSpeedX = 0;
+				curMoveSpeedY = 0;
+				frameName = TAG_STOOD;
+				curFrame = 1;
 			}
 		}
 		
@@ -117,20 +110,21 @@ package dyzm.data.role.foe
 		{
 			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
 			
-			if (curTarget && curTarget.x < x){
-				curTurn = -1;
-			}else{
-				curTurn = 1;
+			if (attState == RoleState.ATT_NORMAL){
+				if (curTarget && curTarget.x < x){
+					curTurn = -1;
+				}else{
+					curTurn = 1;
+				}
 			}
+			
 			curTime ++;
-			var b:Boolean;
 			switch(aiState)
 			{
 				case AI_STATE_STOP:
 				{
 					if (curTime > attStartStopTime){
-						b = attTest();
-						if (b) return;
+						if (attTest()) return;
 					}
 					
 					if (curTime >findMoveStopTime){
@@ -211,11 +205,12 @@ package dyzm.data.role.foe
 				}
 			}
 			movePos = toPos.subtract(myPos);
-			var xFrame:int = Math.abs(movePos.x / moveSpeedX);
-			var yFrame:int = Math.abs(movePos.y / moveSpeedY);
+			var xFrame:int = Math.abs(movePos.x / curAttr.moveSpeed);
+			var yFrame:int = Math.abs(movePos.y / (curAttr.moveSpeed / 2));
 			curMoveTime = xFrame > yFrame ? xFrame : yFrame;
 			curMoveSpeedX = movePos.x / curMoveTime;
 			curMoveSpeedY = movePos.y / curMoveTime;
+			curMoveTime = curMoveTime > 180 ? 180 : curMoveTime;
 			frameName = TAG_MOVE;
 			curFrame = 1;
 		}

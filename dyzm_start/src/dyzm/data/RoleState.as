@@ -24,13 +24,21 @@ package dyzm.data
 		 */
 		public static const STATE_STIFF:int = 3;
 		/**
-		 * 倒地状态
+		 * 趟地状态
 		 */
 		public static const STATE_FLOOD:int = 4;
 		/**
 		 * 站起状态
 		 */
 		public static const STATE_STAND_UP:int = 5;
+		/**
+		 * 倒下状态
+		 */
+		public static const STATE_DOWNING:int = 6;
+		/**
+		 * 死亡状态
+		 */
+		public static const STATE_DEATH:int = 7;
 		// ↑↑↑↑↑↑↑↑↑受控状态↑↑↑↑↑↑↑↑↑↑
 		
 		

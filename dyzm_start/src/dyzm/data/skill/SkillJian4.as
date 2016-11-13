@@ -56,11 +56,12 @@ package dyzm.data.skill
 			attSpot.x = 100;
 			attSpot.xFrame = 1;
 			attSpot.z = -30;
-			attSpot.upY = 30;
-			attSpot.downY = 30;
+			attSpot.upY = 40;
+			attSpot.downY = 40;
 			attSpot.zDecline = 0.1;
-			attSpot.att = 1;
-			attSpot.armor = 1;
+			attSpot.attr.attMin = 1;
+			attSpot.attr.attMax = 1;
+			attSpot.attr.attArmor = 1;
 			attSpot.stiffFrame = 60;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
@@ -146,7 +147,7 @@ package dyzm.data.skill
 				roleVo.x += curSpeedX;
 			}
 			
-			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER_CANCEL){
+			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER){
 				roleVo.attState = toState;
 				roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
 				roleVo.reAction();

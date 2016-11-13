@@ -9,9 +9,11 @@ package dyzm.data.role
 	import dyzm.data.RoleState;
 	import dyzm.data.WorldData;
 	import dyzm.data.attr.AttrVo;
+	import dyzm.data.attr.BaseAttrVo;
 	import dyzm.data.skill.BaseSkillVo;
 	import dyzm.data.skill.ByAttInfo;
 	import dyzm.manager.EventManager;
+	import dyzm.util.Maths;
 	
 	public class RoleVo
 	{
@@ -27,6 +29,8 @@ package dyzm.data.role
 		public static const TAG_FU_KONG:String = "浮空";
 		public static const TAG_DAO_DI:String = "倒地";
 		public static const TAG_ZHAN_QI:String = "站起";
+		public static const TAG_DOWNING:String = "倒下";
+		public static const TAG_DEATH:String = "死亡";
 		
 		
 		/**
@@ -56,22 +60,15 @@ package dyzm.data.role
 		public var y:Number = 0;
 		
 		/**
+		 * 人物高度,用于在头上显示血条等
+		 */
+		public var h:Number = 100;
+		
+		/**
 		 * 当前跳起的高度,高度命名为Z
 		 */
 		public var z:Number = 0;
 		public var curFlyPower:Number = 0;
-		/**
-		 * 走路速度 
-		 */		
-		public var moveSpeedX:Number = 4;
-		public var moveSpeedY:Number = 2;
-		
-		/**
-		 * 跑步速度
-		 */
-		public var runSpeedX:Number = 8;
-		public var runSpeedY:Number = 4;
-		
 		
 		/**
 		 * 当前速度
@@ -84,13 +81,6 @@ package dyzm.data.role
 		 * 是否跑步中
 		 */
 		public var isRuning:Boolean = false;
-		
-		/**
-		 * 起跳力度
-		 */
-		public var jumpPower:Number = -30;
-		
-		
 		
 		/**
 		 * 当前受控状态
@@ -118,7 +108,7 @@ package dyzm.data.role
 		public var curSkill:BaseSkillVo = null;
 		
 		/**
-		 * 当前正在释放的技能类
+		 * 当前正在释放的技能类,用于连续技判断
 		 */
 		public var curSkillClass:Class = null;
 		
@@ -133,6 +123,10 @@ package dyzm.data.role
 		 */
 		public var curFrame:int = 1;
 		
+		/**
+		 * 模型类
+		 */
+		public var style:Class;
 		/**
 		 * 当前人物模型
 		 */
@@ -163,9 +157,13 @@ package dyzm.data.role
 		 */
 		public var skillComboTime:int = 0;
 		/**
-		 * 后续技能计时
+		 * 后续技能总时间
 		 */
 		public var skillComboAllTime:int = 0;
+		/**
+		 * 攻击形态(1=地面,2=地面跑步,3=空中);
+		 */
+		public var attForm:int = 1;
 		
 		/**
 		 * 正在执行的技能ID
@@ -201,6 +199,11 @@ package dyzm.data.role
 		public var attr:AttrVo;
 		
 		/**
+		 * 当前人物属性
+		 */
+		public var curAttr:BaseAttrVo;
+		
+		/**
 		 * 需要删除该人物时,为true
 		 */
 		public var needDel:Boolean = false;
@@ -210,6 +213,13 @@ package dyzm.data.role
 		{
 			byAttInfo = new ByAttInfo();
 			attr = new AttrVo();
+			curAttr = new AttrVo();
+		}
+		
+		public function initAttr(a:AttrVo):void
+		{
+			attr.add(a);
+			curAttr.add(a);
 		}
 		
 		
@@ -222,23 +232,9 @@ package dyzm.data.role
 		 */
 		public function reAction():void
 		{
-			var r:RoleVo;
-			if (attState == RoleState.ATT_NORMAL || attState == RoleState.ATT_AFTER_CANCEL){ //如果在可以打断的后摇中,如果有方向,则执行
-				if (curState == RoleState.STATE_NORMAL){
-					byAttInfo.hitDict = null;
-					for (r in byAttRoleList) 
-					{
-						r.removeHit(this);
-					}
-				}else if(curState == RoleState.STATE_AIR){
-					byAttInfo.hitDict = null;
-					for (r in byAttRoleList)
-					{
-						r.removeHit(this);
-					}
-					frameName = TAG_JUMP;
-					curFrame = 1;
-				}
+			if(attState == RoleState.ATT_NORMAL && curState == RoleState.STATE_AIR){
+				frameName = TAG_JUMP;
+				curFrame = 1;
 			}
 		}
 		
@@ -272,64 +268,133 @@ package dyzm.data.role
 			var firePoint:Point = new Point(rect.x + rect.width/2, rect.y + rect.height/2); // 火花全局坐标
 			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1);
 			
-			EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
+			// 重复攻击递减
+			var decline:Number = 0;
+			if (byAttInfo.hitDict && byAttInfo.hitDict[skill] && byAttInfo.hitDict[skill][skill.attSpot.curAttSpot]){
+				decline = byAttInfo.hitDict[skill][skill.attSpot.curAttSpot];
+			}
+			// 伤害处理
+			var att:Number = Maths.random(attRole.curAttr.attMin + skill.attSpot.attr.attMin, attRole.curAttr.attMax + skill.attSpot.attr.attMax); // 计算发挥的攻击力大小
+			att = att - att * decline * skill.attSpot.armorDecline; // 计算重复攻击递减
+			att = att - curAttr.def; // 计算防御减伤
+			var iceAtt:Number = attRole.curAttr.iceAtt + skill.attSpot.attr.iceAtt;
+			// 冰攻击
+			iceAtt =  iceAtt - iceAtt * decline * skill.attSpot.armorDecline - curAttr.iceDef;
+			var fireAtt:Number = attRole.curAttr.fireAtt + skill.attSpot.attr.fireAtt;
+			// 火攻击
+			fireAtt =  fireAtt - fireAtt * decline * skill.attSpot.armorDecline - curAttr.fireDef;
+			// 电攻击
+			var thundAtt:Number = attRole.curAttr.thundAtt + skill.attSpot.attr.thundAtt;
+			thundAtt =  thundAtt - thundAtt * decline * skill.attSpot.armorDecline - curAttr.thundDef;
+			// 毒攻击
+			var toxinAtt:Number = attRole.curAttr.toxinAtt + skill.attSpot.attr.toxinAtt;
+			toxinAtt =  toxinAtt - toxinAtt * decline * skill.attSpot.armorDecline - curAttr.toxinDef;
+			var curAtt:Number = 0;
+			if (att > 0){
+				curAtt += att;
+			}
+			if (iceAtt > 0){
+				curAtt += iceAtt;
+			}
+			if (fireAtt > 0){
+				curAtt += fireAtt;
+			}
+			if (thundAtt > 0){
+				curAtt += thundAtt;
+			}
+			if (toxinAtt > 0){
+				curAtt += toxinAtt;
+			}
+			curAtt = curAtt - curAttr.armor; // 计算护甲减伤
+			if (Math.random() < curAtt - int(curAtt)){
+				curAtt = int(curAtt) + 1;
+			}else{
+				curAtt = int(curAtt);
+			}
 			
-			// 被攻击记录
-			if (byAttInfo.hitDict){
-				if (byAttInfo.hitDict[skill]){
-					if (byAttInfo.hitDict[skill][skill.attSpot.curAttSpot]){
-						byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] ++;
+			// 破甲计算
+			curAttr.armor -= attRole.curAttr.attArmor + skill.attSpot.attr.attArmor;
+			if (curAttr.armor < 0 ){
+				curAttr.armor = 0;
+			}
+			
+			
+			if (curAtt > 0){ // 扣血了,可以打断其动作
+				// 清理原来动作
+				if (attState != RoleState.ATT_NORMAL){
+					attState = RoleState.ATT_NORMAL;
+					curSkill = null;
+				}
+				
+				curAttr.hp -= curAtt;
+				if (curAttr.hp < 0){
+					curAttr.hp = 0;
+				}
+				
+				EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
+				
+				// 被攻击记录
+				if (byAttInfo.hitDict){
+					if (byAttInfo.hitDict[skill]){
+						if (byAttInfo.hitDict[skill][skill.attSpot.curAttSpot]){
+							byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] ++;
+						}else{
+							byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] = 1;
+						}
 					}else{
+						byAttInfo.hitDict[skill] = {};
 						byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] = 1;
 					}
 				}else{
+					byAttInfo.hitDict = new Dictionary();
 					byAttInfo.hitDict[skill] = {};
 					byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] = 1;
 				}
-			}else{
-				byAttInfo.hitDict = new Dictionary();
-				byAttInfo.hitDict[skill] = {};
-				byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] = 1;
-			}
-			
-			// 记下本次谁打了我
-			if (byAttRoleList){
-				byAttRoleList[attRole] = true;
-			}else{
-				byAttRoleList = new Dictionary();
-				byAttRoleList[attRole] = true;
-			}
-			
-			if ((curState == RoleState.STATE_NORMAL || curState == RoleState.STATE_STIFF) && skill.attSpot.isFly == false){ // 地面状态
-				var s:int = (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
-				if (s > skill.attSpot.stiffFrame){
-					byAttInfo.stiffFrame = s;
+				
+				// 记下本次谁打了我
+				if (byAttRoleList){
+					byAttRoleList[attRole] = true;
 				}else{
-					byAttInfo.stiffFrame = skill.attSpot.stiffFrame;
+					byAttRoleList = new Dictionary();
+					byAttRoleList[attRole] = true;
 				}
-				byAttInfo.curStiffFrame = 0;
-				curSkill = null;
-				curState = RoleState.STATE_STIFF;
-				if (b == 1){
-					frameName = skill.attSpot.foeActionToHead;
-				}else{
-					frameName = skill.attSpot.foeAction;
+				
+				// 表现处理
+				
+				
+				
+				if ((curState == RoleState.STATE_NORMAL || curState == RoleState.STATE_STIFF) && skill.attSpot.isFly == false){ // 地面状态
+					var stiffDecline:int = skill.attSpot.stiffFrame - skill.attSpot.stiffFrame * decline * skill.attSpot.stiffDecline;
+					if (stiffDecline > 0){
+						var s:int = (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
+						if (s > skill.attSpot.stiffFrame){
+							byAttInfo.stiffFrame = s;
+						}else{
+							byAttInfo.stiffFrame = skill.attSpot.stiffFrame;
+						}
+						byAttInfo.curStiffFrame = 0;
+						curSkill = null;
+						curState = RoleState.STATE_STIFF;
+						if (b == 1){
+							frameName = skill.attSpot.foeActionToHead;
+						}else{
+							frameName = skill.attSpot.foeAction;
+						}
+						curFrame = 1;
+						byAttInfo.x = (skill.attSpot.x / byAttInfo.stiffFrame) * attRole.curTurn; // 每帧位移量
+					}
+				}else{ // 浮空状态
+					curSkill = null;
+					curState = RoleState.STATE_FLY;
+					frameName = TAG_FU_KONG;
+					curFrame = 1;
+					byAttInfo.x = skill.attSpot.xFrame * attRole.curTurn;
+					// 处理浮空递减
+					byAttInfo.z = skill.attSpot.z - skill.attSpot.z * decline * skill.attSpot.zDecline;
 				}
-				curFrame = 1;
-				byAttInfo.x = (skill.attSpot.x / byAttInfo.stiffFrame) * attRole.curTurn; // 每帧位移量
-			}else{ // 浮空状态
-				curSkill = null;
-				curState = RoleState.STATE_FLY;
-				frameName = TAG_FU_KONG;
-				curFrame = 1;
-				byAttInfo.x = skill.attSpot.xFrame * attRole.curTurn;
-				// 处理浮空递减
-				var n:Number = byAttInfo.hitDict[skill][skill.attSpot.curAttSpot] - 1;
-				n = n * skill.attSpot.zDecline;
-				byAttInfo.z = skill.attSpot.z - skill.attSpot.z * n;
+				
+				curTurn = -attRole.curTurn;
 			}
-			
-			curTurn = -attRole.curTurn;
 		}
 		
 		public function addHit(foeRole:RoleVo):void
@@ -383,6 +448,8 @@ package dyzm.data.role
 				curSkill.run();
 				return;
 			}
+			
+			var r:RoleVo;
 			switch(curState)
 			{
 				case RoleState.STATE_NORMAL: // 正常状态
@@ -429,8 +496,19 @@ package dyzm.data.role
 				case RoleState.STATE_STIFF: // 硬直状态
 				{
 					if (byAttInfo.curStiffFrame == byAttInfo.stiffFrame){ // 硬直结束
-						curState = RoleState.STATE_NORMAL;
-						reAction();
+						byAttInfo.hitDict = null;
+						for (r in byAttRoleList) 
+						{
+							r.removeHit(this);
+						}
+						if (curAttr.hp == 0){
+							curState = RoleState.STATE_DOWNING;
+							frameName = TAG_DOWNING;
+							curFrame = 1;
+						}else{
+							curState = RoleState.STATE_NORMAL;
+							reAction();
+						}
 					}else{
 						if(byAttInfo.stiffFrame - byAttInfo.curStiffFrame <= 8){
 							curFrame = 17 - (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
@@ -475,10 +553,21 @@ package dyzm.data.role
 				}
 				case RoleState.STATE_FLOOD: // 倒地状态
 				{
-					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态
-						curState = RoleState.STATE_STAND_UP;
-						frameName = TAG_ZHAN_QI;
-						curFrame = 1;
+					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态或死亡状态
+						byAttInfo.hitDict = null;
+						for (r in byAttRoleList) 
+						{
+							r.removeHit(this);
+						}
+						if (curAttr.hp == 0){
+							curState = RoleState.STATE_DEATH;
+							frameName = TAG_DEATH;
+							curFrame = 1;
+						}else{
+							curState = RoleState.STATE_STAND_UP;
+							frameName = TAG_ZHAN_QI;
+							curFrame = 1;
+						}
 					}else{
 						curFrame ++;
 					}
@@ -493,6 +582,27 @@ package dyzm.data.role
 					}else{
 						curFrame ++;
 					}
+					break;
+				}
+				case RoleState.STATE_DOWNING: // 倒下状态
+				{
+					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){
+						curState = RoleState.STATE_FLOOD;
+						frameName = TAG_DAO_DI;
+						curFrame = 1;
+					}else{
+						curFrame ++;
+					}
+					break;
+				}
+				case RoleState.STATE_DEATH: // 死亡状态
+				{
+					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){
+						needDel = true;
+					}else{
+						curFrame ++;
+					}
+					break;
 				}
 				default:
 				{

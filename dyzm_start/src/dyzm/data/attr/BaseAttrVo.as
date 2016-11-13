@@ -94,40 +94,58 @@ package dyzm.data.attr
 		/**
 		 * 起身无敌帧数
 		 */
-		public var invincibleFrame:int = 120;
+		public var invincibleFrame:int = 0;
+		
+		/**
+		 * 走路速度 
+		 */		
+		public var moveSpeed:Number = 0;
+		
+		/**
+		 * 跑步速度
+		 */
+		public var runSpeed:Number = 0;
+		
+		/**
+		 * 起跳力度
+		 */
+		public var jumpPower:Number = 0;
 		
 		public function BaseAttrVo()
 		{
 		}
 		
 		/**
-		 * 两个属性相加,a+=b,a改变,b不变
-		 * @param a
+		 * 当前属性加上参数属性
 		 * @param b
 		 * @return 
 		 */
-		public static function add(a:BaseAttrVo, b:BaseAttrVo):void
+		public function add(b:BaseAttrVo):void
 		{
-			a.hp += b.hp;
-			a.hpMax += b.hpMax;
-			a.armor += b.armor;
-			a.maxArmor += b.maxArmor;
-			a.attMin += b.attMin;
-			a.attMax += b.attMax;
-			a.attArmor += b.attArmor;
-			a.critRate += b.critRate;
-			a.critDmg += b.critDmg;
-			a.def += b.def;
-			a.mf += b.mf;
-			a.gf += b.gf;
-			a.iceAtt += b.iceAtt;
-			a.iceDef += b.iceDef;
-			a.fireAtt += b.fireAtt;
-			a.fireDef += b.fireDef;
-			a.thundAtt += b.thundAtt;
-			a.thundDef += b.thundDef;
-			a.toxinAtt += b.toxinAtt;
-			a.toxinDef += b.toxinDef;
+			hp += b.hp;
+			hpMax += b.hpMax;
+			armor += b.armor;
+			maxArmor += b.maxArmor;
+			attMin += b.attMin;
+			attMax += b.attMax;
+			attArmor += b.attArmor;
+			critRate += b.critRate;
+			critDmg += b.critDmg;
+			def += b.def;
+			mf += b.mf;
+			gf += b.gf;
+			iceAtt += b.iceAtt;
+			iceDef += b.iceDef;
+			fireAtt += b.fireAtt;
+			fireDef += b.fireDef;
+			thundAtt += b.thundAtt;
+			thundDef += b.thundDef;
+			toxinAtt += b.toxinAtt;
+			toxinDef += b.toxinDef;
+			
+			moveSpeed += b.moveSpeed;
+			runSpeed += b.runSpeed;
+			jumpPower += b.jumpPower;
 		}
 	}
 }

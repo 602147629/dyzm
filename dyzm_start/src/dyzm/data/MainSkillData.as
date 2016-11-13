@@ -1,6 +1,10 @@
 package dyzm.data
 {
-	public class MainRoleData
+	/**
+	 * 主角技能
+	 * @author dj
+	 */
+	public class MainSkillData
 	{
 		// 1=体技 2=剑技 3=枪技
 		

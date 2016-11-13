@@ -1,5 +1,7 @@
 package dyzm.data.skill
 {
+	import dyzm.data.attr.BaseAttrVo;
+
 	/**
 	 * 本次攻击的属性
 	 * @author dj
@@ -45,49 +47,58 @@ package dyzm.data.skill
 		/**
 		 * 是否把对方击飞
 		 */
-		public var isFly:Boolean = true;
+		public var isFly:Boolean = false;
 		/**
 		 * 打退距离
 		 */
-		public var x:Number = 100;
+		public var x:Number = 0;
 		
 		/**
 		 * 打退距离,每帧,浮空状态使用
 		 */
-		public var xFrame:Number = 1;
+		public var xFrame:Number = 0;
 		/**
 		 * 击飞高度, 负数向上
 		 */
-		public var z:Number = -50;
+		public var z:Number = 0;
 		
 		/**
 		 * 可以攻击到距离我上面多少范围的人
 		 */
-		public var upY:Number = 30;
+		public var upY:Number = 0;
 		
 		/**
 		 * 可以攻击到距离我下面多少范围的人
 		 */
-		public var downY:Number = 30;
+		public var downY:Number = 0;
 		
+		/**
+		 * 硬直递减
+		 */
+		public var stiffDecline:Number = 0;
 		/**
 		 * 击飞递减
 		 */
-		public var zDecline:Number = 0.1;
+		public var zDecline:Number = 0;
 		
 		/**
-		 * 攻击力
+		 * 攻击递减
 		 */
-		public var att:int = 0;
+		public var attDecline:Number = 0;
+		
 		/**
-		 * 破甲
+		 * 破甲递减
 		 */
-		public var armor:int = 0;
+		public var armorDecline:Number = 0;
+		/**
+		 * 技能属性
+		 */
+		public var attr:BaseAttrVo = new BaseAttrVo;
 		
 		/**
 		 * 硬直帧数
 		 */
-		public var stiffFrame:int = 60;
+		public var stiffFrame:int = 0;
 		
 		/**
 		 * 可攻击到的块区类型
@@ -116,7 +127,7 @@ package dyzm.data.skill
 		/**
 		 * 震幅
 		 */
-		public var range:int = 4;
+		public var range:int = 0;
 		
 		
 		/**
