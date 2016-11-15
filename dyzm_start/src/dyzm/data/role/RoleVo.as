@@ -27,6 +27,7 @@ package dyzm.data.role
 		public static const TAG_YANG_TIAN:String = "仰天";
 		public static const TAG_DI_TOU:String = "低头";
 		public static const TAG_FU_KONG:String = "浮空";
+		public static const TAG_TAN_QI:String = "弹起";
 		public static const TAG_DAO_DI:String = "倒地";
 		public static const TAG_ZHAN_QI:String = "站起";
 		public static const TAG_DOWNING:String = "倒下";
@@ -208,6 +209,10 @@ package dyzm.data.role
 		 */
 		public var needDel:Boolean = false;
 		
+		/**
+		 * 跳到空中时的攻击记录,落地后清空
+		 */
+		public var jumpInfo:Object = {};
 		
 		public function RoleVo()
 		{
@@ -236,6 +241,14 @@ package dyzm.data.role
 				frameName = TAG_JUMP;
 				curFrame = 1;
 			}
+		}
+		
+		/**
+		 * 落地, 凡是落到地上,都需要调用该函数
+		 */
+		public function inFlood():void
+		{
+			z = 0;
 		}
 		
 		/**
@@ -360,9 +373,6 @@ package dyzm.data.role
 				}
 				
 				// 表现处理
-				
-				
-				
 				if ((curState == RoleState.STATE_NORMAL || curState == RoleState.STATE_STIFF) && skill.attSpot.isFly == false){ // 地面状态
 					var stiffDecline:int = skill.attSpot.stiffFrame - skill.attSpot.stiffFrame * decline * skill.attSpot.stiffDecline;
 					if (stiffDecline > 0){
@@ -392,7 +402,6 @@ package dyzm.data.role
 					// 处理浮空递减
 					byAttInfo.z = skill.attSpot.z - skill.attSpot.z * decline * skill.attSpot.zDecline;
 				}
-				
 				curTurn = -attRole.curTurn;
 			}
 		}
@@ -461,7 +470,7 @@ package dyzm.data.role
 					}else if (y < FightData.level.topY){
 						y = FightData.level.topY;
 					}
-					if (roleMc && roleMc.role && roleMc.role.totalFrames == curFrame){
+					if (roleMc.role.totalFrames == curFrame){
 						curFrame = 1;
 					}else{
 						curFrame ++;
@@ -480,14 +489,12 @@ package dyzm.data.role
 					z += curFlyPower;
 					
 					if (z >= 0){ // 落地
-						z = 0;
+						inFlood();
 						curState = RoleState.STATE_NORMAL;
 						reAction();
 					}else{
-						if (roleMc && roleMc.role){
-							if (curFlyPower > 0 || roleMc.role.currentFrameLabel != "top" && curFrame < roleMc.role.totalFrames){
-								curFrame ++;
-							}
+						if (curFlyPower > 0 || roleMc.role.currentFrameLabel != "top" && curFrame < roleMc.role.totalFrames){
+							curFrame ++;
 						}
 						curFlyPower -= WorldData.G;
 					}
@@ -514,7 +521,7 @@ package dyzm.data.role
 							curFrame = 17 - (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
 						}else{
 							x += byAttInfo.x;
-							if (roleMc && roleMc.role && roleMc.role.currentFrameLabel != "stop"){
+							if (roleMc.role.currentFrameLabel != "stop"){
 								curFrame ++;
 							}
 						}
@@ -527,24 +534,44 @@ package dyzm.data.role
 				{
 					x += byAttInfo.x;
 					z += byAttInfo.z;
-					if (z >= 0){ // 落地
+					if (z >= 0){ // 落地反弹
 						z = 0;
-						if (roleMc && roleMc.role && roleMc.role.currentFrame == roleMc.role.totalFrames){ // 倒地动作结束, 进入倒地状态
-							curState = RoleState.STATE_FLOOD;
-							frameName = TAG_DAO_DI;
-							curFrame = 1;
-						}else{
-							curFrame ++;
-						}
+						curState = RoleState.STATE_BOUNCE;
+						frameName = TAG_TAN_QI;
+						curFrame = 1;
+						byAttInfo.x = byAttInfo.x * 2 / 3; // x轴位移减少1/3
+						byAttInfo.z = -byAttInfo.z / 2; //弹起动力为落地动力的一半
 					}else{
 						if (byAttInfo.z <= 0){ // 上升阶段
-							if (roleMc && roleMc.role && roleMc.role.currentFrameLabel != "up"){
+							if (roleMc.role.currentFrameLabel != "up"){
 								curFrame ++;
 							}
 						}else{ // 下降阶段
-							if (roleMc && roleMc.role){
-								roleMc.role.gotoAndStop("down");
-								curFrame = roleMc.role.currentFrame;
+							if (curFrame < roleMc.role.totalFrames){
+								curFrame ++;
+							}
+						}
+						byAttInfo.z -= WorldData.G;
+					}
+					break;
+				}
+				case RoleState.STATE_BOUNCE: // 弹起状态
+				{
+					x += byAttInfo.x;
+					z += byAttInfo.z;
+					if (z >= 0){ // 落地
+						inFlood();
+						curState = RoleState.STATE_FLOOD;
+						frameName = TAG_DAO_DI;
+						curFrame = 1;
+					}else{
+						if (byAttInfo.z <= 0){ // 上升阶段
+							if (roleMc.role.currentFrameLabel != "up"){
+								curFrame ++;
+							}
+						}else{ // 下降阶段
+							if (curFrame < roleMc.role.totalFrames){
+								curFrame ++;
 							}
 						}
 						byAttInfo.z -= WorldData.G;
@@ -553,7 +580,7 @@ package dyzm.data.role
 				}
 				case RoleState.STATE_FLOOD: // 倒地状态
 				{
-					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态或死亡状态
+					if (curFrame == roleMc.role.totalFrames){ // 倒地结束, 进入站起状态或死亡状态
 						byAttInfo.hitDict = null;
 						for (r in byAttRoleList) 
 						{
@@ -575,7 +602,7 @@ package dyzm.data.role
 				}
 				case RoleState.STATE_STAND_UP: // 站起状态
 				{
-					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){ // 站起结束,设置2秒无敌,进入正常状态
+					if (curFrame == roleMc.role.totalFrames){ // 站起结束,设置2秒无敌,进入正常状态
 						curState = RoleState.STATE_NORMAL;
 						curInvincibleFrame = attr.invincibleFrame;
 						reAction();
@@ -586,7 +613,7 @@ package dyzm.data.role
 				}
 				case RoleState.STATE_DOWNING: // 倒下状态
 				{
-					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){
+					if (curFrame == roleMc.role.totalFrames){
 						curState = RoleState.STATE_FLOOD;
 						frameName = TAG_DAO_DI;
 						curFrame = 1;
@@ -597,7 +624,7 @@ package dyzm.data.role
 				}
 				case RoleState.STATE_DEATH: // 死亡状态
 				{
-					if (roleMc && roleMc.role && curFrame == roleMc.role.totalFrames){
+					if (curFrame == roleMc.role.totalFrames){
 						needDel = true;
 					}else{
 						curFrame ++;

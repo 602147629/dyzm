@@ -53,16 +53,22 @@ package dyzm.data.skill
 			super(role);
 			
 			attSpot.isFly = false;
-			attSpot.x = 100;
-			attSpot.xFrame = 1;
+			attSpot.x = 300;
+			attSpot.xFrame = 10;
 			attSpot.z = -30;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
-			attSpot.zDecline = 0.1;
+			attSpot.stiffDecline = 0.1;
+			attSpot.zDecline = 0.01;
+			attSpot.attDecline = 0.1;
+			attSpot.armorDecline = 0.1;
 			attSpot.attr.attMin = 1;
 			attSpot.attr.attMax = 1;
 			attSpot.attr.attArmor = 1;
-			attSpot.stiffFrame = 60;
+			attSpot.stiffFrame = 45;
+			attSpot.curAttSpot = 1;
+			attSpot.range = 8;
+			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL];
@@ -112,11 +118,6 @@ package dyzm.data.skill
 		 */
 		override public function run():void
 		{
-			
-			if (roleVo.roleMc.currentLabel != frameName){ // 视图还没有更新
-				return;
-			}
-			
 			// 更新当前攻击状态
 			var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
 			

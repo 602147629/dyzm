@@ -39,6 +39,10 @@ package dyzm.data
 		 * 死亡状态
 		 */
 		public static const STATE_DEATH:int = 7;
+		/**
+		 * 弹起阶段
+		 */
+		public static const STATE_BOUNCE:int = 8;
 		// ↑↑↑↑↑↑↑↑↑受控状态↑↑↑↑↑↑↑↑↑↑
 		
 		

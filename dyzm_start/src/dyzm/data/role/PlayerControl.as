@@ -125,7 +125,7 @@ package dyzm.data.role
 		 * 攻击
 		 * @param id 快捷键id
 		 */
-		public function setSkill(id:int):void
+		public function setSkill(id:int):Boolean
 		{
 			var bindObj:Object;
 			var skillObj:Object;
@@ -148,7 +148,7 @@ package dyzm.data.role
 				bindObj = keyToSkill.skillSkyBind;
 				skillObj = keyToSkill.skillSkyVo;
 			}else{
-				return;
+				return false;
 			}
 			
 			var c:int = skillCombo;
@@ -167,8 +167,10 @@ package dyzm.data.role
 					curSkillClass = bindObj[id][c];
 					skillId = id;
 					attForm = curForm;
+					return true;
 				}
 			}
+			return false;
 		}
 	}
 }

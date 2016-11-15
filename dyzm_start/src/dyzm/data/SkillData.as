@@ -60,6 +60,7 @@ package dyzm.data
 		public static const FRAME_TO_STATE:Object = {
 			"before":RoleState.ATT_BEFORE,
 				"att":RoleState.ATT_ING,
+				"att2":RoleState.ATT_ING,
 				"after":RoleState.ATT_AFTER,
 				"cancel":RoleState.ATT_AFTER_CANCEL
 		}

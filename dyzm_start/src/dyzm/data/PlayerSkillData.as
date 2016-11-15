@@ -4,7 +4,7 @@ package dyzm.data
 	 * 主角技能
 	 * @author dj
 	 */
-	public class MainSkillData
+	public class PlayerSkillData
 	{
 		// 1=体技 2=剑技 3=枪技
 		

@@ -4,6 +4,7 @@ package dyzm.data.skill
 	import flash.geom.Rectangle;
 	
 	import dyzm.data.FightData;
+	import dyzm.data.RoleState;
 	import dyzm.data.role.RoleVo;
 	import dyzm.view.layer.fight.childLayer.mainLayer.MainLayer;
 	
@@ -65,6 +66,7 @@ package dyzm.data.skill
 		 */
 		public function end():void
 		{
+			roleVo.attState = RoleState.ATT_NORMAL;
 			roleVo.curSkill = null;
 			roleVo.reAction();
 		}

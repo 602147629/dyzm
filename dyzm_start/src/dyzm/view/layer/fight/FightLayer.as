@@ -94,7 +94,6 @@ package dyzm.view.layer.fight
 			}else{
 				curRange = range;
 			}
-			
 		}
 		
 		override public function frameUpdate():void

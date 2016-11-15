@@ -1,19 +1,21 @@
 package dyzm.data.skill
 {
+	import dyzm.data.FightData;
 	import dyzm.data.RoleState;
 	import dyzm.data.SkillData;
+	import dyzm.data.WorldData;
 	import dyzm.data.role.RoleVo;
 	
-	public class SkillYingTi extends BaseSkillVo
+	public class SkillKZPG extends BaseSkillVo
 	{
 		/**
 		 * 技能唯一标识
 		 */
-		public static const id:String = "鹰踢";
+		public static const id:String = "空中普攻";
 		/**
 		 * 名称
 		 */
-		public static const name:String = "鹰踢";
+		public static const name:String = "空中普攻";
 		
 		/**
 		 * 所属系
@@ -28,24 +30,19 @@ package dyzm.data.skill
 		/**
 		 * 帧名称
 		 */
-		public static const frameName:String = "鹰踢";
+		public static const frameName:String = "空中普攻";
 		
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻"];
+		public const CAN_CANCEL_AFTER:Array = [];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
 		 */
 		public const SKILL_COMBO_TIME:int = 0;
 		
-		public const speedX:Number = 25;
-		public const speedZ:Number = 20;
-		
-		public var addX:Number = 0;
-		
-		public function SkillYingTi(role:RoleVo)
+		public function SkillKZPG(role:RoleVo)
 		{
 			super(role);
 			
@@ -109,25 +106,6 @@ package dyzm.data.skill
 			roleVo.frameName = frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
-			addX = 0;
-			if (roleVo.curTurn == 1){
-				if (roleVo.curDir == 9 || roleVo.curDir == 6 || roleVo.curDir == 3){
-					if (roleVo.isRuning){
-						addX = 10;
-					}else{
-						addX = 5;
-					}
-				}
-			}else{
-				if (roleVo.curDir == 7 || roleVo.curDir == 4 || roleVo.curDir == 1){
-					if (roleVo.isRuning){
-						addX = 10;
-					}else{
-						addX = 5;
-					}
-				}
-			}
-			
 			super.start();
 		}
 		
@@ -138,28 +116,27 @@ package dyzm.data.skill
 		{
 			// 更新当前攻击状态
 			roleVo.attState = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
-			// 攻击中
-			if (roleVo.attState == RoleState.ATT_ING){ // 45度向下冲击
-				roleVo.z += speedZ;
-				if (roleVo.z >= 0){ // 落地,进入该技能的耍帅动作
-					roleVo.curFrame ++;
-					roleVo.x += (speedX + addX - roleVo.z) * roleVo.curTurn;
-					roleVo.z = 0;
-					roleVo.curState = RoleState.STATE_NORMAL;
-					roleVo.attState = RoleState.ATT_AFTER;
-					roleVo.setSkillComboTime(SKILL_COMBO_TIME);
-					roleVo.reAction();
-				}else{
-					roleVo.x += (speedX + addX) * roleVo.curTurn;
-				}
+			
+			roleVo.x += roleVo.curMoveSpeedX;
+			roleVo.y += roleVo.curMoveSpeedY;
+			if (roleVo.y > FightData.level.bottomY){
+				roleVo.y = FightData.level.bottomY;
+			}else if (roleVo.y < FightData.level.topY){
+				roleVo.y = FightData.level.topY;
+			}
+			roleVo.z += roleVo.curFlyPower;
+			
+			if (roleVo.z >= 0){ // 落地
+				roleVo.z = 0;
+				roleVo.curState = RoleState.STATE_NORMAL;
+				end();
 			}else{
 				if (roleVo.roleMc.role.totalFrames == roleVo.curFrame){ // 动作完成
-					roleVo.attState = RoleState.ATT_NORMAL;
-					roleVo.curState = RoleState.STATE_NORMAL;
 					end();
 				}else{
 					roleVo.curFrame ++;
 				}
+				roleVo.curFlyPower -= WorldData.G;
 			}
 			
 			super.run();

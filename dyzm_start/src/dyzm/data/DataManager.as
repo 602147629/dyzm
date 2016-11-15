@@ -5,7 +5,7 @@ package dyzm.data
 		
 		public static function init():void
 		{
-			MainAttrData.init();
+			PlayerAttrData.init();
 		}
 	}
 }

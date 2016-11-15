@@ -4,16 +4,16 @@ package dyzm.data.skill
 	import dyzm.data.SkillData;
 	import dyzm.data.role.RoleVo;
 	
-	public class SkillJian3 extends BaseSkillVo
+	public class SkillST extends BaseSkillVo
 	{
 		/**
 		 * 技能唯一标识
 		 */
-		public static const id:String = "剑3";
+		public static const id:String = "上挑";
 		/**
 		 * 名称
 		 */
-		public static const name:String = "剑系普攻三段";
+		public static const name:String = "上挑";
 		
 		/**
 		 * 所属系
@@ -28,12 +28,12 @@ package dyzm.data.skill
 		/**
 		 * 帧名称
 		 */
-		public static const frameName:String = "剑3";
+		public static const frameName:String = "上挑";
 		
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑2"];
+		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑3", "鹰踢", "裂空斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -43,16 +43,16 @@ package dyzm.data.skill
 		/**
 		 * 该技能出招时的位移效果
 		 */
-		public const speedX:int = 1;
-		public const stopX:int = 0;
-		public const addX:int = 2;
+		public const speedX:int = 6;
+		public const stopX:int = 3;
+		public const addX:int = 10;
 		public var curSpeedX:int = 0;
 		
-		public function SkillJian3(role:RoleVo)
+		public function SkillST(role:RoleVo)
 		{
 			super(role);
 			
-			attSpot.isFly = false;
+			attSpot.isFly = true;
 			attSpot.x = 300;
 			attSpot.xFrame = 10;
 			attSpot.z = -30;
@@ -133,18 +133,18 @@ package dyzm.data.skill
 					if (roleVo.curTurn == 1){
 						curSpeedX = addX;
 					}else{
-						curSpeedX = stopX;
+						curSpeedX = -stopX;
 					}
 				}else if (roleVo.curDir == 7 || roleVo.curDir == 4 || roleVo.curDir == 1){
 					if (roleVo.curTurn == 1){
-						curSpeedX = -stopX;
+						curSpeedX = stopX;
 					}else{
 						curSpeedX = -addX;
 					}
 				}
 			}
 			
-			if (roleVo.curFrame >= 5 && roleVo.curFrame <= 13){
+			if (roleVo.curFrame >= 5 && roleVo.curFrame <= 21){
 				roleVo.x += curSpeedX;
 			}
 			
@@ -160,7 +160,6 @@ package dyzm.data.skill
 			}
 			
 			roleVo.curFrame ++;
-			
 			super.run();
 		}
 	}

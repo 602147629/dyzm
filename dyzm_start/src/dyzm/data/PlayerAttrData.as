@@ -6,7 +6,7 @@ package dyzm.data
 	 * 主角属性
 	 * @author dj
 	 */
-	public class MainAttrData
+	public class PlayerAttrData
 	{
 		public static var attr:AttrVo;
 		public static var lv:int;
@@ -21,8 +21,8 @@ package dyzm.data
 			attr.hpMax = 100000;
 			attr.armor = 0;
 			attr.maxArmor = 0;
-			attr.attMin = 100;
-			attr.attMax = 200;
+			attr.attMin = 1;
+			attr.attMax = 2;
 			attr.attArmor = 1;
 			attr.critRate = 0;
 			attr.critDmg = 1;

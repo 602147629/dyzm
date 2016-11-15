@@ -76,7 +76,7 @@ package dyzm.data
 			
 			// 初始化主角
 			mainRole = new PlayerControl();
-			mainRole.initAttr(MainAttrData.attr);
+			mainRole.initAttr(PlayerAttrData.attr);
 			
 			mainRole.style = Role_1;
 			mainRole.x = Maths.random(-1000, 1000);
@@ -137,7 +137,7 @@ package dyzm.data
 				needNum = level.maxFoe - foeNum;
 			}
 			var needBoss:Boolean = false;
-			if (needNum + curFoeIndex > level.foeList.length){
+			if (needNum + curFoeIndex >= level.foeList.length){
 				needNum = level.foeList.length - curFoeIndex;
 				needBoss = true;
 				needAddFoe = false;

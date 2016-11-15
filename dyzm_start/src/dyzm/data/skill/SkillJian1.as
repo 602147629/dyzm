@@ -33,7 +33,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["鹰踢"];
+		public const CAN_CANCEL_AFTER:Array = ["鹰踢", "上挑", "裂空斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -118,11 +118,6 @@ package dyzm.data.skill
 		 */
 		override public function run():void
 		{
-			
-			if (roleVo.roleMc.currentLabel != frameName){ // 视图还没有更新
-				return;
-			}
-			
 			// 更新当前攻击状态
 			var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
 			

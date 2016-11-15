@@ -11,6 +11,9 @@ package dyzm.data.level
 			foeList = new Vector.<BaseAiControl>();
 			foeList[0] = new XiaoGuai();
 			foeList[1] = new XiaoGuai();
+			foeList[2] = new XiaoGuai();
+			foeList[3] = new XiaoGuai();
+			foeList[4] = new XiaoGuai();
 			
 			boss = new XiaoGuai;
 			bgBg = BgData.bg1bg;
@@ -22,7 +25,7 @@ package dyzm.data.level
 			firstDrop = [];
 			
 			minFoe = 1;
-			maxFoe = 2;
+			maxFoe = 4;
 		}
 	}
 }
