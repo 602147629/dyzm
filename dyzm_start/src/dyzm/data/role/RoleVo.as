@@ -32,6 +32,7 @@ package dyzm.data.role
 		public static const TAG_ZHAN_QI:String = "站起";
 		public static const TAG_DOWNING:String = "倒下";
 		public static const TAG_DEATH:String = "死亡";
+		public static const TAG_BLOCK:String = "格挡";
 		
 		
 		/**
@@ -214,6 +215,8 @@ package dyzm.data.role
 		 */
 		public var jumpInfo:Object = {};
 		
+		public var isBlock:Boolean = false;
+		
 		public function RoleVo()
 		{
 			byAttInfo = new ByAttInfo();
@@ -239,7 +242,11 @@ package dyzm.data.role
 		{
 			if(attState == RoleState.ATT_NORMAL && curState == RoleState.STATE_AIR){
 				frameName = TAG_JUMP;
-				curFrame = 1;
+				if (curFlyPower < 0){
+					curFrame = 5;
+				}else{
+					curFrame = 21;
+				}
 			}
 		}
 		
@@ -249,6 +256,7 @@ package dyzm.data.role
 		public function inFlood():void
 		{
 			z = 0;
+			jumpInfo = {};
 		}
 		
 		/**
@@ -279,8 +287,22 @@ package dyzm.data.role
 		{
 			// 火花处理
 			var firePoint:Point = new Point(rect.x + rect.width/2, rect.y + rect.height/2); // 火花全局坐标
-			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1);
 			
+			
+			if (isBlock){ // 格挡成功
+				if (curTurn == 1 && x < attRole.x){
+					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
+					EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
+					return;
+				}else if (curTurn == -1 && x > attRole.x){
+					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
+					EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
+					return;
+				}
+			}
+			
+			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1);
+			isBlock = false;
 			// 重复攻击递减
 			var decline:Number = 0;
 			if (byAttInfo.hitDict && byAttInfo.hitDict[skill] && byAttInfo.hitDict[skill][skill.attSpot.curAttSpot]){
@@ -401,6 +423,7 @@ package dyzm.data.role
 					byAttInfo.x = skill.attSpot.xFrame * attRole.curTurn;
 					// 处理浮空递减
 					byAttInfo.z = skill.attSpot.z - skill.attSpot.z * decline * skill.attSpot.zDecline;
+					byAttInfo.minBounceZ = skill.attSpot.minBounceZ - skill.attSpot.minBounceZ * decline * skill.attSpot.zDecline;
 				}
 				curTurn = -attRole.curTurn;
 			}
@@ -455,6 +478,10 @@ package dyzm.data.role
 			}
 			if (curSkill){ // 当前有技能正在释放,进入技能循环,普通状态取消,人物行动状态交给技能控制
 				curSkill.run();
+				return;
+			}
+			
+			if (isBlock){
 				return;
 			}
 			
@@ -540,7 +567,7 @@ package dyzm.data.role
 						frameName = TAG_TAN_QI;
 						curFrame = 1;
 						byAttInfo.x = byAttInfo.x * 2 / 3; // x轴位移减少1/3
-						byAttInfo.z = -byAttInfo.z / 2; //弹起动力为落地动力的一半
+						byAttInfo.z = Math.min(byAttInfo.minBounceZ, -byAttInfo.z / 2); //弹起动力为落地动力的一半
 					}else{
 						if (byAttInfo.z <= 0){ // 上升阶段
 							if (roleMc.role.currentFrameLabel != "up"){
@@ -560,10 +587,16 @@ package dyzm.data.role
 					x += byAttInfo.x;
 					z += byAttInfo.z;
 					if (z >= 0){ // 落地
-						inFlood();
-						curState = RoleState.STATE_FLOOD;
-						frameName = TAG_DAO_DI;
-						curFrame = 1;
+						if (byAttInfo.z > 20){ // 如果落地时,冲击力过大,那就需要再弹一次
+							byAttInfo.z = -byAttInfo.z / 2;
+							curFrame = 1;
+							z = 0;
+						}else{
+							inFlood();
+							curState = RoleState.STATE_FLOOD;
+							frameName = TAG_DAO_DI;
+							curFrame = 1;
+						}
 					}else{
 						if (byAttInfo.z <= 0){ // 上升阶段
 							if (roleMc.role.currentFrameLabel != "up"){

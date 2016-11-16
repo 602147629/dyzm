@@ -6,13 +6,13 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 	 * 主角
 	 * @author dj
 	 */
-	public class MainRole extends BaseRole
+	public class PlayerRole extends BaseRole
 	{
 		public var mianRoleControl:PlayerControl;
 		public var skillId:int = 0;
 		public const  INPUT_DELAY:int = 15;
 		public var  curInputDelay:int = 0;
-		public function MainRole(role:PlayerControl)
+		public function PlayerRole(role:PlayerControl)
 		{
 			super(role);
 			mianRoleControl = role;
@@ -32,16 +32,15 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			mianRoleControl.setRun(isRun);
 		}
 		
-		public function setJump():void
-		{
-			mianRoleControl.setJump();
-		}
-		
-		
 		public function setSkill(id:int):void
 		{
 			skillId = id;
 			curInputDelay = INPUT_DELAY;
+		}
+		
+		public function setUnSkill(id:int):void
+		{
+			mianRoleControl.setUnSkill(id);
 		}
 		
 		override public function frameUpdate():void

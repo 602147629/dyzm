@@ -69,6 +69,5 @@ package dyzm.data
 		public static const ATT_AFTER_CANCEL:int = 4;
 		
 		// ↑↑↑↑↑↑↑↑↑攻击状态↑↑↑↑↑↑↑↑↑↑
-		
 	}
 }

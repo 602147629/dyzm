@@ -61,6 +61,11 @@ package dyzm.data.skill
 		 * 击飞高度, 负数向上
 		 */
 		public var z:Number = 0;
+		/**
+		 * 最小反弹高度
+		 */
+		public var minBounceZ:Number = 0;
+		
 		
 		/**
 		 * 可以攻击到距离我上面多少范围的人

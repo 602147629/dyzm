@@ -1,16 +1,20 @@
 package dyzm.data.role
 {
+	import flash.utils.Dictionary;
+	
 	import dyzm.data.RoleState;
-	import dyzm.data.WorldData;
 	import dyzm.data.skill.BaseSkillVo;
 
 	public class PlayerControl extends RoleVo
 	{
 		public var keyToSkill:KeyToSkillVo;
 		
+		public var comboInfo:Dictionary;
+		
 		public function PlayerControl()
 		{
 			keyToSkill = new KeyToSkillVo(this);
+			comboInfo = new Dictionary();
 			super();
 		}
 		
@@ -105,20 +109,12 @@ package dyzm.data.role
 			setDir(curDir);
 		}
 		
-		/**
-		 * 设置跳跃状态
-		 */
-		public function setJump():void
+		public function setUnSkill(id:int):void
 		{
-			if (curState != RoleState.STATE_NORMAL || attState != RoleState.ATT_NORMAL) return;
-			
-			z = curAttr.jumpPower;
-			curFlyPower = curAttr.jumpPower - WorldData.G;
-			
-			curState = RoleState.STATE_AIR;
-			
-			frameName = TAG_JUMP;
-			curFrame = 1;
+			if (isBlock && id == 1){
+				isBlock = false;
+				reAction();
+			}
 		}
 		
 		/**
@@ -131,6 +127,13 @@ package dyzm.data.role
 			var skillObj:Object;
 			var curForm:int;
 			if (curState == RoleState.STATE_NORMAL && isRuning == false){ // 地面正常状态
+				if (curDir == 2 && attState != RoleState.ATT_ING){
+					// 进入格挡
+					isBlock = true;
+					frameName = TAG_BLOCK;
+					curFrame = 1;
+					return true;
+				}
 				curForm = 1;
 				bindObj = keyToSkill.skillFloorBind;
 				skillObj = keyToSkill.skillFloorVo;
@@ -162,15 +165,31 @@ package dyzm.data.role
 					if (skillComboAllTime == 0 || skillId != id || curForm != attForm){
 						skillCombo = 0;
 					}
-					skill.start(); //启动技能
 					curSkill = skill;
 					curSkillClass = bindObj[id][c];
 					skillId = id;
+					skill.start(); //启动技能
 					attForm = curForm;
 					return true;
 				}
 			}
 			return false;
+		}
+		
+		override public function addHit(foeRole:RoleVo):void
+		{
+			if (comboInfo[foeRole]){
+				comboInfo[foeRole].push(curSkillClass.frameName);
+			}else{
+				comboInfo[foeRole] = [curSkillClass.frameName];
+			}
+			super.addHit(foeRole);
+		}
+		
+		override public function removeHit(foeRole:RoleVo):void
+		{
+			delete comboInfo[foeRole];
+			super.removeHit(foeRole);
 		}
 	}
 }

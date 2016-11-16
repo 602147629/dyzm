@@ -20,7 +20,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		/**
 		 * 主角
 		 */
-		public static var mainRole:MainRole;
+		public static var mainRole:PlayerRole;
 		/**
 		 * 怪物
 		 */
@@ -53,7 +53,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			
 			// 初始化主角
-			mainRole = new MainRole(FightData.mainRole);
+			mainRole = new PlayerRole(FightData.mainRole);
 			this.addChild(mainRole);
 			
 			handleView = new HandleView();

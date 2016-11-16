@@ -149,6 +149,7 @@ package dyzm.data
 				{
 					if (foeList[j] == null){
 						foeList[j] = initFoe(level.foeList[curFoeIndex]);
+						break;
 					}
 				}
 			}

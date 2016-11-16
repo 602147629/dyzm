@@ -9,7 +9,7 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 		 * 怪物箭头
 		 */
 		public var arrowList:Vector.<FoeArrow>;
-		
+		public var comboLayer:ComboLayer;
 		public function UiLayer()
 		{
 			super();
@@ -20,6 +20,9 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 				arrowList[i] = new FoeArrow(FightData.foeList[i], i);
 				this.addChild(arrowList[i]);
 			}
+			
+			comboLayer = new ComboLayer();
+			this.addChild(comboLayer);
 		}
 		
 		override public function frameUpdate():void
@@ -30,6 +33,7 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 			{
 				arrowList[i].frameUpdate();
 			}
+			comboLayer.frameUpdate();
 		}
 	}
 }

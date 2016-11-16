@@ -15,6 +15,5 @@ package dyzm.data
 		public static var skill_6:int = 79; // o
 		public static var skill_7:int = 89; // y
 		public static var skill_8:int = 72; // h
-		public static var jump:int = 32; //  空格
 	}
 }

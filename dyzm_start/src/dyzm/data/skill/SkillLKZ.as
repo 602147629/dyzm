@@ -33,7 +33,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻"];
+		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻", "升龙斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -48,8 +48,8 @@ package dyzm.data.skill
 			
 			attSpot.isFly = false;
 			attSpot.x = 300;
-			attSpot.xFrame = 10;
-			attSpot.z = -30;
+			attSpot.xFrame = 2;
+			attSpot.z = 40;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
 			attSpot.stiffDecline = 0.2;
@@ -62,6 +62,7 @@ package dyzm.data.skill
 			attSpot.stiffFrame = 45;
 			attSpot.curAttSpot = 1;
 			attSpot.range = 8;
+			attSpot.minBounceZ = -25;
 			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
@@ -117,14 +118,13 @@ package dyzm.data.skill
 			// 更新当前攻击状态
 			roleVo.attState = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
 			// 攻击中
-			if (roleVo.attState == RoleState.ATT_ING){ // 垂直向下冲击
+			if (roleVo.attState == RoleState.ATT_ING && roleVo.curState != RoleState.STATE_NORMAL){ // 垂直向下冲击
 				roleVo.z += speedZ;
 				if (roleVo.z >= 0){ // 落地,进入该技能的耍帅动作
 					roleVo.curFrame ++;
-					roleVo.z = 0;
 					roleVo.curState = RoleState.STATE_NORMAL;
-					roleVo.attState = RoleState.ATT_AFTER;
 					roleVo.setSkillComboTime(SKILL_COMBO_TIME);
+					roleVo.inFlood();
 					roleVo.reAction();
 				}else if (roleVo.roleMc.role.currentLabel != "att2"){
 					roleVo.curFrame ++;

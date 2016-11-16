@@ -12,6 +12,12 @@ package dyzm.data.skill
 		 * 击飞高度
 		 */
 		public var z:Number = 0;
+		
+		/**
+		 * 最小反弹高度
+		 */
+		public var minBounceZ:Number = 0;
+		
 		/**
 		 * 硬直帧数
 		 */

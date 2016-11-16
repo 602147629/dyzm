@@ -33,7 +33,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑3", "鹰踢", "裂空斩"];
+		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑2", "剑3", "鹰踢", "裂空斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -54,12 +54,12 @@ package dyzm.data.skill
 			
 			attSpot.isFly = true;
 			attSpot.x = 300;
-			attSpot.xFrame = 10;
+			attSpot.xFrame = 5;
 			attSpot.z = -30;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
 			attSpot.stiffDecline = 0.1;
-			attSpot.zDecline = 0.01;
+			attSpot.zDecline = 0.2;
 			attSpot.attDecline = 0.1;
 			attSpot.armorDecline = 0.1;
 			attSpot.attr.attMin = 1;

@@ -35,7 +35,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = [];
+		public const CAN_CANCEL_AFTER:Array = ["升龙斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -48,8 +48,8 @@ package dyzm.data.skill
 			
 			attSpot.isFly = false;
 			attSpot.x = 300;
-			attSpot.xFrame = 10;
-			attSpot.z = -30;
+			attSpot.xFrame = 2;
+			attSpot.z = -5;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
 			attSpot.stiffDecline = 0.2;
@@ -84,6 +84,9 @@ package dyzm.data.skill
 		 */
 		override public function startTest():Boolean
 		{
+			if (roleVo.jumpInfo[SkillKZPG.id] != null){
+				return false;
+			}
 			if (roleVo.attState == RoleState.ATT_AFTER_CANCEL || roleVo.attState == RoleState.ATT_NORMAL){
 				return true;
 			}
@@ -103,6 +106,7 @@ package dyzm.data.skill
 		 */
 		override public function start():void
 		{
+			roleVo.jumpInfo[SkillKZPG.id] = true;
 			roleVo.frameName = frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
@@ -127,6 +131,7 @@ package dyzm.data.skill
 			roleVo.z += roleVo.curFlyPower;
 			
 			if (roleVo.z >= 0){ // 落地
+				roleVo.inFlood();
 				roleVo.z = 0;
 				roleVo.curState = RoleState.STATE_NORMAL;
 				end();

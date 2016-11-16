@@ -54,8 +54,8 @@ package dyzm.data.skill
 			
 			attSpot.isFly = false;
 			attSpot.x = 300;
-			attSpot.xFrame = 10;
-			attSpot.z = -30;
+			attSpot.xFrame = 5;
+			attSpot.z = -15;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
 			attSpot.stiffDecline = 0.1;

@@ -115,10 +115,10 @@ package dyzm.data.skill
 											while(true){ // 循环获取对方的被攻击块
 												by = foeRole.roleMc.role["by_"+byAtt+"_"+b];
 												if(by){
-													roleVo.addHit(foeRole);
 													byRect = by.getBounds(MainLayer.me);
 													focusRect = attRect.intersection(byRect);
 													if (focusRect.width != 0){ // 攻击到
+														roleVo.addHit(foeRole);
 														if (attInfo[attSpot.curAttSpot]){
 															attInfo[attSpot.curAttSpot].push(foeRole);
 														}else{

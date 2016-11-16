@@ -18,14 +18,14 @@ package dyzm.data.level
 			boss = new XiaoGuai;
 			bgBg = BgData.bg1bg;
 			bgFront = BgData.bg1Front;
-			topY = 480;
+			topY = 500;
 			bottomY = 800;
 			time = 0;
 			drop = [];
 			firstDrop = [];
 			
 			minFoe = 1;
-			maxFoe = 4;
+			maxFoe = 1;
 		}
 	}
 }

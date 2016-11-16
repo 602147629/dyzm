@@ -33,7 +33,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻"];
+		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻", "升龙斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -52,7 +52,7 @@ package dyzm.data.skill
 			attSpot.isFly = false;
 			attSpot.x = 300;
 			attSpot.xFrame = 10;
-			attSpot.z = -30;
+			attSpot.z = -25;
 			attSpot.upY = 40;
 			attSpot.downY = 40;
 			attSpot.stiffDecline = 0.2;
@@ -144,10 +144,10 @@ package dyzm.data.skill
 				if (roleVo.z >= 0){ // 落地,进入该技能的耍帅动作
 					roleVo.curFrame ++;
 					roleVo.x += (speedX + addX - roleVo.z) * roleVo.curTurn;
-					roleVo.z = 0;
 					roleVo.curState = RoleState.STATE_NORMAL;
 					roleVo.attState = RoleState.ATT_AFTER;
 					roleVo.setSkillComboTime(SKILL_COMBO_TIME);
+					roleVo.inFlood();
 					roleVo.reAction();
 				}else{
 					roleVo.x += (speedX + addX) * roleVo.curTurn;

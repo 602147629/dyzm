@@ -8,12 +8,12 @@ package dyzm.view.layer.fight
 	import flash.utils.getTimer;
 	
 	import dyzm.data.KeyData;
-	import dyzm.view.layer.fight.childLayer.mainLayer.MainRole;
+	import dyzm.view.layer.fight.childLayer.mainLayer.PlayerRole;
 	
 	public class HandleView
 	{
 		private var _stage:Stage;
-		private var _role:MainRole;
+		private var _role:PlayerRole;
 		
 		private var curDir:int = 5;
 		
@@ -31,7 +31,7 @@ package dyzm.view.layer.fight
 			
 		}
 		
-		public function start(stage:Stage, role:MainRole):void
+		public function start(stage:Stage, role:PlayerRole):void
 		{
 			_stage = stage;
 			_role = role;
@@ -50,11 +50,6 @@ package dyzm.view.layer.fight
 				{
 					// 进行方向处理
 					handleDirDown(e.keyCode);
-					break;
-				}
-				case KeyData.jump:
-				{
-					_role.setJump();
 					break;
 				}
 				case KeyData.skill_1:_role.setSkill(1);break;
@@ -86,7 +81,14 @@ package dyzm.view.layer.fight
 					handleDirUp(e.keyCode);
 					break;
 				}
-					
+				case KeyData.skill_1:_role.setUnSkill(1);break;
+				case KeyData.skill_2:_role.setUnSkill(2);break;
+				case KeyData.skill_3:_role.setUnSkill(3);break;
+				case KeyData.skill_4:_role.setUnSkill(4);break;
+				case KeyData.skill_5:_role.setUnSkill(5);break;
+				case KeyData.skill_6:_role.setUnSkill(6);break;
+				case KeyData.skill_7:_role.setUnSkill(7);break;
+				case KeyData.skill_8:_role.setUnSkill(8);break;
 				default:
 				{
 					break;
