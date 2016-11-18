@@ -33,7 +33,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["空中剑系普攻", "升龙斩"];
+		public const CAN_CANCEL_AFTER:Array = ["剑系空中普攻", "升龙斩"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围

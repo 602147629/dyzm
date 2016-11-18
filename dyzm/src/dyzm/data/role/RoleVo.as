@@ -292,7 +292,7 @@ package dyzm.data.role
 		 * @param a		技能段
 		 * @param rect	攻击交接范围
 		 */
-		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, rect:Rectangle, b:int):void
+		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, rect:Rectangle, b:int):Boolean
 		{
 			// 火花处理
 			var firePoint:Point = new Point(rect.x + rect.width/2, rect.y + rect.height/2); // 火花全局坐标
@@ -301,12 +301,10 @@ package dyzm.data.role
 			if (isBlock){ // 格挡成功
 				if (curTurn == 1 && x < attRole.x){
 					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
-					EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
-					return;
+					return false;
 				}else if (curTurn == -1 && x > attRole.x){
 					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
-					EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
-					return;
+					return false;
 				}
 			}
 			
@@ -375,8 +373,6 @@ package dyzm.data.role
 					curAttr.hp = 0;
 				}
 				
-				EventManager.dispatchEvent(RANGE_EVENT, skill.attSpot.range, false);
-				
 				// 被攻击记录
 				if (byAttInfo.hitDict){
 					if (byAttInfo.hitDict[skill]){
@@ -402,6 +398,7 @@ package dyzm.data.role
 					byAttRoleList = new Dictionary();
 					byAttRoleList[attRole] = true;
 				}
+				
 				
 				// 表现处理
 				if ((curState == RoleState.STATE_NORMAL || curState == RoleState.STATE_STIFF) && skill.attSpot.isFly == false){ // 地面状态
@@ -437,7 +434,9 @@ package dyzm.data.role
 					byAttInfo.minBounceZ = skill.attSpot.minBounceZ - skill.attSpot.minBounceZ * decline * skill.attSpot.zDecline;
 				}
 				curTurn = -attRole.curTurn;
+				return true;
 			}
+			return false;
 		}
 		
 		public function addHit(foeRole:RoleVo):void
@@ -561,6 +560,7 @@ package dyzm.data.role
 							curState = RoleState.STATE_NORMAL;
 							reAction();
 						}
+						curAttr.armor = curAttr.maxArmor;
 					}else{
 						if(byAttInfo.stiffFrame - byAttInfo.curStiffFrame <= 8){
 							curFrame = 17 - (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
@@ -656,6 +656,7 @@ package dyzm.data.role
 					if (curFrame == roleMc.role.totalFrames){ // 站起结束,设置2秒无敌,进入正常状态
 						curState = RoleState.STATE_NORMAL;
 						curInvincibleFrame = attr.invincibleFrame;
+						curAttr.armor = curAttr.maxArmor;
 						reAction();
 					}else{
 						curFrame ++;

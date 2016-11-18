@@ -9,7 +9,6 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 	import dyzm.manager.EventManager;
 	import dyzm.manager.GameConfig;
 	import dyzm.view.base.BaseLayer;
-	import dyzm.view.layer.fight.HandleView;
 
 	public class MainLayer extends BaseLayer
 	{

@@ -6,6 +6,7 @@ package dyzm.data.skill
 	import dyzm.data.FightData;
 	import dyzm.data.RoleState;
 	import dyzm.data.role.RoleVo;
+	import dyzm.manager.EventManager;
 	import dyzm.view.layer.fight.childLayer.mainLayer.MainLayer;
 	
 	/**
@@ -30,6 +31,8 @@ package dyzm.data.skill
 		 */
 		public var attInfo:Object;
 		
+		public var needRange:Boolean;
+		
 		public function BaseSkillVo(role:RoleVo)
 		{
 			roleVo = role;
@@ -51,6 +54,7 @@ package dyzm.data.skill
 		public function start():void
 		{
 			attInfo = {};
+			needRange = true;
 		}
 		
 		/**
@@ -118,13 +122,18 @@ package dyzm.data.skill
 													byRect = by.getBounds(MainLayer.me);
 													focusRect = attRect.intersection(byRect);
 													if (focusRect.width != 0){ // 攻击到
-														roleVo.addHit(foeRole);
+														if (needRange){
+															needRange = false;
+															EventManager.dispatchEvent(RoleVo.RANGE_EVENT, attSpot.range, false);
+														}
 														if (attInfo[attSpot.curAttSpot]){
 															attInfo[attSpot.curAttSpot].push(foeRole);
 														}else{
 															attInfo[attSpot.curAttSpot] = [foeRole];
 														}
-														foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect, b);
+														if(foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect, b)){
+															roleVo.addHit(foeRole);
+														}
 														break;
 													}
 													b ++;

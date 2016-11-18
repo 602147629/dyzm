@@ -18,8 +18,8 @@ package dyzm.data.role.foe
 			h = 280;
 			
 			// 属性配置
-			attr.hp = 1000;
-			attr.hpMax = 1000;
+			attr.hp = int.MAX_VALUE;
+			attr.hpMax = int.MAX_VALUE;
 			attr.armor = 0;
 			attr.maxArmor = 0;
 			attr.attMin = 1;
@@ -46,7 +46,7 @@ package dyzm.data.role.foe
 			
 			// ai配置
 			findMoveStopTime = 30;
-			attStartStopTime = 20;
+			attStartStopTime = int.MAX_VALUE;
 			findMoveMaxX = 90;
 			findMoveMinX = 40;
 			findMoveMaxY = 40;

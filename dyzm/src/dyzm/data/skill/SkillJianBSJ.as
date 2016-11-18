@@ -9,6 +9,7 @@ package dyzm.data.skill
 	import dyzm.data.RoleState;
 	import dyzm.data.SkillData;
 	import dyzm.data.role.RoleVo;
+	import dyzm.manager.EventManager;
 	import dyzm.view.layer.fight.childLayer.mainLayer.MainLayer;
 
 	public class SkillJianBSJ extends BaseSkillVo
@@ -88,12 +89,16 @@ package dyzm.data.skill
 			if (roleVo.maxCombo < 15){
 				return false;
 			}
+			var a:Array = roleVo.comboInfo[roleVo.maxComboRole];
+			if (a[a.length-1] == name){
+				return false;
+			}
 			
 			if (roleVo.attState == RoleState.ATT_AFTER_CANCEL || roleVo.attState == RoleState.ATT_NORMAL){
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in CAN_CANCEL_AFTER)
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -125,7 +130,7 @@ package dyzm.data.skill
 			attSpot.attr.attArmor = 1;
 			attSpot.stiffFrame = 999;
 			attSpot.curAttSpot = 1;
-			attSpot.range = 4;
+			attSpot.range = 2;
 			attSpot.canTurn = false;
 			
 			target = roleVo.maxComboRole;
@@ -179,7 +184,7 @@ package dyzm.data.skill
 						super.run();
 					}
 				}else{ // 乱打阶段
-					for (var i:int = 0; i < 3; i++)
+					for (var i:int = 0; i < 4; i++)
 					{
 						roleVo.curFrame ++;
 						roleVo.roleMc.role.gotoAndStop(roleVo.curFrame);
@@ -202,9 +207,10 @@ package dyzm.data.skill
 								attSpot.attr.attArmor = 1;
 								attSpot.stiffFrame = 1000;
 								attSpot.curAttSpot = 1;
-								attSpot.range = 4;
+								attSpot.range = 16;
 								attSpot.canTurn = false;
 							}
+							needRange = true;
 							curAttSpot ++;
 							roleVo.curFrame = 1;
 						}
@@ -258,13 +264,18 @@ package dyzm.data.skill
 													byRect = by.getBounds(MainLayer.me);
 													focusRect = attRect.intersection(byRect);
 													if (focusRect.width != 0){ // 攻击到
-														roleVo.addHit(foeRole);
+														if (needRange){
+															needRange = false;
+															EventManager.dispatchEvent(RoleVo.RANGE_EVENT, attSpot.range, false);
+														}
 														if (attInfo[curAttSpot]){
 															attInfo[curAttSpot].push(foeRole);
 														}else{
 															attInfo[curAttSpot] = [foeRole];
 														}
-														foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect, b);
+														if (foeRole.byHit(roleVo, this, attSpot.curAttSpot, focusRect, b)){
+															roleVo.addHit(foeRole);
+														}
 														break;
 													}
 													b ++;

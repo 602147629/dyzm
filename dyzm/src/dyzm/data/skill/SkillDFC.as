@@ -4,82 +4,59 @@ package dyzm.data.skill
 	import dyzm.data.SkillData;
 	import dyzm.data.role.RoleVo;
 	
-	public class SkillJian3 extends BaseSkillVo
+	public class SkillDFC extends BaseSkillVo
 	{
 		/**
 		 * 技能唯一标识
 		 */
-		public static const id:String = "剑3";
+		public static const id:String = "大风车";
 		/**
 		 * 名称
 		 */
-		public static const name:String = "剑系普攻三段";
+		public static const name:String = "大风车";
 		
 		/**
 		 * 所属系
 		 */
-		public static const xi:int = SkillData.XI_JIAN;
+		public static const xi:int = SkillData.XI_TI;
 		
 		/**
 		 * 启动状态
 		 */
-		public static const startState:int = SkillData.FLOOR;
+		public static const startState:int = SkillData.SKY;
 		
 		/**
 		 * 帧名称
 		 */
-		public static const frameName:String = "剑3";
+		public static const frameName:String = "大风车";
 		
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑2"];
+		public const CAN_CANCEL_AFTER:Array = ["剑系空中普攻", "升龙斩", "升龙踢"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
 		 */
-		public const SKILL_COMBO_TIME:int = 30;
+		public const SKILL_COMBO_TIME:int = 0;
 		
-		/**
-		 * 该技能出招时的位移效果
-		 */
-		public const speedX:int = 15;
-		public const stopX:int = 5;
-		public const addX:int = 20;
-		public var curSpeedX:int = 0;
-		
-		public function SkillJian3(role:RoleVo)
+		public function SkillDFC(role:RoleVo)
 		{
 			super(role);
 			
-			attSpot.isFly = true;
-			attSpot.x = 400;
-			attSpot.xFrame = 22;
-			attSpot.z = -18;
-			attSpot.upY = 40;
-			attSpot.downY = 40;
-			attSpot.stiffDecline = 0.1;
-			attSpot.zDecline = 0.01;
-			attSpot.attDecline = 0.1;
-			attSpot.armorDecline = 0.1;
-			attSpot.attr.attMin = 1;
-			attSpot.attr.attMax = 1;
-			attSpot.attr.attArmor = 1;
-			attSpot.stiffFrame = 40;
-			attSpot.curAttSpot = 1;
-			attSpot.range = 12;
-			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
-			// 鹰踢可以攻击到已经倒地的玩家
-			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
+			attSpot.byList = [AttInfo.BY_ATT_NORMAL];
 			// 攻击火花类型
 			attSpot.attFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
 			
 			// 防御火花类型
 			attSpot.defFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
 			
-			attSpot.foeAction = AttInfo.YANG_TIAN;
+			attSpot.foeActionToHead = AttInfo.YANG_TIAN;
+			
+			attSpot.foeAction = AttInfo.DI_TOU;
 		}	
+		
 		/**
 		 * 技能检测, 在通过初步检测后调用,进入进一步判断
 		 * 初步检测包括 是否符合技能的释放位置(地面,空中,跑步),并且不在被攻击状态
@@ -87,6 +64,9 @@ package dyzm.data.skill
 		 */
 		override public function startTest():Boolean
 		{
+			if (roleVo.jumpInfo[SkillDFC.id] != null){
+				return false;
+			}
 			if (roleVo.attState == RoleState.ATT_AFTER_CANCEL || roleVo.attState == RoleState.ATT_NORMAL){
 				return true;
 			}
@@ -97,7 +77,6 @@ package dyzm.data.skill
 						return true;
 					}
 				}
-				return false;
 			}
 			return false;
 		}
@@ -107,6 +86,26 @@ package dyzm.data.skill
 		 */
 		override public function start():void
 		{
+			attSpot.isFly = true;
+			attSpot.x = 300;
+			attSpot.xFrame = 1;
+			attSpot.z = 50;
+			attSpot.upY = 40;
+			attSpot.downY = 40;
+			attSpot.stiffDecline = 0.2;
+			attSpot.zDecline = 0.2;
+			attSpot.attDecline = 0.3;
+			attSpot.armorDecline = 0.3;
+			attSpot.attr.attMin = 1;
+			attSpot.attr.attMax = 1;
+			attSpot.attr.attArmor = 1;
+			attSpot.stiffFrame = 45;
+			attSpot.curAttSpot = 1;
+			attSpot.range = 8;
+			attSpot.minBounceZ = -43;
+			attSpot.canTurn = false;
+			
+			roleVo.jumpInfo[SkillDFC.id] = true;
 			roleVo.frameName = frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
@@ -121,49 +120,39 @@ package dyzm.data.skill
 			// 更新当前攻击状态
 			var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.role.currentLabel];
 			
-			
-			if (roleVo.curFrame == 5){
-				if (roleVo.curDir == 2 || roleVo.curDir == 5 || roleVo.curDir == 8){
-					if (roleVo.curTurn == 1){
-						curSpeedX = speedX;
-					}else{
-						curSpeedX = -speedX;
-					}
-				}else if (roleVo.curDir == 9 || roleVo.curDir == 6 || roleVo.curDir == 3){
-					if (roleVo.curTurn == 1){
-						curSpeedX = addX;
-					}else{
-						curSpeedX = -stopX;
-					}
-				}else if (roleVo.curDir == 7 || roleVo.curDir == 4 || roleVo.curDir == 1){
-					if (roleVo.curTurn == 1){
-						curSpeedX = stopX;
-					}else{
-						curSpeedX = -addX;
-					}
-				}
-			}
-			
-			if (roleVo.curFrame >= 10 && roleVo.curFrame <= 22){
-				roleVo.x += curSpeedX;
-			}
-			
 			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER){
 				roleVo.attState = toState;
 				roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
 				roleVo.reAction();
 			}
+			if (roleVo.roleMc.role.currentFrameLabel == "att2"){
+				attSpot.isFly = true;
+				attSpot.x = 300;
+				attSpot.xFrame = 4;
+				attSpot.z = -30;
+				attSpot.upY = 40;
+				attSpot.downY = 40;
+				attSpot.stiffDecline = 0.2;
+				attSpot.zDecline = 0.2;
+				attSpot.attDecline = 0.3;
+				attSpot.armorDecline = 0.3;
+				attSpot.attr.attMin = 1;
+				attSpot.attr.attMax = 1;
+				attSpot.attr.attArmor = 1;
+				attSpot.stiffFrame = 45;
+				attSpot.curAttSpot = 1;
+				attSpot.range = 8;
+				attSpot.minBounceZ = 0;
+				attSpot.canTurn = false;
+			}
+			roleVo.curFrame ++;
 			
 			if (roleVo.curFrame == roleVo.roleMc.role.totalFrames){
 				roleVo.attState = RoleState.ATT_NORMAL;
 				end();
 			}
 			
-			roleVo.curFrame ++;
-			
 			super.run();
 		}
 	}
 }
-
-

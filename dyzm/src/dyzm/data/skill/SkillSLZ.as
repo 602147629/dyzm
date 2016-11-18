@@ -70,7 +70,7 @@ package dyzm.data.skill
 			attSpot.range = 8;
 			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
-			// 鹰踢可以攻击到已经倒地的玩家
+			// 裂空斩可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
 			// 攻击火花类型
 			attSpot.attFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;

@@ -1,5 +1,6 @@
 package dyzm.data.role
 {
+	import dyzm.data.skill.SkillDFC;
 	import dyzm.data.skill.SkillJian1;
 	import dyzm.data.skill.SkillJian2;
 	import dyzm.data.skill.SkillJian3;
@@ -57,16 +58,15 @@ package dyzm.data.role
 			skillSkyVo[3] = [new SkillYingTi(roleVo)];
 			skillSkyBind[4] = [SkillLKZ];
 			skillSkyVo[4] = [new SkillLKZ(roleVo)];
+			skillSkyBind[5] = [SkillDFC];
+			skillSkyVo[5] = [new SkillDFC(roleVo)];
 			
 			skillFloorBind[1] = [SkillJian1, SkillJian2, SkillJian3];
 			skillFloorVo[1] = [new SkillJian1(roleVo), new SkillJian2(roleVo), new SkillJian3(roleVo)];
-			
 			skillFloorBind[2] = [SkillJump];
 			skillFloorVo[2] = [new SkillJump(roleVo)];
-			
 			skillFloorBind[3] = [SkillST];
 			skillFloorVo[3] = [new SkillST(roleVo)];
-			
 			skillFloorBind[4] = [SkillSLZ];
 			skillFloorVo[4] = [new SkillSLZ(roleVo)];
 			

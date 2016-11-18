@@ -11,11 +11,11 @@ package dyzm.data.skill
 		/**
 		 * 技能唯一标识
 		 */
-		public static const id:String = "空中普攻";
+		public static const id:String = "剑系空中普攻";
 		/**
 		 * 名称
 		 */
-		public static const name:String = "空中普攻";
+		public static const name:String = "剑系空中普攻";
 		
 		/**
 		 * 所属系
@@ -30,12 +30,12 @@ package dyzm.data.skill
 		/**
 		 * 帧名称
 		 */
-		public static const frameName:String = "空中普攻";
+		public static const frameName:String = "剑系空中普攻";
 		
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["升龙斩"];
+		public const CAN_CANCEL_AFTER:Array = ["升龙斩", "升龙踢", "大风车"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围
@@ -130,7 +130,7 @@ package dyzm.data.skill
 			}
 			roleVo.z += roleVo.curFlyPower;
 			
-			if (roleVo.z >= 0){ // 落地
+			if (roleVo.z >= 0){ // 落地 
 				roleVo.inFlood();
 				roleVo.z = 0;
 				roleVo.curState = RoleState.STATE_NORMAL;

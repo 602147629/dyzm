@@ -1,17 +1,22 @@
 /**
  * 按键管理
  */
-package dyzm.view.layer.fight
+package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
 	import flash.utils.getTimer;
 	
 	import dyzm.data.KeyData;
-	import dyzm.view.layer.fight.childLayer.mainLayer.PlayerRole;
+	import dyzm.manager.EventManager;
 	
 	public class HandleView
 	{
+		public static const DIR_KEY_DOWN_EVNET:String = "DIR_KEY_DOWN_EVNET";
+		public static const DIR_KEY_UP_EVNET:String = "DIR_KEY_UP_EVNET";
+		
+		public static const SKILL_KEY_DOWN_EVNET:String = "SKILL_KEY_DOWN_EVNET";
+		public static const SKILL_KEY_UP_EVNET:String = "SKILL_KEY_UP_EVNET";
 		private var _stage:Stage;
 		private var _role:PlayerRole;
 		
@@ -26,9 +31,15 @@ package dyzm.view.layer.fight
 		private var leftTime:Number = 0;
 		private var rightTime:Number = 0;
 		
+		private var skillKeyDownInfo:Object;
+		
 		public function HandleView()
 		{
-			
+			skillKeyDownInfo = {};
+			for (var i:int = 1; i <= 6; i++) 
+			{
+				skillKeyDownInfo[i] = false;
+			}
 		}
 		
 		public function start(stage:Stage, role:PlayerRole):void
@@ -41,6 +52,7 @@ package dyzm.view.layer.fight
 		
 		private function onKeyDown(e:KeyboardEvent):void
 		{
+			var skillId:int = 0;
 			switch(e.keyCode)
 			{
 				case KeyData.up:
@@ -52,21 +64,29 @@ package dyzm.view.layer.fight
 					handleDirDown(e.keyCode);
 					break;
 				}
-				case KeyData.skill_1:_role.setSkill(1);break;
-				case KeyData.skill_2:_role.setSkill(2);break;
-				case KeyData.skill_3:_role.setSkill(3);break;
-				case KeyData.skill_4:_role.setSkill(4);break;
-				case KeyData.skill_5:_role.setSkill(5);break;
-				case KeyData.skill_6:_role.setSkill(6);break;
+				case KeyData.skill_1:_role.setSkill(1);skillId=1;break;
+				case KeyData.skill_2:_role.setSkill(2);skillId=2;break;
+				case KeyData.skill_3:_role.setSkill(3);skillId=3;break;
+				case KeyData.skill_4:_role.setSkill(4);skillId=4;break;
+				case KeyData.skill_5:_role.setSkill(5);skillId=5;break;
+				case KeyData.skill_6:_role.setSkill(6);skillId=6;break;
 				default:
 				{
 					break;
+				}
+			}
+			if (skillId != 0){
+				if (!skillKeyDownInfo[skillId])
+				{
+					skillKeyDownInfo[skillId] = true;
+					EventManager.dispatchEvent(SKILL_KEY_DOWN_EVNET, skillId);
 				}
 			}
 		}
 		
 		private function onKeyUp(e:KeyboardEvent):void
 		{
+			var skillId:int = 0;
 			switch(e.keyCode)
 			{
 				case KeyData.up:
@@ -78,15 +98,22 @@ package dyzm.view.layer.fight
 					handleDirUp(e.keyCode);
 					break;
 				}
-				case KeyData.skill_1:_role.setUnSkill(1);break;
-				case KeyData.skill_2:_role.setUnSkill(2);break;
-				case KeyData.skill_3:_role.setUnSkill(3);break;
-				case KeyData.skill_4:_role.setUnSkill(4);break;
-				case KeyData.skill_5:_role.setUnSkill(5);break;
-				case KeyData.skill_6:_role.setUnSkill(6);break;
+				case KeyData.skill_1:_role.setUnSkill(1);skillId=1;break;
+				case KeyData.skill_2:_role.setUnSkill(2);skillId=2;break;
+				case KeyData.skill_3:_role.setUnSkill(3);skillId=3;break;
+				case KeyData.skill_4:_role.setUnSkill(4);skillId=4;break;
+				case KeyData.skill_5:_role.setUnSkill(5);skillId=5;break;
+				case KeyData.skill_6:_role.setUnSkill(6);skillId=6;break;
 				default:
 				{
 					break;
+				}
+			}
+			if (skillId != 0){
+				if (skillKeyDownInfo[skillId])
+				{
+					skillKeyDownInfo[skillId] = false;
+					EventManager.dispatchEvent(SKILL_KEY_UP_EVNET, skillId);
 				}
 			}
 		}
@@ -106,6 +133,7 @@ package dyzm.view.layer.fight
 				{
 					if (!isUp){
 						isUp = true;
+						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "up");
 						switch(oldDir)
 						{
 							case 1: curDir = 7; break;
@@ -124,6 +152,7 @@ package dyzm.view.layer.fight
 				case KeyData.down:
 				{
 					if (!isDown){
+						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "down");
 						isDown = true;
 						switch(oldDir)
 						{
@@ -148,6 +177,7 @@ package dyzm.view.layer.fight
 						}
 					}
 					if (!isLeft){
+						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "left");
 						isLeft = true;
 						leftTime = getTimer();
 						switch(oldDir)
@@ -175,6 +205,7 @@ package dyzm.view.layer.fight
 						}
 					}
 					if (!isRight){
+						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "right");
 						isRight = true;
 						rightTime = getTimer();
 						switch(oldDir)
@@ -218,6 +249,7 @@ package dyzm.view.layer.fight
 				case KeyData.up:
 				{
 					if (isUp){
+						EventManager.dispatchEvent(DIR_KEY_UP_EVNET, "up");
 						isUp = false;
 						switch(oldDir)
 						{
@@ -237,6 +269,7 @@ package dyzm.view.layer.fight
 				case KeyData.down:
 				{
 					if (isDown){
+						EventManager.dispatchEvent(DIR_KEY_UP_EVNET, "down");
 						isDown = false;
 						switch(oldDir)
 						{
@@ -256,6 +289,7 @@ package dyzm.view.layer.fight
 				case KeyData.left:
 				{
 					if (isLeft){
+						EventManager.dispatchEvent(DIR_KEY_UP_EVNET, "left");
 						isLeft = false;
 						switch(oldDir)
 						{
@@ -275,6 +309,7 @@ package dyzm.view.layer.fight
 				case KeyData.right:
 				{
 					if (isRight){
+						EventManager.dispatchEvent(DIR_KEY_UP_EVNET, "right");
 						isRight = false;
 						switch(oldDir)
 						{
