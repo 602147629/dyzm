@@ -28,10 +28,12 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		private var isRight:Boolean = false;
 		private var isRuning:Boolean = false;
 		
+		private var upTime:Number = 0;
+		private var downTime:Number = 0;
 		private var leftTime:Number = 0;
 		private var rightTime:Number = 0;
 		
-		private var skillKeyDownInfo:Object;
+		public static var skillKeyDownInfo:Object;
 		
 		public function HandleView()
 		{
@@ -46,6 +48,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		{
 			_stage = stage;
 			_role = role;
+			_stage.focus = _stage;
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		}
@@ -98,12 +101,12 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 					handleDirUp(e.keyCode);
 					break;
 				}
-				case KeyData.skill_1:_role.setUnSkill(1);skillId=1;break;
-				case KeyData.skill_2:_role.setUnSkill(2);skillId=2;break;
-				case KeyData.skill_3:_role.setUnSkill(3);skillId=3;break;
-				case KeyData.skill_4:_role.setUnSkill(4);skillId=4;break;
-				case KeyData.skill_5:_role.setUnSkill(5);skillId=5;break;
-				case KeyData.skill_6:_role.setUnSkill(6);skillId=6;break;
+				case KeyData.skill_1:skillId=1;break;
+				case KeyData.skill_2:skillId=2;break;
+				case KeyData.skill_3:skillId=3;break;
+				case KeyData.skill_4:skillId=4;break;
+				case KeyData.skill_5:skillId=5;break;
+				case KeyData.skill_6:skillId=6;break;
 				default:
 				{
 					break;
@@ -131,8 +134,14 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			{
 				case KeyData.up:
 				{
+					if (!isRuning){
+						if (getTimer() - upTime < 300){
+							run = true;
+						}
+					}
 					if (!isUp){
 						isUp = true;
+						upTime = getTimer();
 						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "up");
 						switch(oldDir)
 						{
@@ -151,9 +160,15 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 				}
 				case KeyData.down:
 				{
+					if (!isRuning){
+						if (getTimer() - downTime < 300){
+							run = true;
+						}
+					}
 					if (!isDown){
 						EventManager.dispatchEvent(DIR_KEY_DOWN_EVNET, "down");
 						isDown = true;
+						downTime = getTimer();
 						switch(oldDir)
 						{
 							case 1: break;

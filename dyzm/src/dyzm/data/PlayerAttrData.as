@@ -1,6 +1,13 @@
 package dyzm.data
 {
 	import dyzm.data.attr.AttrVo;
+	import dyzm.data.equip.gem1.Gem1_1;
+	import dyzm.data.equip.t1.Belt1;
+	import dyzm.data.equip.t1.Glasses1;
+	import dyzm.data.equip.t1.Hat1;
+	import dyzm.data.equip.t1.Neck1;
+	import dyzm.data.equip.t1.Ring1;
+	import dyzm.data.equip.t2.Weapon2;
 
 	/**
 	 * 主角属性
@@ -17,30 +24,19 @@ package dyzm.data
 			lv = 1;
 			exp = 0;
 			attr = new AttrVo();
-			attr.hp = 100000;
-			attr.hpMax = 100000;
-			attr.armor = 0;
-			attr.maxArmor = 0;
-			attr.attMin = 1;
-			attr.attMax = 2;
-			attr.attArmor = 1;
-			attr.critRate = 0;
-			attr.critDmg = 1;
-			attr.def = 0;
-			attr.mf = 0;
-			attr.gf = 0;
-			attr.iceAtt = 0;
-			attr.iceDef = 0;
-			attr.fireAtt = 0;
-			attr.fireDef = 0;
-			attr.thundAtt = 0;
-			attr.thundDef = 0;
-			attr.toxinAtt = 0;
-			attr.toxinDef = 0;
-			attr.invincibleFrame = 120;
-			attr.moveSpeed = 4;
-			attr.runSpeed = 10;
-			attr.jumpPower = -30;
+			
+			attr.equip.weapon = new Weapon2();
+			attr.equip.weapon.gem1 = new Gem1_1();
+			attr.equip.weapon.gem2 = new Gem1_1();
+			attr.equip.weapon.gem3 = new Gem1_1();
+			attr.equip.hat = new Hat1();
+			attr.equip.glasses = new Glasses1();
+			attr.equip.belt = new Belt1();
+			attr.equip.neck = new Neck1();
+			attr.equip.ring = new Ring1();
+			attr.handle();
+			attr.hp = int.MAX_VALUE;
+			attr.maxHp = int.MAX_VALUE;
 		}
 	}
 }

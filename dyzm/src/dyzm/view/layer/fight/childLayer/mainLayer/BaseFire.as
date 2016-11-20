@@ -4,7 +4,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-	import asset.fire_1;
+	import asset.KnifeFire;
 	
 	import dyzm.data.role.RoleVo;
 	import dyzm.manager.EventManager;
@@ -14,13 +14,14 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		public var mc:MovieClip;
 		public var yy:Number;
 		public var fireTypeToClass:Object = {
-			1:fire_1
+			1:asset.KnifeFire
 		}
-		public function BaseFire(fireType:int, _y:Number)
+		public function BaseFire(fireType:int, _y:Number, fireRotation:int)
 		{
 			yy = _y;
 			var c:Class = fireTypeToClass[fireType];
 			mc = new c;
+			mc.rotation = fireRotation;
 			this.addChild(mc);
 			this.addEventListener(Event.ADDED_TO_STAGE, toStage);
 			

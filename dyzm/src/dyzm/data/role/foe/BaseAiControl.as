@@ -3,8 +3,8 @@ package dyzm.data.role.foe
 	import flash.geom.Point;
 	
 	import dyzm.data.RoleState;
-	import dyzm.util.Maths;
 	import dyzm.data.role.RoleVo;
+	import dyzm.util.Maths;
 	
 	public class BaseAiControl extends RoleVo
 	{
@@ -51,6 +51,32 @@ package dyzm.data.role.foe
 		 * 攻击开始前停顿时间, 单位帧
 		 */
 		public var attStartStopTime:int = 60;
+		
+		/**
+		 * 格挡几率
+		 */
+		public var blockRate:Number = 0.5;
+		
+		/**
+		 * 格挡间隔
+		 */
+		public var blockFrame:int = 300;
+		
+		/**
+		 * 最小格挡时间
+		 */
+		public var minBlockFrame:int = 60;
+		
+		/**
+		 * 格挡中时间
+		 */
+		public var blockingFrame:int = 0;
+		
+		
+		/**
+		 * 当前格挡间隔
+		 */
+		public var curBlockFrame:int = 0;
 		
 		/**
 		 * 寻路X轴最大偏差,单位像素
@@ -108,6 +134,36 @@ package dyzm.data.role.foe
 		
 		public function aiFrameUpdate():void
 		{
+			if (blockingFrame < minBlockFrame){
+				blockingFrame ++;
+			}else{
+				var needBlock:Boolean = false;
+				if (curBlockFrame < blockFrame){
+					curBlockFrame ++;
+				}else{
+					if (curState == RoleState.STATE_NORMAL && isRuning == false
+						&& attState == RoleState.ATT_NORMAL && curTarget
+						&& (curTarget.attState == RoleState.ATT_BEFORE || curTarget.attState == RoleState.ATT_ING)
+						&& Math.abs(x - curTarget.x) < 200 && Math.abs(y - curTarget.y) < 40){ // 地面正常状态
+						if (curTurn == -curTarget.curTurn && Math.random() < blockRate){
+							needBlock = true;
+							
+						}
+					}
+				}
+				
+				if (needBlock){
+					curBlockFrame = 0;
+					blockingFrame = 0;
+					isBlock = true;
+					frameName = TAG_BLOCK;
+					curFrame = 1;
+				}else if (isBlock){
+					isBlock = false;
+					reAction();
+				}
+			}
+			if (isBlock) return;
 			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
 			
 			if (attState == RoleState.ATT_NORMAL){

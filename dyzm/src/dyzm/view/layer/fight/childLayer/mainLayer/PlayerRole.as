@@ -38,11 +38,6 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			curInputDelay = INPUT_DELAY;
 		}
 		
-		public function setUnSkill(id:int):void
-		{
-			mianRoleControl.setUnSkill(id);
-		}
-		
 		override public function frameUpdate():void
 		{
 			if (skillId != 0){

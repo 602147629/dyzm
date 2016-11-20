@@ -13,7 +13,7 @@ package dyzm.data.attr
 		/**
 		 * 最大生命值
 		 */
-		public var hpMax:int = 0;
+		public var maxHp:int = 0;
 		/**
 		 * 当前护甲
 		 */
@@ -25,11 +25,11 @@ package dyzm.data.attr
 		/**
 		 * 最小攻击力
 		 */
-		public var attMin:int = 0;
+		public var minAtt:int = 0;
 		/**
 		 * 最大攻击力
 		 */
-		public var attMax:int = 0;
+		public var maxAtt:int = 0;
 		/**
 		 * 破甲
 		 */
@@ -123,11 +123,11 @@ package dyzm.data.attr
 		public function add(b:BaseAttrVo):void
 		{
 			hp += b.hp;
-			hpMax += b.hpMax;
+			maxHp += b.maxHp;
 			armor += b.armor;
 			maxArmor += b.maxArmor;
-			attMin += b.attMin;
-			attMax += b.attMax;
+			minAtt += b.minAtt;
+			maxAtt += b.maxAtt;
 			attArmor += b.attArmor;
 			critRate += b.critRate;
 			critDmg += b.critDmg;

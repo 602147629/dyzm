@@ -62,9 +62,6 @@ package dyzm.data.skill
 			attSpot.zDecline = 0.2;
 			attSpot.attDecline = 0.3;
 			attSpot.armorDecline = 0.3;
-			attSpot.attr.attMin = 1;
-			attSpot.attr.attMax = 1;
-			attSpot.attr.attArmor = 1;
 			attSpot.stiffFrame = 45;
 			attSpot.curAttSpot = 1;
 			attSpot.range = 8;
@@ -73,10 +70,13 @@ package dyzm.data.skill
 			// 裂空斩可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
 			// 攻击火花类型
-			attSpot.attFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
+			attSpot.attFireType = AttInfo.FIRE_TYPE_KNIFE;
 			
 			// 防御火花类型
-			attSpot.defFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
+			attSpot.defFireType = AttInfo.FIRE_TYPE_KNIFE;
+			
+			// 火花角度
+			attSpot.attFireRotation = 195;
 			
 			attSpot.foeActionToHead = AttInfo.YANG_TIAN;
 			
@@ -109,6 +109,14 @@ package dyzm.data.skill
 		 */
 		override public function start():void
 		{
+			attSpot.attr.minAtt = roleVo.curAttr.minAtt;
+			attSpot.attr.maxAtt = roleVo.curAttr.maxAtt;
+			attSpot.attr.attArmor = roleVo.curAttr.attArmor;
+			attSpot.attr.iceAtt = roleVo.curAttr.iceAtt;
+			attSpot.attr.fireAtt = roleVo.curAttr.fireAtt;
+			attSpot.attr.thundAtt = roleVo.curAttr.thundAtt;
+			attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
+			
 			roleVo.frameName = frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
@@ -155,10 +163,12 @@ package dyzm.data.skill
 				roleVo.curFlyPower -= WorldData.G;
 			}
 			
-			if (roleVo.attState != toState && toState == RoleState.ATT_AFTER){
+			if (roleVo.attState != toState){
 				roleVo.attState = toState;
-				roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
-				roleVo.reAction();
+				if (toState == RoleState.ATT_AFTER){
+					roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
+					roleVo.reAction();
+				}
 			}
 			
 			if (roleVo.curFrame == roleVo.roleMc.role.totalFrames){

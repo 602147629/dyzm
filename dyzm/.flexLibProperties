@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
-  <includeClasses/>
+  <includeClasses>
+    <classEntry path="dyzm.view.baseUi.BaseBtn"/>
+    <classEntry path="dyzm.data.role.foe.Boss"/>
+    <classEntry path="dyzm.data.equip.t1.Hat1"/>
+    <classEntry path="dyzm.data.equip.t1.Glasses1"/>
+    <classEntry path="dyzm.data.equip.t1.Belt1"/>
+    <classEntry path="dyzm.data.equip.t1.Neck1"/>
+    <classEntry path="dyzm.data.equip.BaseGem"/>
+    <classEntry path="dyzm.data.equip.gem1.Gem1_1"/>
+    <classEntry path="dyzm.Role"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

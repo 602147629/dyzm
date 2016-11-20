@@ -3,10 +3,9 @@ package dyzm.data.role.foe
 	import asset.Role_1;
 	
 	import dyzm.data.skill.SkillJian1;
-
+	
 	public class XiaoGuai extends BaseAiControl
 	{
-		
 		public var skill1:SkillJian1;
 		public function XiaoGuai()
 		{
@@ -19,11 +18,11 @@ package dyzm.data.role.foe
 			
 			// 属性配置
 			attr.hp = int.MAX_VALUE;
-			attr.hpMax = int.MAX_VALUE;
+			attr.maxHp = int.MAX_VALUE;
 			attr.armor = 0;
 			attr.maxArmor = 0;
-			attr.attMin = 1;
-			attr.attMax = 2;
+			attr.minAtt = 1;
+			attr.maxAtt = 2;
 			attr.attArmor = 1;
 			attr.critRate = 0;
 			attr.critDmg = 1;
@@ -46,11 +45,14 @@ package dyzm.data.role.foe
 			
 			// ai配置
 			findMoveStopTime = 30;
-			attStartStopTime = int.MAX_VALUE;
+			attStartStopTime = 20;
 			findMoveMaxX = 90;
 			findMoveMinX = 40;
 			findMoveMaxY = 40;
 			findMoveMinY = 0;
+			blockRate = 0.5;
+			blockFrame = 300;
+			minBlockFrame = 60;
 			skill1 = new SkillJian1(this);
 		}
 		

@@ -78,9 +78,9 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 * @param y 火花排序坐标
 		 * 
 		 */
-		public function addFire(p:Point, fireType:int, y:Number):void
+		public function addFire(p:Point, fireType:int, y:Number, fireRotation:int):void
 		{
-			var fire:BaseFire = new BaseFire(fireType, y);
+			var fire:BaseFire = new BaseFire(fireType, y, fireRotation);
 			fire.x = p.x;
 			fire.y = p.y;
 			this.addChild(fire);

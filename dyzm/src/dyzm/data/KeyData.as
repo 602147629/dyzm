@@ -45,6 +45,7 @@ package dyzm.data
 			keyCodeToShow[40] = "↓";
 			keyCodeToShow[37] = "←";
 			keyCodeToShow[39] = "→";
+			keyCodeToShow[32] = "空格";
 		}
 		
 		public static function saveKey():void

@@ -70,10 +70,10 @@ package dyzm.data.skill
 			// 鹰踢可以攻击到已经倒地的玩家
 			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
 			// 攻击火花类型
-			attSpot.attFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
+			attSpot.attFireType = AttInfo.FIRE_TYPE_KNIFE;
 			
 			// 防御火花类型
-			attSpot.defFireType = AttInfo.FIRE_TYPE_SHARP_TRANSVERSE;
+			attSpot.defFireType = AttInfo.FIRE_TYPE_KNIFE;
 			
 			attSpot.foeAction = AttInfo.YANG_TIAN;
 		}
@@ -125,9 +125,6 @@ package dyzm.data.skill
 			attSpot.zDecline = 0;
 			attSpot.attDecline = 0;
 			attSpot.armorDecline = 0;
-			attSpot.attr.attMin = 1;
-			attSpot.attr.attMax = 1;
-			attSpot.attr.attArmor = 1;
 			attSpot.stiffFrame = 999;
 			attSpot.curAttSpot = 1;
 			attSpot.range = 2;
@@ -202,13 +199,21 @@ package dyzm.data.skill
 								attSpot.zDecline = 0;
 								attSpot.attDecline = 0;
 								attSpot.armorDecline = 0;
-								attSpot.attr.attMin = 1;
-								attSpot.attr.attMax = 1;
-								attSpot.attr.attArmor = 1;
 								attSpot.stiffFrame = 1000;
 								attSpot.curAttSpot = 1;
 								attSpot.range = 16;
 								attSpot.canTurn = false;
+								
+								attSpot.attr.minAtt = roleVo.curAttr.minAtt * 2 + roleVo.curAttr.minAtt * (roleVo.maxCombo - 30) * 0.2;
+								attSpot.attr.maxAtt = roleVo.curAttr.maxAtt * 2 + roleVo.curAttr.minAtt * (roleVo.maxCombo - 30) * 0.2;
+								attSpot.attr.attArmor = roleVo.curAttr.attArmor;
+								attSpot.attr.iceAtt = roleVo.curAttr.iceAtt;
+								attSpot.attr.fireAtt = roleVo.curAttr.fireAtt;
+								attSpot.attr.thundAtt = roleVo.curAttr.thundAtt;
+								attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
+								
+								// 火花角度
+								attSpot.attFireRotation = 360 * Math.random();
 							}
 							needRange = true;
 							curAttSpot ++;

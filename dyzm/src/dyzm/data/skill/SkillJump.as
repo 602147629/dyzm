@@ -34,7 +34,7 @@ package dyzm.data.skill
 		/**
 		 * 可以打断的后摇
 		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑2", "剑3", "鹰踢", "裂空斩", "上挑"];
+		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑2", "剑3", "裂空斩", "上挑"];
 		
 		/**
 		 * 该技能的后续技能可出招的时间范围

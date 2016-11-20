@@ -4,7 +4,6 @@ package dyzm.data.role
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
-	import flash.utils.flash_proxy;
 	
 	import dyzm.data.FightData;
 	import dyzm.data.RoleState;
@@ -235,8 +234,10 @@ package dyzm.data.role
 		
 		public function initAttr(a:AttrVo):void
 		{
-			attr.add(a);
-			curAttr.add(a);
+			attr = a;
+			curAttr.add(attr);
+			curAttr.hp = attr.maxHp;
+			curAttr.armor = curAttr.maxArmor;
 		}
 		
 		
@@ -266,6 +267,7 @@ package dyzm.data.role
 		{
 			z = 0;
 			jumpInfo = {};
+			isRuning = false;
 		}
 		
 		/**
@@ -300,15 +302,15 @@ package dyzm.data.role
 			
 			if (isBlock){ // 格挡成功
 				if (curTurn == 1 && x < attRole.x){
-					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
+					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn);
 					return false;
 				}else if (curTurn == -1 && x > attRole.x){
-					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1);
+					EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.defFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn);
 					return false;
 				}
 			}
 			
-			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1);
+			EventManager.dispatchEvent(ADD_FIRE_EVENT, firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn);
 			isBlock = false;
 			// 重复攻击递减
 			var decline:Number = 0;
@@ -316,7 +318,7 @@ package dyzm.data.role
 				decline = byAttInfo.hitDict[skill][skill.attSpot.curAttSpot];
 			}
 			// 伤害处理
-			var att:Number = Maths.random(attRole.curAttr.attMin + skill.attSpot.attr.attMin, attRole.curAttr.attMax + skill.attSpot.attr.attMax); // 计算发挥的攻击力大小
+			var att:Number = Maths.random(attRole.curAttr.minAtt + skill.attSpot.attr.minAtt, attRole.curAttr.maxAtt + skill.attSpot.attr.maxAtt); // 计算发挥的攻击力大小
 			att = att - att * decline * skill.attSpot.armorDecline; // 计算重复攻击递减
 			att = att - curAttr.def; // 计算防御减伤
 			var iceAtt:Number = attRole.curAttr.iceAtt + skill.attSpot.attr.iceAtt;

@@ -38,7 +38,6 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			roleVo.roleMc = mc;
 			super();
 		}
-		
 		override public function frameUpdate():void
 		{
 			super.frameUpdate();
@@ -61,6 +60,24 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 				}
 				if (mc.role.currentFrame != roleVo.curFrame){
 					mc.role.gotoAndStop(roleVo.curFrame);
+				}
+				avatar();
+			}
+		}
+		
+		private function avatar():void
+		{
+			if (mc.role.weapon){
+				if (roleVo.attr.equip && roleVo.attr.equip.weapon){
+					if (roleVo.attr.equip.weapon.gem1){
+						mc.role.weapon.gem1.addChild(roleVo.attr.equip.weapon.gem1.img);
+					}
+					if (roleVo.attr.equip.weapon.gem2){
+						mc.role.weapon.gem2.addChild(roleVo.attr.equip.weapon.gem2.img);
+					}
+					if (roleVo.attr.equip.weapon.gem3){
+						mc.role.weapon.gem3.addChild(roleVo.attr.equip.weapon.gem3.img);
+					}
 				}
 			}
 		}

@@ -19,7 +19,6 @@ package com.greensock.loading {
 	import flash.net.NetConnection;
 	import flash.net.NetStream;
 	import flash.net.URLRequest;
-	import flash.net.URLVariables;
 	import flash.utils.Timer;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
@@ -1001,7 +1000,7 @@ function cuePointHandler(event:LoaderEvent):void {
 				if (_initted) {
 					_completeHandler(event);
 				} else {
-					setTimeout(function() {
+					setTimeout(function():void {
 						if (!_initted) {
 							_forceInit();
 							_errorHandler(new LoaderEvent(LoaderEvent.ERROR, this, "No metaData was received."));

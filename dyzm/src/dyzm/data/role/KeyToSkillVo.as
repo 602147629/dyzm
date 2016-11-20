@@ -1,5 +1,6 @@
 package dyzm.data.role
 {
+	import dyzm.data.skill.SkillBlock;
 	import dyzm.data.skill.SkillDFC;
 	import dyzm.data.skill.SkillJian1;
 	import dyzm.data.skill.SkillJian2;
@@ -36,17 +37,20 @@ package dyzm.data.role
 		 * 地面技能
 		 * 例:{1 : new SkillYingTi()}
 		 */
-		public var skillFloorVo:Object = {}
+		public var skillFloorVo:Object = {};
 		
 		/**
 		 * 空中技能
 		 */
-		public var skillSkyVo:Object = {}
+		public var skillSkyVo:Object = {};
 		
 		/**
 		 * 跑步技能
 		 */
-		public var skillRunVo:Object = {}
+		public var skillRunVo:Object = {};
+		
+		public var blockId:int = 3;
+		
 		
 		public function KeyToSkillVo(roleVo:RoleVo)
 		{
@@ -65,11 +69,13 @@ package dyzm.data.role
 			skillFloorVo[1] = [new SkillJian1(roleVo), new SkillJian2(roleVo), new SkillJian3(roleVo)];
 			skillFloorBind[2] = [SkillJump];
 			skillFloorVo[2] = [new SkillJump(roleVo)];
-			skillFloorBind[3] = [SkillST];
-			skillFloorVo[3] = [new SkillST(roleVo)];
+			skillFloorBind[3] = [SkillBlock];
+			skillFloorVo[3] = [new SkillBlock(roleVo)];
+			blockId = 3;
 			skillFloorBind[4] = [SkillSLZ];
 			skillFloorVo[4] = [new SkillSLZ(roleVo)];
-			
+			skillFloorBind[5] = [SkillST];
+			skillFloorVo[5] = [new SkillST(roleVo)];
 			skillFloorBind[6] = [SkillJianBSJ];
 			skillFloorVo[6] = [new SkillJianBSJ(roleVo)];
 		}

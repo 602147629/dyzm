@@ -3,6 +3,7 @@ package dyzm.view.baseUi
 	import com.bit101.components.Knob;
 	import com.bit101.components.Panel;
 	import com.bit101.components.ProgressBar;
+	import com.bit101.components.PushButton;
 	import com.bit101.components.RotarySelector;
 	import com.bit101.components.Window;
 	
@@ -123,6 +124,17 @@ package dyzm.view.baseUi
 			function onClose(e:Event):void
 			{
 				trace("关闭窗口");
+			}
+		}
+		
+		public function testBtn():void
+		{
+			var win:PushButton = new PushButton(this, 200, 200, "技能", onClick);
+			// 设置按钮大小
+			win.setSize(300, 30);
+			function onClick(e:Event):void
+			{
+				trace("点击按钮");
 			}
 		}
 	}

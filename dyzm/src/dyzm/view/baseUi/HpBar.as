@@ -24,8 +24,8 @@ package dyzm.view.baseUi
 		
 		public function frameUpdate():void
 		{
-			if (_value != roleVo.curAttr.hp || _max != roleVo.curAttr.hpMax){
-				_max = roleVo.curAttr.hpMax;
+			if (_value != roleVo.curAttr.hp || _max != roleVo.curAttr.maxHp){
+				_max = roleVo.curAttr.maxHp;
 				_value = Math.min(roleVo.curAttr.hp, _max);
 				update();
 			}

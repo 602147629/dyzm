@@ -70,7 +70,7 @@ package dyzm.manager
 		}
 		
 		//派发事件
-		public static function dispatchEvent(type:String, data1:Object=null, data2:Object=null, data3:Object=null):void
+		public static function dispatchEvent(type:String, data1:Object=null, data2:Object=null, data3:Object=null, data4:Object=null):void
 		{
 			if (eventList[type] == null){
 				return;
@@ -112,6 +112,11 @@ package dyzm.manager
 					case 3:
 					{
 						start.self(data1, data2, data3);
+						break;
+					}
+					case 4:
+					{
+						start.self(data1, data2, data3, data4);
 						break;
 					}
 					default:

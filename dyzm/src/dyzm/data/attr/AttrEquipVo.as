@@ -14,16 +14,6 @@ package dyzm.data.attr
 		public var weapon:BaseEquip;
 		
 		/**
-		 * 衣服
-		 */
-		public var clothes:BaseEquip;
-		
-		/**
-		 * 裤子
-		 */
-		public var trousers:BaseEquip;
-		
-		/**
 		 * 帽子
 		 */
 		public var hat:BaseEquip;

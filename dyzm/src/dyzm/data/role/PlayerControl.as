@@ -2,6 +2,7 @@ package dyzm.data.role
 {
 	import dyzm.data.RoleState;
 	import dyzm.data.skill.BaseSkillVo;
+	import dyzm.view.layer.fight.childLayer.mainLayer.HandleView;
 
 	public class PlayerControl extends RoleVo
 	{
@@ -31,6 +32,7 @@ package dyzm.data.role
 		{
 			curDir = dir;
 			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
+			if (isBlock == true) return;
 			curMoveSpeedX = 0;
 			curMoveSpeedY = 0;
 			
@@ -63,7 +65,6 @@ package dyzm.data.role
 					}
 				}
 			}
-			
 			
 			var mx:Number = curAttr.moveSpeed;
 			if (isRuning){
@@ -104,31 +105,17 @@ package dyzm.data.role
 			setDir(curDir);
 		}
 		
-		public function setUnSkill(id:int):void
-		{
-			if (isBlock && id == 1){
-				isBlock = false;
-				reAction();
-			}
-		}
-		
 		/**
 		 * 攻击
 		 * @param id 快捷键id
 		 */
 		public function setSkill(id:int):Boolean
 		{
+			if (isBlock) return false;
 			var bindObj:Object;
 			var skillObj:Object;
 			var curForm:int;
 			if (curState == RoleState.STATE_NORMAL && isRuning == false){ // 地面正常状态
-				if (curDir == 2 && attState != RoleState.ATT_ING){
-					// 进入格挡
-					isBlock = true;
-					frameName = TAG_BLOCK;
-					curFrame = 1;
-					return true;
-				}
 				curForm = 1;
 				bindObj = keyToSkill.skillFloorBind;
 				skillObj = keyToSkill.skillFloorVo;
@@ -170,5 +157,16 @@ package dyzm.data.role
 			}
 			return false;
 		}
+		
+		override public function frameUpdate():void
+		{
+			if (isBlock && !HandleView.skillKeyDownInfo[keyToSkill.blockId]){
+				isBlock = false;
+				reAction();
+			}
+			super.frameUpdate();
+		}
+		
+		
 	}
 }

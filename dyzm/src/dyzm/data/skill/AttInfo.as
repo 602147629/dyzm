@@ -21,17 +21,13 @@ package dyzm.data.skill
 		
 		
 		/**
-		 * 火花类型, 横刀
+		 * 火花类型,刀光
 		 */
-		public static const FIRE_TYPE_SHARP_TRANSVERSE:int = 1;
-		/**
-		 * 火花类型, 竖刀
-		 */
-		public static const FIRE_TYPE_SHARP_VERTICAL:int = 2;
+		public static const FIRE_TYPE_KNIFE:int = 1;
 		/**
 		 * 火花类型,拳头
 		 */
-		public static const FIRE_TYPE_FIST:int = 3;
+		public static const FIRE_TYPE_FIST:int = 2;
 		
 		/**
 		 * 对方动作
@@ -113,12 +109,16 @@ package dyzm.data.skill
 		/**
 		 * 攻击火花类型
 		 */
-		public var attFireType:int = FIRE_TYPE_SHARP_TRANSVERSE;
-		
+		public var attFireType:int = FIRE_TYPE_KNIFE;
 		/**
 		 * 防御火花类型
 		 */
-		public var defFireType:int = FIRE_TYPE_SHARP_TRANSVERSE;
+		public var defFireType:int = FIRE_TYPE_KNIFE;
+		
+		/**
+		 * 火花角度
+		 */
+		public var attFireRotation:int = 0;
 		
 		/**
 		 * 攻击到头的动作

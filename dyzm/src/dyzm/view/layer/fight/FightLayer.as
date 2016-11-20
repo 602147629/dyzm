@@ -42,11 +42,11 @@ package dyzm.view.layer.fight
 		 * 是否暂停
 		 */
 		public var isStop:Boolean = false;
-		public function FightLayer()
+		public function FightLayer(levelId:int)
 		{
 			super();
 			
-			FightData.start(1);
+			FightData.start(levelId);
 			
 			bgLayer = new BgLayer(FightData.level.bgBg);
 			bgFrontLayer = new BgLayer(FightData.level.bgFront);
