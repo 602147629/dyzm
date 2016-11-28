@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="dyzm.Main"/>
+    <classEntry path="dyzm.Res"/>
+    <classEntry path="dyzm.data.role.RoleSkinVo"/>
+    <classEntry path="dyzm.util.Dict"/>
+    <classEntry path="dyzm.util.IDict"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.mainLayer.RoleRect"/>
+    <classEntry path="dyzm.data.level.Bg1"/>
+    <classEntry path="dyzm.data.level.BaseBg"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.uiLayer.FightUi"/>
+    <classEntry path="dyzm.data.PlayerItemData"/>
+    <classEntry path="dyzm.data.attr.GeniusVo"/>
+    <classEntry path="dyzm.data.PlayerGeniusData"/>
+    <classEntry path="dyzm.data.PlayerRoleData"/>
+    <classEntry path="dyzm.data.PlayerEquipData"/>
+    <classEntry path="dyzm.data.table.EquipUpTable"/>
+    <classEntry path="dyzm.data.table.GemMakeTable"/>
+    <classEntry path="dyzm.data.table.ExpTable"/>
+    <classEntry path="dyzm.data.table.GeniusUpTable"/>
+    <classEntry path="dyzm.data.PlayerLevelData"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

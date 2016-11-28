@@ -1,0 +1,75 @@
+{
+    "frames": {
+        "arrow.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 70,
+                "h": 80,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 70,
+                "h": 80
+            },
+            "sourceSize": {
+                "w": 70,
+                "h": 80
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "btn.png": {
+            "frame": {
+                "x": 72,
+                "y": 0,
+                "w": 205,
+                "h": 252,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 205,
+                "h": 252
+            },
+            "sourceSize": {
+                "w": 205,
+                "h": 252
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "shadow.png": {
+            "frame": {
+                "x": 0,
+                "y": 254,
+                "w": 100,
+                "h": 50,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 100,
+                "h": 50
+            },
+            "sourceSize": {
+                "w": 100,
+                "h": 50
+            },
+            "rotated": false,
+            "trimed": true
+        }
+    },
+    "meta": {
+        "app": "http:\/\/www.layabox.com",
+        "version": "0.1.0 alpha",
+        "format": "json",
+        "scale": 1,
+        "image": "ui.png",
+        "prefix": "ui\/"
+    }
+}

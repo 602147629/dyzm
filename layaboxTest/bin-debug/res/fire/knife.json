@@ -1,0 +1,474 @@
+{
+    "frames": {
+        "knife0001.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 46,
+                "h": 180,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 12,
+                "y": 301,
+                "w": 46,
+                "h": 180
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0002.png": {
+            "frame": {
+                "x": 0,
+                "y": 182,
+                "w": 46,
+                "h": 180,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 12,
+                "y": 301,
+                "w": 46,
+                "h": 180
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0003.png": {
+            "frame": {
+                "x": 0,
+                "y": 364,
+                "w": 43,
+                "h": 206,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 14,
+                "y": 286,
+                "w": 43,
+                "h": 206
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0004.png": {
+            "frame": {
+                "x": 0,
+                "y": 572,
+                "w": 43,
+                "h": 206,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 14,
+                "y": 286,
+                "w": 43,
+                "h": 206
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0005.png": {
+            "frame": {
+                "x": 45,
+                "y": 364,
+                "w": 39,
+                "h": 233,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 16,
+                "y": 271,
+                "w": 39,
+                "h": 233
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0006.png": {
+            "frame": {
+                "x": 48,
+                "y": 0,
+                "w": 39,
+                "h": 233,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 16,
+                "y": 271,
+                "w": 39,
+                "h": 233
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0007.png": {
+            "frame": {
+                "x": 86,
+                "y": 235,
+                "w": 35,
+                "h": 260,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 18,
+                "y": 255,
+                "w": 35,
+                "h": 260
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0008.png": {
+            "frame": {
+                "x": 86,
+                "y": 497,
+                "w": 35,
+                "h": 260,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 18,
+                "y": 255,
+                "w": 35,
+                "h": 260
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0009.png": {
+            "frame": {
+                "x": 123,
+                "y": 0,
+                "w": 33,
+                "h": 306,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 19,
+                "y": 229,
+                "w": 33,
+                "h": 306
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0010.png": {
+            "frame": {
+                "x": 123,
+                "y": 308,
+                "w": 33,
+                "h": 306,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 19,
+                "y": 229,
+                "w": 33,
+                "h": 306
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0011.png": {
+            "frame": {
+                "x": 158,
+                "y": 0,
+                "w": 32,
+                "h": 359,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 20,
+                "y": 199,
+                "w": 32,
+                "h": 359
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0012.png": {
+            "frame": {
+                "x": 158,
+                "y": 361,
+                "w": 32,
+                "h": 359,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 20,
+                "y": 199,
+                "w": 32,
+                "h": 359
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0013.png": {
+            "frame": {
+                "x": 192,
+                "y": 0,
+                "w": 31,
+                "h": 413,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 20,
+                "y": 168,
+                "w": 31,
+                "h": 413
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0014.png": {
+            "frame": {
+                "x": 225,
+                "y": 0,
+                "w": 31,
+                "h": 413,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 20,
+                "y": 168,
+                "w": 31,
+                "h": 413
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0015.png": {
+            "frame": {
+                "x": 258,
+                "y": 0,
+                "w": 37,
+                "h": 483,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 17,
+                "y": 128,
+                "w": 37,
+                "h": 483
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0016.png": {
+            "frame": {
+                "x": 297,
+                "y": 0,
+                "w": 37,
+                "h": 483,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 17,
+                "y": 128,
+                "w": 37,
+                "h": 483
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0017.png": {
+            "frame": {
+                "x": 336,
+                "y": 0,
+                "w": 44,
+                "h": 557,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 13,
+                "y": 86,
+                "w": 44,
+                "h": 557
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0018.png": {
+            "frame": {
+                "x": 382,
+                "y": 0,
+                "w": 44,
+                "h": 557,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 13,
+                "y": 86,
+                "w": 44,
+                "h": 557
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0019.png": {
+            "frame": {
+                "x": 428,
+                "y": 0,
+                "w": 55,
+                "h": 625,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 7,
+                "y": 47,
+                "w": 55,
+                "h": 625
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0020.png": {
+            "frame": {
+                "x": 485,
+                "y": 0,
+                "w": 55,
+                "h": 625,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 7,
+                "y": 47,
+                "w": 55,
+                "h": 625
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0021.png": {
+            "frame": {
+                "x": 542,
+                "y": 0,
+                "w": 67,
+                "h": 707,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 67,
+                "h": 707
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        },
+        "knife0022.png": {
+            "frame": {
+                "x": 611,
+                "y": 0,
+                "w": 67,
+                "h": 707,
+                "idx": 0
+            },
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 67,
+                "h": 707
+            },
+            "sourceSize": {
+                "w": 67,
+                "h": 707
+            },
+            "rotated": false,
+            "trimed": true
+        }
+    },
+    "meta": {
+        "app": "http:\/\/www.layabox.com",
+        "version": "0.1.0 alpha",
+        "format": "json",
+        "scale": 1,
+        "image": "knife.png",
+        "prefix": "fire\/knife\/"
+    }
+}

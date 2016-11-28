@@ -1,0 +1,28 @@
+<res>
+   <item name="fire/knife0001.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0002.png" type="Image" compress="0" pack="1" quality="80" props="" picType="1"/>
+   <item name="fire/knife0003.png" type="Image" compress="0" pack="1" quality="80" props="" picType="1"/>
+   <item name="fire/knife0004.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0005.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0006.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0007.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0008.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0009.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0010.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0011.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0012.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0013.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0014.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0015.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0016.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0017.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0018.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0019.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0020.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0021.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife0022.png" type="Image" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire" type="" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="fire/knife" type="" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="role/roleSkin_1" type="" compress="0" pack="1" quality="80" props="" picType="0"/>
+   <item name="bg1" type="" compress="0" pack="2" quality="80" props="" picType="0"/>
+</res>

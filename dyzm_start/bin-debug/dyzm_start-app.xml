@@ -115,9 +115,15 @@
 
 		<!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
 		<!-- <requestedDisplayResolution></requestedDisplayResolution> -->
-	<autoOrients>false</autoOrients>
-        <fullScreen>false</fullScreen>
-        <visible>true</visible>
+	<autoOrients>true</autoOrients>
+		        
+		<fullScreen>false</fullScreen>
+		        
+		<renderMode>direct</renderMode>
+		        
+		<aspectRatio>landscape</aspectRatio>
+		        
+		<visible>true</visible>
     </initialWindow>
 
 	<!-- We recommend omitting the supportedProfiles element, -->
