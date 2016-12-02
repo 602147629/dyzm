@@ -2,8 +2,9 @@ package dyzm.data.skill
 {
 	import dyzm.data.FightData;
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
 	import dyzm.data.WorldData;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	
 	public class SkillKZPG extends BaseSkillVo
 	{
@@ -11,35 +12,38 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "剑系空中普攻";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "剑系空中普攻";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_TI;
+		public static var tableVo:SkillTableVo;
 		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.SKY;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "剑系空中普攻";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["升龙斩", "升龙踢", "大风车"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 0;
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillKZPG;
+				tableVo.name = "空斩"; 
+				tableVo.info = "空中斩击";
+				tableVo.xi = SkillTable.XI_JIAN;
+				tableVo.startState = SkillTable.SKY;
+				tableVo.frameName = "剑系空中普攻";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "破甲";
+				tableVo.up1Info = "破甲+1";
+				tableVo.up1Gold = 100;
+				tableVo.up1Day = 3;
+				tableVo.up2Name = "伤害";
+				tableVo.up2Info = "攻击力+1";
+				tableVo.up2Gold = 100;
+				tableVo.up2Day = 3;
+				tableVo.canCancelAfter = [SkillSLZ.id, SkillSLT.id, SkillDFC.id];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
 		
 		public function SkillKZPG()
 		{
@@ -90,7 +94,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in tableVo.canCancelAfter) 
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -120,8 +124,8 @@ package dyzm.data.skill
 				attSpot.attr.minAtt += 1;
 			}
 			
-			roleVo.jumpInfo[SkillKZPG.id] = true;
-			roleVo.frameName = frameName;
+			roleVo.jumpInfo[id] = true;
+			roleVo.frameName = tableVo.frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
 			super.start();
@@ -133,7 +137,7 @@ package dyzm.data.skill
 		override public function run():void
 		{
 			if (roleVo.roleMc.label != null){
-				roleVo.attState = SkillData.FRAME_TO_STATE[roleVo.roleMc.label];
+				roleVo.attState = SkillTable.FRAME_TO_STATE[roleVo.roleMc.label];
 			}
 			
 			roleVo.x += roleVo.curMoveSpeedX;

@@ -1,7 +1,7 @@
 package dyzm.data.role
 {
 	import dyzm.data.PlayerSkillData;
-	import dyzm.data.SkillData;
+	import dyzm.data.table.skill.SkillTable;
 	import dyzm.data.skill.SkillBlock;
 	import dyzm.data.skill.SkillDFC;
 	import dyzm.data.skill.SkillJian1;
@@ -67,12 +67,12 @@ package dyzm.data.role
 				floorVo[i] = [];
 				for (j = 0; j < _floorBind[i].length; j++) 
 				{
-					id = _floorBind[i][j][0];
-					type = _floorBind[i][j][1];
+					id = _floorBind[i][j];
+					type = PlayerSkillData.skillInfo[id].type;
 					if (id == SkillBlock.id){
 						blockId = i;
 					}
-					floorBind[i][j] = SkillData.idToSkill[id];
+					floorBind[i][j] = SkillTable.idToSkill[id];
 					floorVo[i][j] = PlayerSkillData.skills[id];
 					floorVo[i][j].type = type;
 					floorVo[i][j].roleVo = roleVo;
@@ -84,10 +84,10 @@ package dyzm.data.role
 				runVo[i] = [];
 				for (j = 0; j < _runBind[i].length; j++) 
 				{
-					id = _runBind[i][j][0];
-					type = _runBind[i][j][1];
+					id = _runBind[i][j];
+					type = PlayerSkillData.skillInfo[id].type;
 					
-					runBind[i][j] = SkillData.idToSkill[id];
+					runBind[i][j] = SkillTable.idToSkill[id];
 					runVo[i][j] = PlayerSkillData.skills[id];
 					runVo[i][j].type = type;
 					runVo[i][j].roleVo = roleVo;
@@ -99,10 +99,10 @@ package dyzm.data.role
 				skyVo[i] = [];
 				for (j = 0; j < _skyBind[i].length; j++) 
 				{
-					id = _skyBind[i][j][0];
-					type = _skyBind[i][j][1];
+					id = _skyBind[i][j];
+					type = PlayerSkillData.skillInfo[id].type;
 					
-					skyBind[i][j] = SkillData.idToSkill[id];
+					skyBind[i][j] = SkillTable.idToSkill[id];
 					skyVo[i][j] = PlayerSkillData.skills[id];
 					skyVo[i][j].type = type;
 					skyVo[i][j].roleVo = roleVo;

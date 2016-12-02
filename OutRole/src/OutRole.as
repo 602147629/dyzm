@@ -16,7 +16,7 @@ package
 	{
 		public static var swfsUrl:String = "res/";
 		public static var me:Sprite;
-		public static var outUrl:String = "E:/dyzm/layaboxTest/src/res/role/";
+		public static var outUrl:Array = ["E:/dyzm/layaboxTest/src/res/role/", "E:/dyzm/laya/laya/assets/role/", "C:/1/"];
 		public const strList:Array = ["eye", "eye1", "rightArm", "rightHand", "leftArm", "leftHand", "body", "head", "head1", "rightLeg", "rightCrus", "leftCrus", "leftLeg", "weapon"];
 		public function OutRole()
 		{
@@ -208,10 +208,13 @@ package
 		{
 			var json:String = JSON.stringify(obj);
 			fileName = fileName.replace(".swf", ".json");
-			var file:File = new File(outUrl + fileName);
-			var fs:FileStream = new FileStream();
-			fs.open(file, FileMode.WRITE);
-			fs.writeUTFBytes(json);
+			for (var i:String in outUrl) 
+			{
+				var file:File = new File(outUrl[i] + fileName);
+				var fs:FileStream = new FileStream();
+				fs.open(file, FileMode.WRITE);
+				fs.writeUTFBytes(json);
+			}
 		}
 	}
 }

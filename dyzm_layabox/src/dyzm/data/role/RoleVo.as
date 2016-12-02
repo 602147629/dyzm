@@ -6,6 +6,7 @@ package dyzm.data.role
 	import dyzm.data.attr.AttrVo;
 	import dyzm.data.attr.BaseAttrVo;
 	import dyzm.data.attr.GeniusVo;
+	import dyzm.data.buff.BaseBuff;
 	import dyzm.data.skill.BaseSkillVo;
 	import dyzm.data.skill.ByAttInfo;
 	import dyzm.data.skill.SkillBlock;
@@ -234,6 +235,8 @@ package dyzm.data.role
 		
 		public var jumpSkill:SkillJump;
 		
+		public var buffList:Array = [];
+		
 		public function RoleVo()
 		{
 			_keyId = Cfg.getKeyId();
@@ -250,8 +253,6 @@ package dyzm.data.role
 			return _keyId;
 		}
 		
-		
-		
 		public function initAttr(a:AttrVo):void
 		{
 			attr = a;
@@ -260,8 +261,6 @@ package dyzm.data.role
 			curAttr.hp = attr.maxHp;
 			curAttr.armor = curAttr.maxArmor;
 		}
-		
-		
 		
 		/**
 		 * 动作复位, 比如跳跃完毕,技能完毕等时候调用
@@ -279,6 +278,7 @@ package dyzm.data.role
 					curFrame = 21;
 				}
 			}
+			isRuning = false;
 		}
 		
 		/**
@@ -317,7 +317,7 @@ package dyzm.data.role
 		 * @param b	被攻击的块ID,0为头部
 		 * @return 是否攻击到
 		 */
-		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, firePoint:Point, b:int):Boolean
+		public function byHit(attRole:RoleVo, skill:BaseSkillVo, a:int, firePoint:Point, b:int, buffList:Array):Boolean
 		{
 			if (!skill.attSpot.isStiff){
 				if (curSkill as SkillBlock){
@@ -327,34 +327,44 @@ package dyzm.data.role
 				}
 			}
 			
-			
-			Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn]);
-			// 重复攻击递减
-			var decline:Number = 0;
-			if (byAttInfo.hitDict && byAttInfo.hitDict[skill.keyId] && byAttInfo.hitDict[skill.keyId][skill.attSpot.curAttSpot]){
-				decline = byAttInfo.hitDict[skill.keyId][skill.attSpot.curAttSpot];
+			// buff处理
+			if (buffList){
+				for (var i:int = 0; i < buffList.length; i++) 
+				{
+					addBuff(attRole, buffList[i]);
+				}
 			}
+			
+			// 重复攻击递减
+			var skillRepeat:Number = getSkillRepeat(skill);
 			// 伤害处理
 			var att:Number = Maths.random(skill.attSpot.attr.minAtt, skill.attSpot.attr.maxAtt); // 计算发挥的攻击力大小
 			// 暴击计算
-			var hits:int = attRole.hitsInfo.getData(this); // 获得自己的被连击数
-			if(attRole.genius.hasOwnProperty("blast" + hits) && attRole.genius["blast" + hits]){ // 是否开启了这个天赋
+			var isCrit:Boolean = skill.attSpot.isCrit; // 是否必定暴击
+			if (!isCrit){ // 没有暴击的话,处理天赋暴击
+				var hits:int = attRole.getHitNum(this); // 获得自己的被连击数
+				if(attRole.genius.hasOwnProperty("blast" + hits) && attRole.genius["blast" + hits]){ // 是否开启了这个天赋
+					isCrit = true;
+				}
+			}
+			if (isCrit){ // 暴击处理
 				att = att + skill.attSpot.attr.critDmg;
 			}
-			att = att - att * decline * skill.attSpot.armorDecline; // 计算重复攻击递减
+			
+			att = att - att * skillRepeat * skill.attSpot.armorDecline; // 计算重复攻击递减
 			att = att - curAttr.def; // 计算防御减伤
 			var iceAtt:Number = skill.attSpot.attr.iceAtt;
 			// 冰攻击
-			iceAtt =  iceAtt - iceAtt * decline * skill.attSpot.armorDecline - curAttr.iceDef;
+			iceAtt =  iceAtt - iceAtt * skillRepeat * skill.attSpot.armorDecline - curAttr.iceDef;
 			var fireAtt:Number = skill.attSpot.attr.fireAtt;
 			// 火攻击
-			fireAtt =  fireAtt - fireAtt * decline * skill.attSpot.armorDecline - curAttr.fireDef;
+			fireAtt =  fireAtt - fireAtt * skillRepeat * skill.attSpot.armorDecline - curAttr.fireDef;
 			// 电攻击
 			var thundAtt:Number = skill.attSpot.attr.thundAtt;
-			thundAtt =  thundAtt - thundAtt * decline * skill.attSpot.armorDecline - curAttr.thundDef;
+			thundAtt =  thundAtt - thundAtt * skillRepeat * skill.attSpot.armorDecline - curAttr.thundDef;
 			// 毒攻击
 			var toxinAtt:Number = skill.attSpot.attr.toxinAtt;
-			toxinAtt =  toxinAtt - toxinAtt * decline * skill.attSpot.armorDecline - curAttr.toxinDef;
+			toxinAtt =  toxinAtt - toxinAtt * skillRepeat * skill.attSpot.armorDecline - curAttr.toxinDef;
 			var curAtt:Number = 0;
 			if (att > 0){
 				curAtt += att;
@@ -380,8 +390,10 @@ package dyzm.data.role
 			}
 			
 			// 破甲计算
-			curAttr.armor -= skill.attSpot.attr.attArmor;
+			var curAttArmor:int = skill.attSpot.attr.attArmor;
+			curAttr.armor -= curAttArmor;
 			if (curAttr.armor < 0 ){
+				curAttArmor += curAttr.armor;
 				curAttr.armor = 0;
 			}
 			if (curAtt > 0){
@@ -389,6 +401,12 @@ package dyzm.data.role
 				if (curAttr.hp < 0){
 					curAttr.hp = 0;
 				}
+			}
+			
+			if (curAtt <= 0 && curAttArmor > 0){
+				Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn, "armor", skill.attSpot.attr.attArmor, isCrit]);
+			}else{
+				Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn, "hp", curAtt, isCrit]);
 			}
 			
 			if ((curAtt > 0 && curAttr.armor == 0) || skill.attSpot.isStiff){ // 扣血了,并且护甲被破
@@ -422,7 +440,7 @@ package dyzm.data.role
 				
 				// 表现处理
 				if ((curState == RoleState.STATE_NORMAL || curState == RoleState.STATE_STIFF) && skill.attSpot.isFly == false){ // 地面状态
-					var stiffDecline:int = skill.attSpot.stiffFrame - skill.attSpot.stiffFrame * decline * skill.attSpot.stiffDecline;
+					var stiffDecline:int = skill.attSpot.stiffFrame - skill.attSpot.stiffFrame * skillRepeat * skill.attSpot.stiffDecline;
 					if (stiffDecline > 0){
 						var s:int = (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);
 						if (s > skill.attSpot.stiffFrame){
@@ -450,8 +468,8 @@ package dyzm.data.role
 					curFrame = 1;
 					byAttInfo.x = skill.attSpot.xFrame * attRole.curTurn;
 					// 处理浮空递减
-					byAttInfo.z = skill.attSpot.z - skill.attSpot.z * decline * skill.attSpot.zDecline;
-					byAttInfo.minBounceZ = skill.attSpot.minBounceZ - skill.attSpot.minBounceZ * decline * skill.attSpot.zDecline;
+					byAttInfo.z = skill.attSpot.z - skill.attSpot.z * skillRepeat * skill.attSpot.zDecline;
+					byAttInfo.minBounceZ = skill.attSpot.minBounceZ - skill.attSpot.minBounceZ * skillRepeat * skill.attSpot.zDecline;
 				}
 				curTurn = -attRole.curTurn;
 				return true;
@@ -459,12 +477,59 @@ package dyzm.data.role
 			return false;
 		}
 		
+		/**
+		 * 获得对某一敌人的连击数
+		 * @param roleVo
+		 * @return 
+		 */
+		public function getHitNum(roleVo:RoleVo):int
+		{
+			return int(hitsInfo.getData(roleVo));
+		}
+		
+		/**
+		 * 获得技能重复攻击次数
+		 * @param skill
+		 * @return 
+		 */
+		public function getSkillRepeat(skill:BaseSkillVo):int
+		{
+			if (byAttInfo.hitDict && byAttInfo.hitDict[skill.keyId] && byAttInfo.hitDict[skill.keyId][skill.attSpot.curAttSpot]){
+				return int(byAttInfo.hitDict[skill.keyId][skill.attSpot.curAttSpot]);
+			}
+			return 0;
+		}
+
+		/**
+		 * 添加BUFF
+		 * @param source
+		 * @param buff
+		 */
+		public function addBuff(source:RoleVo, buff:BaseBuff):void
+		{
+			buffList.push(buff);
+			buff.add(this, source);
+		}
+		
+		/**
+		 * 移除buff
+		 * @param buff
+		 */
+		public function removeBuff(buff:BaseBuff):void
+		{
+			buff.remove();
+			var index:int = buffList.indexOf(buff);
+			if (index != -1){
+				buffList.removeAt(index);
+			}
+		}
+		
 		public function addHit(foeRole:RoleVo):void
 		{
 			if (comboInfo[foeRole.keyId]){
-				comboInfo[foeRole.keyId].push(curSkillClass.frameName);
+				comboInfo[foeRole.keyId].push(curSkillClass.tableVo.frameName);
 			}else{
-				comboInfo[foeRole.keyId] = [curSkillClass.frameName];
+				comboInfo[foeRole.keyId] = [curSkillClass.tableVo.frameName];
 			}
 			if(hitsInfo.has(foeRole)){
 				hitsInfo.setData(foeRole, hitsInfo.getData(foeRole) + 1);
@@ -509,9 +574,16 @@ package dyzm.data.role
 		 */
 		public function frameUpdate():void
 		{
+			// buff处理
+			for (var i:int = 0; i < buffList.length; i++) 
+			{
+				buffList[i].frameUpdate();
+			}
+			// 无敌时间减少
 			if (curInvincibleFrame > 0){
 				curInvincibleFrame --;
 			}
+			// 后续技能计时
 			if (skillComboAllTime != 0){
 				skillComboTime ++;
 				if (skillComboTime > skillComboAllTime){
@@ -519,11 +591,12 @@ package dyzm.data.role
 					skillComboAllTime = 0;
 				}
 			}
+			// 运行技能
 			if (curSkill){ // 当前有技能正在释放,进入技能循环,普通状态取消,人物行动状态交给技能控制
 				curSkill.run();
 				return;
 			}
-			
+			// 常规状态处理
 			var r:RoleVo;
 			switch(curState)
 			{
@@ -693,9 +766,13 @@ package dyzm.data.role
 				case RoleState.STATE_DOWNING: // 倒下状态
 				{
 					if (curFrame == roleMc.totalFrames){
-						curState = RoleState.STATE_FLOOD;
-						frameName = TAG_DAO_DI;
-						curFrame = 1;
+						if (curAttr.hp == 0){
+							needDel = true;
+						}else{
+							curState = RoleState.STATE_FLOOD;
+							frameName = TAG_DAO_DI;
+							curFrame = 1;
+						}
 					}else{
 						curFrame ++;
 					}

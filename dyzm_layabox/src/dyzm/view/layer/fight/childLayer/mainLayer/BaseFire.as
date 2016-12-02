@@ -14,12 +14,16 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		public var fireTypeToUrl:Object = {
 			1:Res.knifeFireAtlas
 		}
-		public function BaseFire(fireType:int, _y:Number, fireRotation:int)
+		public function BaseFire()
 		{
 			super();
 			_keyId = Cfg.getKeyId();
 			yy = _y;
 			this.blendMode = "lighter";
+		}
+		
+		public function playFire(fireType:int, _y:Number, fireRotation:int):void
+		{
 			this.interval = 20;
 			this.pivotX = 37;
 			this.pivotY = 374;
@@ -30,8 +34,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		
 		public function onComplete():void
 		{
-			MainLayer.me.fireDict.delData(this);
-			this.parent.removeChild(this);
+			MainLayer.me.inPoolBaseFire(this);
 		}
 		
 		public function get keyId():int

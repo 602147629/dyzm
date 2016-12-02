@@ -1,8 +1,10 @@
 package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
+	import dyzm.data.buff.BrokenBuff;
 	import dyzm.data.role.RoleVo;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	
 	import laya.utils.Tween;
 
@@ -12,35 +14,11 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "剑系终结技";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "剑系终结技";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_JIAN;
-		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.FLOOR;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "剑系终结技";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑2", "剑3", "鹰踢", "裂空斩", "上挑"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 30;
+		public static var tableVo:SkillTableVo;
 		
 		/**
 		 * 最低多少连击数可以出必杀
@@ -60,6 +38,34 @@ package dyzm.data.skill
 		public var actionIndex:int;
 		public var curAttSpot:int;
 		public var phase:int;
+		
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillJianBSJ;
+				tableVo.name = "终结技"; 
+				tableVo.info = "剑系终结技,需要15连击以上才可发动";
+				tableVo.xi = SkillTable.XI_JIAN;
+				tableVo.startState = SkillTable.FLOOR;
+				tableVo.frameName = "剑系终结技";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "碎甲";
+				tableVo.up1Info = "如果目标存活,只会恢复一半的护甲值";
+				tableVo.up1Gold = 400;
+				tableVo.up1Day = 5;
+				tableVo.up2Name = "蓄力";
+				tableVo.up2Info = "每多一连伤害加0.3";
+				tableVo.up2Gold = 400;
+				tableVo.up2Day = 5;
+				tableVo.canCancelAfter = [SkillJian1.id, SkillJian2.id, SkillJian3.id, SkillYingTi.id, SkillLKZ.id, SkillST.id];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
+		
 		
 		public function SkillJianBSJ()
 		{
@@ -88,7 +94,7 @@ package dyzm.data.skill
 				return false;
 			}
 			var a:Array = roleVo.comboInfo[roleVo.maxComboRole.keyId];
-			if (a[a.length-1] == name){
+			if (a[a.length-1] == tableVo.frameName){
 				return false;
 			}
 			
@@ -96,7 +102,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER)
+				for each (var id:String in tableVo.canCancelAfter)
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -128,6 +134,15 @@ package dyzm.data.skill
 			attSpot.range = 2;
 			attSpot.canTurn = false;
 			attSpot.isStiff = true;
+			
+			attSpot.attr.minAtt = 0;
+			attSpot.attr.maxAtt = 0;
+			attSpot.attr.attArmor = 0;
+			attSpot.attr.iceAtt = 0;
+			attSpot.attr.fireAtt = 0;
+			attSpot.attr.thundAtt = 0;
+			attSpot.attr.toxinAtt = 0;
+			attSpot.attr.critDmg = 0;
 			
 			target = roleVo.maxComboRole;
 			actionList = roleVo.comboInfo[target.keyId].concat();
@@ -167,7 +182,7 @@ package dyzm.data.skill
 				}
 				phase ++;
 			}else{
-				if (roleVo.frameName == frameName){ // 必杀阶段
+				if (roleVo.frameName == tableVo.frameName){ // 必杀阶段
 					if (roleVo.roleMc.totalFrames == roleVo.curFrame){ // 结束阶段
 						roleVo.curInvincibleFrame = 0;
 						end();
@@ -180,10 +195,10 @@ package dyzm.data.skill
 					{
 						roleVo.curFrame ++;
 						roleVo.roleMc.childGotoAndStop(roleVo.curFrame);
-						if (roleVo.roleMc.label == SkillData.FRAME_AFTER){
+						if (roleVo.roleMc.label == SkillTable.FRAME_AFTER){
 							roleVo.frameName = getNextAction();
 							if (roleVo.frameName == null){
-								roleVo.frameName = frameName;
+								roleVo.frameName = tableVo.frameName;
 								attSpot.isFly = true;
 								attSpot.x = 300;
 								attSpot.xFrame = 30;
@@ -200,8 +215,21 @@ package dyzm.data.skill
 								attSpot.canTurn = false;
 								attSpot.isStiff = true;
 								
-								attSpot.attr.minAtt = roleVo.curAttr.minAtt * 2 + roleVo.curAttr.minAtt * (roleVo.maxCombo - MIN_COMBO * 2) * 0.2;
-								attSpot.attr.maxAtt = roleVo.curAttr.maxAtt * 2 + roleVo.curAttr.minAtt * (roleVo.maxCombo - MIN_COMBO * 2) * 0.2;
+								attSpot.attr.minAtt = roleVo.curAttr.minAtt * 2;
+								attSpot.attr.maxAtt = roleVo.curAttr.maxAtt * 2;
+								if (type == 2){
+									attSpot.attr.minAtt += roleVo.maxCombo * 0.3;
+									attSpot.attr.maxAtt += roleVo.maxCombo * 0.3;
+								}else {
+									if (type == 1){
+										if (attSpot.toBuff != null){
+											var buff:BrokenBuff = new BrokenBuff();
+											attSpot.toBuff = [buff];
+										}
+									}else{
+										attSpot.toBuff = null;
+									}
+								}
 								attSpot.attr.attArmor = roleVo.curAttr.attArmor;
 								attSpot.attr.iceAtt = roleVo.curAttr.iceAtt;
 								attSpot.attr.fireAtt = roleVo.curAttr.fireAtt;
@@ -229,7 +257,7 @@ package dyzm.data.skill
 			var a:String;
 			while(true){
 				a = actionList[actionIndex ++];
-				if (a != SkillBlock.frameName && a != SkillJump.frameName){
+				if (a != SkillBlock.tableVo.frameName && a != SkillJump.tableVo.frameName){
 					return a;
 				}
 			}

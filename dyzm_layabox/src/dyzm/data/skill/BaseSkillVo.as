@@ -165,8 +165,15 @@ package dyzm.data.skill
 													var firePoint:Point = Point.TEMP;
 													firePoint.x = focusRect.x + focusRect.width/2;
 													firePoint.y = focusRect.y + focusRect.height/2;
-													if(foeRole.byHit(roleVo, this, attSpot.curAttSpot, firePoint, b)){
+													if(foeRole.byHit(roleVo, this, attSpot.curAttSpot, firePoint, b, attSpot.toBuff)){
 														roleVo.addHit(foeRole);
+														// 击中对方,给自己加buff
+														if (attSpot.fromBuff){
+															for (var k:int = 0; k < attSpot.fromBuff.length; k++) 
+															{
+																roleVo.addBuff(foeRole, attSpot.fromBuff[k]);
+															}
+														}
 													}
 													return;
 												}

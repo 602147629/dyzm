@@ -2,9 +2,10 @@ package dyzm.data.skill
 {
 	import dyzm.data.FightData;
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
 	import dyzm.data.WorldData;
 	import dyzm.data.role.RoleVo;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	import dyzm.manager.Evt;
 	
 	import laya.maths.Point;
@@ -16,35 +17,38 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "跳";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "跳";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_JIAN;
+		public static var tableVo:SkillTableVo;
 		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.FLOOR;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "跳";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑1", "剑2", "剑3", "裂空斩", "上挑"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 0;
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillJump;
+				tableVo.name = "跳跃"; 
+				tableVo.info = "从地面跳起";
+				tableVo.xi = SkillTable.XI_TI;
+				tableVo.startState = SkillTable.FLOOR;
+				tableVo.frameName = "跳";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "身轻如燕";
+				tableVo.up1Info = "起跳时无敌1/6秒";
+				tableVo.up1Gold = 400;
+				tableVo.up1Day = 5;
+				tableVo.up2Name = "踩蘑菇";
+				tableVo.up2Info = "落地时可以踩到已经倒地的目标";
+				tableVo.up2Gold = 400;
+				tableVo.up2Day = 5;
+				tableVo.canCancelAfter = [SkillJian1.id, SkillJian2.id, SkillJian3.id, SkillST.id];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
 		
 		public function SkillJump()
 		{
@@ -92,7 +96,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in tableVo.canCancelAfter) 
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -190,7 +194,7 @@ package dyzm.data.skill
 												var firePoint:Point = Point.TEMP;
 												firePoint.x = focusRect.x + focusRect.width/2;
 												firePoint.y = focusRect.y + focusRect.height/2;
-												if(foeRole.byHit(roleVo, this, attSpot.curAttSpot, firePoint, b)){
+												if(foeRole.byHit(roleVo, this, attSpot.curAttSpot, firePoint, b, attSpot.toBuff)){
 													roleVo.addHit(foeRole);
 												}
 												break;

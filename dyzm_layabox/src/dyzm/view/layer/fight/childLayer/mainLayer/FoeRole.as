@@ -2,7 +2,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import dyzm.data.role.RoleVo;
 	import dyzm.data.role.foe.BaseAiControl;
-	import dyzm.view.baseUi.HpBar;
+	import dyzm.manager.Asset;
 
 	/**
 	 * 敌方人物,带AI
@@ -17,17 +17,16 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		{
 			super(role);
 			hpBar = new HpBar(role);
+			this.addChild(hpBar);
 		}
 		
 		public function setRole(role:RoleVo):void
 		{
-			if (roleVo.style != role.style){
-//				turnContainer.removeChild(mc);
-				mc = new role.style();
-//				turnContainer.addChild(mc);
-			}
+			role.roleMc = roleVo.roleMc;
+			role.roleMc.setData(Asset.getRes(role.style));
+			role.roleMc.setSkinFromSkinVo(role.skin);
+			
 			roleVo = role;
-			roleVo.roleMc = mc;
 			hpBar.setRole(role);
 		}
 		

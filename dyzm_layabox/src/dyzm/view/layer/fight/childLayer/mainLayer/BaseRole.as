@@ -18,16 +18,19 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 */
 		public var turnContainer:Sprite;
 		
-		public var shadowSize:Object = {
-			"站立":0.8,
-			"走":0.8,
-			"跑": 1.5,
-			"跳":0.8
-		};
-		
+		public static var shadowSize:Object;
 		public function BaseRole(role:RoleVo)
 		{
 			super();
+			if (shadowSize == null){
+				shadowSize = {};
+				shadowSize[RoleVo.TAG_STOOD] = 0.8;
+				shadowSize[RoleVo.TAG_MOVE] = 0.8;
+				shadowSize[RoleVo.TAG_RUN] = 1.5;
+				shadowSize[RoleVo.TAG_JUMP] = 0.8;
+				shadowSize[RoleVo.TAG_DEATH] = 2;
+				shadowSize[RoleVo.TAG_DOWNING] = 2.5;
+			}
 			turnContainer = new Sprite; 
 			this.addChild(turnContainer);
 			

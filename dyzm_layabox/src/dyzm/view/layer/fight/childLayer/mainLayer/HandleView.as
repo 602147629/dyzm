@@ -48,7 +48,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			Laya.stage.on(Event.KEY_UP, this, onKeyUp);
 		}
 		
-		private function onKeyDown(e:*=null):void
+		private function onKeyDown(e:Event):void
 		{
 			var skillId:int = 0;
 			switch(e.keyCode)
@@ -82,7 +82,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			}
 		}
 		
-		private function onKeyUp(e:*=null):void
+		private function onKeyUp(e:Event):void
 		{
 			var skillId:int = 0;
 			switch(e.keyCode)

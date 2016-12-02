@@ -34,10 +34,16 @@ package dyzm.data
 		public static function startFight():void
 		{
 			roleVo.attr.handle();
+			roleVo.attr.minAtt = 123;
+			roleVo.attr.maxAtt = 123;
+			
+//			roleVo.attr.maxHp = 1;
+//			roleVo.attr.hp = 1;
 			roleVo.attr.maxHp = int.MAX_VALUE;
 			roleVo.attr.hp = int.MAX_VALUE;
 			roleVo.attr.armor = 0;
 			roleVo.attr.maxArmor = 0;
+			
 			roleVo.initAttr(roleVo.attr);
 			if (PlayerSkillData.isChange){
 				PlayerSkillData.isChange = false;

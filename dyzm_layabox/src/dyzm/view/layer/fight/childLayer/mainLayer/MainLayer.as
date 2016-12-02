@@ -2,8 +2,8 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import dyzm.data.FightData;
 	import dyzm.data.role.RoleVo;
-	import dyzm.manager.Evt;
 	import dyzm.manager.Cfg;
+	import dyzm.manager.Evt;
 	import dyzm.util.Dict;
 	import dyzm.view.base.BaseLayer;
 	
@@ -31,6 +31,9 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 * 自己
 		 */
 		public static var me:MainLayer;
+		
+		public static var baseFirePool:Array = [];
+		public static var dmgNumPool:Array = [];
 		
 		public function MainLayer()
 		{
@@ -62,15 +65,53 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 * @param p 火花的显示位置
 		 * @param fireType 火花类型
 		 * @param y 火花排序坐标
-		 * 
+		 * @param fireRotation 火花角度
+		 * @param type 扣血类型:"hp"或"armor"
+		 * @param num 扣血值
+		 * @param isCrit 是否暴击
 		 */
-		public function addFire(p:Point, fireType:int, y:Number, fireRotation:int):void
+		public function addFire(p:Point, fireType:int, y:Number, fireRotation:int, type:String, num:int, isCrit:Boolean):void
 		{
-			var fire:BaseFire = new BaseFire(fireType, y, fireRotation);
+			var fire:BaseFire = getBaseFire();
+			fire.playFire(fireType, y, fireRotation);
 			fire.x = p.x;
 			fire.y = p.y;
 			this.addChild(fire);
 			fireDict.setData(fire, true);
+			var a:DmgNum = getDmgNum();
+			a.x = p.x;
+			a.y = p.y;
+			a.setDmg(type, num, isCrit);
+			this.addChild(a);
+		}
+		
+		private function getBaseFire():BaseFire
+		{
+			if (baseFirePool.length == 0){
+				return new BaseFire;
+			}
+			return baseFirePool.shift();
+		}
+		
+		public function inPoolBaseFire(baseFire:BaseFire):void
+		{
+			fireDict.delData(baseFire);
+			baseFirePool.push(baseFire);
+			this.removeChild(baseFire);
+		}
+		
+		private function getDmgNum():DmgNum
+		{
+			if (dmgNumPool.length == 0){
+				return new DmgNum;
+			}
+			return dmgNumPool.shift();
+		}
+		
+		public function inPoolDmgNum(dmgNum:DmgNum):void
+		{
+			dmgNumPool.push(dmgNum);
+			this.removeChild(dmgNum);
 		}
 		
 		override public function frameUpdate():void

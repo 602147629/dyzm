@@ -1,8 +1,9 @@
 package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
 	import dyzm.data.role.RoleVo;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	import dyzm.manager.Evt;
 	
 	import laya.maths.Point;
@@ -13,35 +14,39 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "格挡";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "格挡";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_TI;
+		public static var tableVo:SkillTableVo;
 		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.FLOOR;
 		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "格挡";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = [];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 0;
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillBlock;
+				tableVo.name = "格挡"; 
+				tableVo.info = "如果对方一半的破甲伤害不能将你破甲,则格挡正面攻击";
+				tableVo.xi = SkillTable.XI_TI;
+				tableVo.startState = SkillTable.FLOOR;
+				tableVo.frameName = "格挡";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "反震";
+				tableVo.up1Info = "反弹护甲伤害(该伤害不会使目标硬直)";
+				tableVo.up1Gold = 100;
+				tableVo.up1Day = 3;
+				tableVo.up2Name = "反击";
+				tableVo.up2Info = "对方受到一次攻击,对方会硬直,计算在连击内";
+				tableVo.up2Gold = 100;
+				tableVo.up2Day = 3;
+				tableVo.canCancelAfter = [];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
 		
 		public function SkillBlock()
 		{
@@ -94,7 +99,7 @@ package dyzm.data.skill
 			attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
 			attSpot.attr.critDmg = roleVo.curAttr.critDmg;
 			
-			roleVo.frameName = RoleVo.TAG_BLOCK;
+			roleVo.frameName = tableVo.frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_ING;
 			roleVo.isRuning = false;
@@ -110,7 +115,7 @@ package dyzm.data.skill
 				var needArmor:int = skill.attSpot.attr.attArmor >> 1;
 				if (needArmor <= roleVo.curAttr.armor){
 					roleVo.curAttr.armor -= needArmor;
-					Evt.event(RoleVo.ADD_FIRE_EVENT, [firePoint, skill.attSpot.defFireType, roleVo.y+1, skill.attSpot.attFireRotation * attRole.curTurn]);
+					Evt.event(RoleVo.ADD_FIRE_EVENT, [firePoint, skill.attSpot.defFireType, roleVo.y+1, skill.attSpot.attFireRotation * attRole.curTurn, "armor", needArmor, false]);
 					
 					if (type == 1){// 反震,反弹护甲伤害(该伤害不会使目标硬直)
 						attRole.curAttr.armor -= skill.attSpot.attr.attArmor;
@@ -120,7 +125,7 @@ package dyzm.data.skill
 					}else if(type == 2){// 反击,对方受到一次攻击,对方会硬直,计算在连击内
 						Point.TEMP.x = attRole.x;
 						Point.TEMP.y = attRole.y + attRole.z - attRole.h/2;
-						if (attRole.byHit(roleVo, this, 1, Point.TEMP, 1)){
+						if (attRole.byHit(roleVo, this, 1, Point.TEMP, 1, attSpot.toBuff)){
 							roleVo.addHit(attRole);
 						}
 					}

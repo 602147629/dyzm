@@ -19,6 +19,9 @@ package dyzm.data.skill
 		 */
 		public static const BY_ATT_FELL:int = 2;
 		
+		public static const BY1:Array = [AttInfo.BY_ATT_NORMAL];
+		public static const BY2:Array = [AttInfo.BY_ATT_FELL];
+		public static const BY1AND2:Array = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
 		
 		/**
 		 * 火花类型,刀光
@@ -149,9 +152,15 @@ package dyzm.data.skill
 		 * 是否必定硬直,即使被格挡或者未造成伤害也会使目标硬直或浮空
 		 */
 		public var isStiff:Boolean = false;
-		 
-		public function AttInfo()
-		{
-		}
+		
+		/**
+		 * 攻击到时,给目标添加的BUFF
+		 */
+		public var toBuff:Array;
+		
+		/**
+		 * 攻击到时,给自己添加的BUFF
+		 */
+		public var fromBuff:Array;
 	}
 }

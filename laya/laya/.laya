@@ -1,9 +1,9 @@
 <project version="0.9.8">
-   <asynRes>img,temp,sound         </asynRes>
-   <unDealRes>embed         </unDealRes>
+   <asynRes>img,temp,sound            </asynRes>
+   <unDealRes>embed            </unDealRes>
    <resTypes>png,jpg   </resTypes>
-   <resExportPath>../layaboxTest/bin-debug/res   </resExportPath>
-   <asynResExportPath>../layaboxTest/bin-debug/res   </asynResExportPath>
+   <resExportPath>../layaboxTest/src/res   </resExportPath>
+   <asynResExportPath>../layaboxTest/src/res   </asynResExportPath>
    <codeExportPath>../dyzm_layabox/src/dyzm/view   </codeExportPath>
    <codeImports><![CDATA[import laya.ui.*;
 import laya.display.*; ]]>   </codeImports>
@@ -16,7 +16,7 @@ var Dialog=laya.ui.Dialog;]]>   </codeImportsJS>
    <shareResPath/>
    <codeType>0   </codeType>
    <resCanCompress/>
-   <resPublishQuality>80         </resPublishQuality>
+   <resPublishQuality>80            </resPublishQuality>
    <langPath/>
    <defaultFont/>
    <codeImportsTS><![CDATA[import View=laya.ui.View;

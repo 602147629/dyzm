@@ -14,7 +14,8 @@ package dyzm
 			Laya.stage.alignH = Stage.ALIGN_CENTER;
 			
 			Laya.stage.scaleMode = "showall";
-			Laya.stage.bgColor = "#454545";
+//			Laya.stage.bgColor = "#454545";
+			Laya.stage.bgColor = "#ffffff";
 			
 			Laya.stage.addChild(new MainScene);
 		}

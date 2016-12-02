@@ -7,6 +7,10 @@ package dyzm.data.role.foe
 	
 	import laya.maths.Point;
 	
+	/**
+	 * 基础AI行为
+	 * @author dj
+	 */
 	public class BaseAiControl extends RoleVo
 	{
 		/**
@@ -167,6 +171,7 @@ package dyzm.data.role.foe
 					(curSkill as SkillBlock).end();
 				}
 			}
+			if (attState != RoleState.ATT_NORMAL) return;
 			if (curState != RoleState.STATE_NORMAL && curState != RoleState.STATE_AIR) return;
 			
 			if (attState == RoleState.ATT_NORMAL){

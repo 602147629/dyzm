@@ -97,7 +97,7 @@ package dyzm.data.role
 		 */
 		public function setRun(isRun:Boolean):void
 		{
-			if (curState != RoleState.STATE_NORMAL || attState != RoleState.ATT_NORMAL)
+			if (curState != RoleState.STATE_NORMAL)
 				return;
 			
 			isRuning = isRun;

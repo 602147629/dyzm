@@ -1,7 +1,8 @@
 package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	
 	public class SkillLKZ extends BaseSkillVo
 	{
@@ -9,37 +10,40 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "裂空斩";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "裂空斩";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_JIAN;
-		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.SKY;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "裂空斩";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑系空中普攻", "升龙斩"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 0;
+		public static var tableVo:SkillTableVo;
 		
 		public const speedZ:Number = 30;
+		
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillLKZ;
+				tableVo.name = "裂空斩"; 
+				tableVo.info = "空中垂直向下斩击";
+				tableVo.xi = SkillTable.XI_JIAN;
+				tableVo.startState = SkillTable.SKY;
+				tableVo.frameName = "裂空斩";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "千钧";
+				tableVo.up1Info = "距离地面2个身高以上发动此技能时,攻击力翻倍";
+				tableVo.up1Gold = 200;
+				tableVo.up1Day = 4;
+				tableVo.up2Name = "震击";
+				tableVo.up2Info = "可以击中已倒地的目标";
+				tableVo.up2Gold = 200;
+				tableVo.up2Day = 4;
+				tableVo.canCancelAfter = [SkillKZPG.id, SkillSLT.id, SkillDFC.id];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
 		
 		public function SkillLKZ()
 		{
@@ -62,7 +66,7 @@ package dyzm.data.skill
 			attSpot.canTurn = false;
 			// 该技能可以攻击到的攻击块
 			// 鹰踢可以攻击到已经倒地的玩家
-			attSpot.byList = [AttInfo.BY_ATT_NORMAL, AttInfo.BY_ATT_FELL];
+			attSpot.byList = AttInfo.BY1;
 			// 攻击火花类型
 			attSpot.attFireType = AttInfo.FIRE_TYPE_KNIFE;
 			
@@ -88,7 +92,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in tableVo.canCancelAfter) 
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -112,7 +116,16 @@ package dyzm.data.skill
 			attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
 			attSpot.attr.critDmg = roleVo.curAttr.critDmg;
 			
-			roleVo.frameName = frameName;
+			if (type == 1){
+				if (roleVo.z < -300){
+					attSpot.attr.minAtt *= 2;
+					attSpot.attr.maxAtt *= 2;
+				}
+			}else if (type == 2){
+				attSpot.byList = AttInfo.BY1AND2;
+			}
+			
+			roleVo.frameName = tableVo.frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
 			super.start();
@@ -125,7 +138,7 @@ package dyzm.data.skill
 		{
 			// 更新当前攻击状态
 			if (roleVo.roleMc.label != null){
-				roleVo.attState = SkillData.FRAME_TO_STATE[roleVo.roleMc.label];
+				roleVo.attState = SkillTable.FRAME_TO_STATE[roleVo.roleMc.label];
 			}
 			// 攻击中
 			if (roleVo.attState == RoleState.ATT_ING && roleVo.curState != RoleState.STATE_NORMAL){ // 垂直向下冲击
@@ -133,7 +146,7 @@ package dyzm.data.skill
 				if (roleVo.z >= 0){ // 落地,进入该技能的耍帅动作
 					roleVo.curFrame ++;
 					roleVo.curState = RoleState.STATE_NORMAL;
-					roleVo.setSkillComboTime(SKILL_COMBO_TIME);
+					roleVo.setSkillComboTime(tableVo.skillComboTime);
 					roleVo.inFlood();
 					roleVo.reAction();
 				}else if (roleVo.roleMc.label != "att2"){

@@ -1,7 +1,8 @@
 package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	
 	public class SkillDFC extends BaseSkillVo
 	{
@@ -10,34 +11,36 @@ package dyzm.data.skill
 		 */
 		public static const id:String = "大风车";
 		/**
-		 * 名称
+		 * 技能信息
 		 */
-		public static const name:String = "大风车";
+		public static var tableVo:SkillTableVo;
 		
-		/**
-		 * 所属系
-		 */
-		public static const xi:int = SkillData.XI_TI;
-		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.SKY;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "大风车";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["剑系空中普攻", "升龙斩", "升龙踢"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 0;
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillDFC;
+				tableVo.name = "大风车"; 
+				tableVo.info = "空中将目标击向地面,目标碰到地面后会弹起";
+				tableVo.xi = SkillTable.XI_JIAN;
+				tableVo.startState = SkillTable.SKY;
+				tableVo.frameName = "大风车";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "轮回";
+				tableVo.up1Info = "空中普攻和升龙踢可以在本次跳跃中再次使用";
+				tableVo.up1Gold = 200;
+				tableVo.up1Day = 3;
+				tableVo.up2Name = "巨力";
+				tableVo.up2Info = "距离地面2个身高以上发动此技能时,攻击力翻倍";
+				tableVo.up2Gold = 200;
+				tableVo.up2Day = 3;
+				tableVo.canCancelAfter = [SkillKZPG.id, SkillSLZ.id, SkillSLT.id];
+				tableVo.skillComboTime = 0;
+			}
+			return tableVo;
+		}
 		
 		public function SkillDFC()
 		{
@@ -73,7 +76,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in tableVo.canCancelAfter) 
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -88,6 +91,11 @@ package dyzm.data.skill
 		 */
 		override public function start():void
 		{
+			if (type == 1){ // 轮回, 空中普攻和升龙踢可以在本次跳跃中再次使用
+				roleVo.jumpInfo[SkillKZPG.id] = null;
+				roleVo.jumpInfo[SkillSLT.id] = null;
+			}
+			
 			attSpot.isFly = true;
 			attSpot.x = 300;
 			attSpot.xFrame = 1;
@@ -106,6 +114,12 @@ package dyzm.data.skill
 			
 			attSpot.attr.minAtt = roleVo.curAttr.minAtt;
 			attSpot.attr.maxAtt = roleVo.curAttr.maxAtt;
+			if (type == 2){ // 巨力, 距离地面2个身高以上发动此技能时,攻击力翻倍
+				if (roleVo.z < -300){
+					attSpot.attr.minAtt *= 2;
+					attSpot.attr.maxAtt *= 2;
+				}
+			}
 			attSpot.attr.attArmor = roleVo.curAttr.attArmor;
 			attSpot.attr.iceAtt = roleVo.curAttr.iceAtt;
 			attSpot.attr.fireAtt = roleVo.curAttr.fireAtt;
@@ -113,8 +127,8 @@ package dyzm.data.skill
 			attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
 			attSpot.attr.critDmg = roleVo.curAttr.critDmg;
 			
-			roleVo.jumpInfo[SkillDFC.id] = true;
-			roleVo.frameName = frameName;
+			roleVo.jumpInfo[id] = true;
+			roleVo.frameName = tableVo.frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
 			roleVo.curFlyPower = 0;
@@ -131,11 +145,11 @@ package dyzm.data.skill
 				end();
 			}else {
 				if (roleVo.roleMc.label != null){
-					var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.label];
+					var toState:int = SkillTable.FRAME_TO_STATE[roleVo.roleMc.label];
 					if (roleVo.attState != toState){
 						roleVo.attState = toState;
 						if (toState == RoleState.ATT_AFTER){
-							roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
+							roleVo.setSkillComboTime(tableVo.skillComboTime); // 30帧以内可以出下一招
 							roleVo.reAction();
 						}
 					}

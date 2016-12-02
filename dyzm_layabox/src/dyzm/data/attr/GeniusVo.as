@@ -3,6 +3,9 @@ package dyzm.data.attr
 	public class GeniusVo
 	{
 		
+		/**
+		 * 连击到4,必定暴击
+		 */
 		public var blast4:Boolean = false;
 		public var blast7:Boolean = false;
 		public var blast10:Boolean = false;
@@ -24,6 +27,8 @@ package dyzm.data.attr
 		 * 屹立
 		 */
 		public var erect:Boolean = false;
+		
+		public var info:Object = {};
 		public function GeniusVo()
 		{
 		}

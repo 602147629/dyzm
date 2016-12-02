@@ -2,14 +2,21 @@ package dyzm.data
 {
 	import flash.net.SharedObject;
 	
+	import dyzm.data.table.genius.GeniusTable;
+	import dyzm.data.table.skill.SkillTable;
+	
 	import laya.utils.Browser;
 
 	public class DataManager
 	{
-		
+		/**
+		 * 当前存档名
+		 */
+		public static var saveName:String;
 		public static function init():void
 		{
-			SkillData.init();
+			SkillTable.init();
+			GeniusTable.init();
 			
 			PlayerKeyData.init();
 			PlayerAttrData.init();
@@ -40,6 +47,7 @@ package dyzm.data
 		 */
 		public static function seveData(name:String):void
 		{
+			saveName = name;
 			var sharedObject:SharedObject = SharedObject.getLocal(name);
 			sharedObject.data.key = PlayerKeyData.getSave();
 			sharedObject.data.attr = PlayerAttrData.getSave();
@@ -58,9 +66,13 @@ package dyzm.data
 		 * 读档
 		 * @param name 存档名
 		 */
-		public static function readData(name:String):void
+		public static function readData(name:String):String
 		{
 			var sharedObject:SharedObject = SharedObject.getLocal(name);
+			if (sharedObject.data.time == null){
+				return "该存档不存在";
+			}
+			saveName = name;
 			PlayerKeyData.setSave(sharedObject.data.key);
 			PlayerAttrData.setSave(sharedObject.data.attr);
 			PlayerGeniusData.setSave(sharedObject.data.genius);
@@ -68,7 +80,7 @@ package dyzm.data
 			PlayerItemData.setSave(sharedObject.data.item);
 			PlayerEquipData.setSave(sharedObject.data.equip);
 			PlayerRoleData.setSave(sharedObject.data.role);
-			sharedObject.flush();
+			return null;
 		}
 	}
 }

@@ -12,13 +12,15 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 		public var comboLayer:ComboLayer;
 		public var skillLayer:SkillLayer;
 		
+		public var dirLayer:DirLayer;
+		
 		public var view:FightUi;
 		public function UiLayer()
 		{
 			super();
 			
-//			view = new FightUi();
-//			this.addChild(view);
+			view = new FightUi();
+			this.addChild(view);
 			
 			// 怪物跑出屏幕后,显示箭头
 			arrowList = [];
@@ -33,9 +35,11 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 			
 			skillLayer = new SkillLayer();
 			this.addChild(skillLayer);
+			
+			dirLayer = new DirLayer();
+			this.addChild(dirLayer);
+			
 			frameUpdate();
-			
-			
 		}
 		
 		override public function frameUpdate():void
@@ -47,6 +51,8 @@ package dyzm.view.layer.fight.childLayer.uiLayer
 				arrowList[i].frameUpdate();
 			}
 			comboLayer.frameUpdate();
+			
+			view.frameUpadte();
 		}
 	}
 }

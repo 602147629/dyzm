@@ -20,6 +20,21 @@
     <classEntry path="dyzm.data.table.ExpTable"/>
     <classEntry path="dyzm.data.table.GeniusUpTable"/>
     <classEntry path="dyzm.data.PlayerLevelData"/>
+    <classEntry path="dyzm.data.buff.BaseBuff"/>
+    <classEntry path="dyzm.data.buff.BrokenBuff"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.mainLayer.DmgNum"/>
+    <classEntry path="dyzm.view.base.ui.BaseNum"/>
+    <classEntry path="dyzm.view.layer.index.childLayer.skillLayer.SkillLayer"/>
+    <classEntry path="dyzm.view.layer.index.childLayer.skillLayer.BaseSkillItem"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.uiLayer.DirLayer"/>
+    <classEntry path="dyzm.view.layer.index.childLayer.skillLayer.SkillBar"/>
+    <classEntry path="dyzm.data.table.skill.SkillTableVo"/>
+    <classEntry path="dyzm.view.manager.MovingTimeLayer"/>
+    <classEntry path="dyzm.view.manager.BlackBg"/>
+    <classEntry path="dyzm.manager.messge.Message"/>
+    <classEntry path="dyzm.manager.Dbg"/>
+    <classEntry path="dyzm.data.table.genius.GeniusTable"/>
+    <classEntry path="dyzm.data.table.genius.GeniusTableVo"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

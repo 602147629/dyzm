@@ -1,5 +1,7 @@
 package dyzm
 {
+	
+
 	public class Res
 	{
 		
@@ -73,6 +75,8 @@ package dyzm
 		 */
 		public static const knifeFireAni:String = "fire/knife.ani";
 		
+		
+		// ui
 		/**
 		 * 怪物箭头
 		 */
@@ -85,5 +89,47 @@ package dyzm
 		 * 影子
 		 */
 		public static const shadow:String = "ui/shadow.png";
+		
+		/**
+		 * 血条
+		 */
+		public static const hpBar:String = "ui/smallHpBar.png";
+		/**
+		 * 护甲条
+		 */
+		public static const armorBar:String = "ui/smallArmorBar.png";
+		
+		/**
+		 * 扣血显示文字
+		 */
+		public static const hpNum:String = "ui/clip_num.png";
+		/**
+		 * 暴击扣血显示文字
+		 */
+		public static const hpCritNum:String = "ui/clip_num.png";
+		/**
+		 * 扣护甲显示文字
+		 */
+		public static const armorNum:String = "ui/clip_num.png";
+		/**
+		 * 暴击扣护甲显示文字
+		 */
+		public static const armorCritNum:String = "ui/clip_num.png";
+		
+		/**
+		 * 过时间进度条
+		 */
+		public static const dayProgress:String = "ui/progress.png";
+		
+		/**
+		 * 黑底
+		 */
+		public static const blackBg:String = "ui/blank.png";
+		
+		/**
+		 * 提示信息底图
+		 */
+		public static const baseMessage:String = "ui/linkbutton.png";
+		
 	}
 }

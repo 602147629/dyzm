@@ -1,8 +1,8 @@
 package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
-	import dyzm.data.SkillData;
-	import dyzm.data.role.RoleVo;
+	import dyzm.data.table.skill.SkillTable;
+	import dyzm.data.table.skill.SkillTableVo;
 	
 	public class SkillJian1 extends BaseSkillVo
 	{
@@ -10,36 +10,11 @@ package dyzm.data.skill
 		 * 技能唯一标识
 		 */
 		public static const id:String = "剑1";
-		/**
-		 * 名称
-		 */
-		public static const name:String = "剑系普攻一段";
 		
 		/**
-		 * 所属系
+		 * 技能信息
 		 */
-		public static const xi:int = SkillData.XI_JIAN;
-		
-		/**
-		 * 启动状态
-		 */
-		public static const startState:int = SkillData.FLOOR;
-		
-		/**
-		 * 帧名称
-		 */
-		public static const frameName:String = "剑1";
-		
-		/**
-		 * 可以打断的后摇
-		 */
-		public const CAN_CANCEL_AFTER:Array = ["鹰踢", "上挑", "裂空斩"];
-		
-		/**
-		 * 该技能的后续技能可出招的时间范围
-		 */
-		public const SKILL_COMBO_TIME:int = 30;
-		
+		public static var tableVo:SkillTableVo;
 		/**
 		 * 该技能出招时的位移效果
 		 */
@@ -47,6 +22,35 @@ package dyzm.data.skill
 		public const stopX:int = 6;
 		public const addX:int = 20;
 		public var curSpeedX:int = 0;
+		
+		
+		public static function getTableVo():SkillTableVo
+		{
+			if (tableVo == null){
+				tableVo = new SkillTableVo();
+				tableVo.id = id;
+				tableVo.cls = SkillJian1;
+				tableVo.name = "普攻一段"; 
+				tableVo.info = "剑系普攻第一段攻击";
+				tableVo.xi = SkillTable.XI_JIAN;
+				tableVo.startState = SkillTable.FLOOR;
+				tableVo.frameName = "剑1";
+				tableVo.needGold = 50;
+				tableVo.needDay = 1;
+				tableVo.up1Name = "破甲";
+				tableVo.up1Info = "破甲伤害+1";
+				tableVo.up1Gold = 100;
+				tableVo.up1Day = 2;
+				tableVo.up2Name = "伤害";
+				tableVo.up2Info = "攻击力+1";
+				tableVo.up2Gold = 100;
+				tableVo.up2Day = 2;
+				tableVo.canCancelAfter = [SkillYingTi.id, SkillST.id, SkillLKZ.id];
+				tableVo.skillComboTime = 30;
+			}
+			return tableVo;
+		}
+		
 		
 		public function SkillJian1()
 		{
@@ -89,7 +93,7 @@ package dyzm.data.skill
 				return true;
 			}
 			if (roleVo.attState == RoleState.ATT_AFTER){
-				for each (var id:String in CAN_CANCEL_AFTER) 
+				for each (var id:String in tableVo.canCancelAfter) 
 				{
 					if (roleVo.curSkillClass.id == id){
 						return true;
@@ -114,7 +118,14 @@ package dyzm.data.skill
 			attSpot.attr.toxinAtt = roleVo.curAttr.toxinAtt;
 			attSpot.attr.critDmg = roleVo.curAttr.critDmg;
 			
-			roleVo.frameName = frameName;
+			if (type == 1){
+				attSpot.attr.attArmor += 1;
+			}else if(type == 2){
+				attSpot.attr.minAtt += 1;
+				attSpot.attr.maxAtt += 1;
+			}
+			
+			roleVo.frameName = tableVo.frameName;
 			roleVo.curFrame = 1;
 			roleVo.attState = RoleState.ATT_BEFORE;
 			super.start();
@@ -156,11 +167,11 @@ package dyzm.data.skill
 				end();
 			}else {
 				if (roleVo.roleMc.label != null){
-					var toState:int = SkillData.FRAME_TO_STATE[roleVo.roleMc.label];
+					var toState:int = SkillTable.FRAME_TO_STATE[roleVo.roleMc.label];
 					if (roleVo.attState != toState){
 						roleVo.attState = toState;
 						if (toState == RoleState.ATT_AFTER){
-							roleVo.setSkillComboTime(SKILL_COMBO_TIME); // 30帧以内可以出下一招
+							roleVo.setSkillComboTime(tableVo.skillComboTime); // 30帧以内可以出下一招
 							roleVo.reAction();
 						}
 					}
