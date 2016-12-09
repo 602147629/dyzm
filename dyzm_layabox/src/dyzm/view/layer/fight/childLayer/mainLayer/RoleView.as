@@ -1,12 +1,15 @@
 package dyzm.view.layer.fight.childLayer.mainLayer
 {
 	import dyzm.data.role.RoleSkinVo;
+	import dyzm.data.role.RoleVo;
 	import dyzm.manager.Asset;
 	import dyzm.manager.Cfg;
 	
 	import laya.display.Sprite;
 	import laya.maths.Matrix;
 	import laya.resource.Texture;
+	import laya.utils.Handler;
+	import laya.utils.Tween;
 	
 	/**
 	 * 人物显示类
@@ -81,6 +84,8 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 * 用于攻击块的显示
 		 */
 		public var attRect:RoleRect;
+
+		public var isExplode:Boolean = false;
 		
 		public function RoleView()
 		{
@@ -137,12 +142,15 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		public function setData(data:Object):void
 		{
 			this.data = data;
+			isExplode = false;
 			initPart();
+			gotoAndStop(RoleVo.TAG_STOOD);
 		}
 		
 		public function setSkinFromSkinVo(skinVo:RoleSkinVo):void
 		{
-			for (var i:int = 0; i < strList.length; i++) 
+			var len:int = strList.length;
+			for (var i:int = 0; i < len; i++) 
 			{
 				this[strList[i]].img.texture = Asset.getRes(skinVo[strList[i]]);
 			}
@@ -159,6 +167,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			for each (var i:String in strList) 
 			{
 				rolePart = this[i];
+				rolePart.alpha = 1;
 				m = rolePart.img.transform;
 				if (m == null){
 					m = new Matrix();
@@ -210,6 +219,8 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		
 		public function gotoAndStop(name:String):void
 		{
+			if (isExplode) return;
+			
 			frameName = name;
 			roleObj = data[name];
 			totalFrames = roleObj.length;
@@ -221,6 +232,8 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		 */
 		public function childGotoAndStop(frame:int):void
 		{
+			if (isExplode) return;
+			
 			if (frame >= totalFrames){
 				frame = totalFrames - 1;
 			}else if (frame < 0){
@@ -278,11 +291,39 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 		
 		public function nextFrame():void
 		{
+			if (isExplode) return;
 			curFrame ++;
 			if (curFrame >= roleObj.length){
 				curFrame = 0;
 			}
 			childGotoAndStop(curFrame);
+		}
+		
+		/**
+		 * 尸体爆炸
+		 */
+		public function explode(roleVo:RoleVo):void
+		{
+			isExplode = true;
+			var len:int = strList.length;
+			for (var i:int = 0; i < len; i++)
+			{
+				var part:RolePart = this[strList[i]];
+				part.explode(roleVo);
+			}
+			frameUpdate();
+		}
+		
+		public function frameUpdate():void
+		{
+			if (isExplode){
+				var len:int = strList.length;
+				for (var i:int = 0; i < len; i++)
+				{
+					var part:RolePart = this[strList[i]];
+					part.frameUpdate();
+				}
+			}
 		}
 	}
 }

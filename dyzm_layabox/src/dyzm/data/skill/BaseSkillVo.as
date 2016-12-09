@@ -18,10 +18,7 @@ package dyzm.data.skill
 	{
 		public var keyId:int;
 		
-		/**
-		 * 当前技能类型,-1=没学会,0=已经学会,1=开启1号升级,2=开启2号升级
-		 */
-		public var type:int;
+		protected var _type:int;
 		
 		/**
 		 * 当前技能使用者
@@ -129,7 +126,7 @@ package dyzm.data.skill
 						for (var j:int = 0; j < foeTeamList.length; j++) // 循环执行所有队伍里的玩家
 						{
 							foeRole = foeTeamList[j];
-							if (foeRole.curInvincibleFrame <= 0 && roleVo.y - foeRole.y < attSpot.upY && foeRole.y - roleVo.y < attSpot.downY){ // 判断对方,不在无敌状态并且在Y轴攻击范围内
+							if (!foeRole.isInvincible() && roleVo.y - foeRole.y < attSpot.upY && foeRole.y - roleVo.y < attSpot.downY){ // 判断对方,不在无敌状态并且在Y轴攻击范围内
 								//判断是否有打到过对方
 								var isHitAgain:Boolean = false;
 								for each (var r:RoleVo in attInfo[curAttSpot]){
@@ -201,5 +198,22 @@ package dyzm.data.skill
 			rect.width = arr[2];
 			rect.height = arr[3];
 		}
+
+		/**
+		 * 当前技能类型,-1=没学会,0=已经学会,1=开启1号升级,2=开启2号升级
+		 */
+		public function get type():int
+		{
+			return _type;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set type(value:int):void
+		{
+			_type = value;
+		}
+
 	}
 }

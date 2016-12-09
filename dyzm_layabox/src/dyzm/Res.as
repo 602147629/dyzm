@@ -93,11 +93,33 @@ package dyzm
 		/**
 		 * 血条
 		 */
-		public static const hpBar:String = "ui/smallHpBar.png";
+		public static const hpBar:String = "ui/hpBar.png";
 		/**
 		 * 护甲条
 		 */
 		public static const armorBar:String = "ui/smallArmorBar.png";
+		
+		/**
+		 * 护甲条左边豆豆
+		 */
+		public static const armorLeft:String = "ui/armorLeft.png";
+		/**
+		 * 护甲条右边豆豆
+		 */
+		public static const armorRight:String = "ui/armorRight.png";
+		/**
+		 * 护甲条中间豆豆
+		 */
+		public static const armorMiddle:String = "ui/armorMiddle.png";
+		/**
+		 * 护甲条斜杠
+		 */
+		public static const armorSeparator:String = "ui/armorSeparator.png";
+		
+		/**
+		 * 怪物血条底
+		 */
+		public static const foeHpDi:String = "ui/headDi2.png";
 		
 		/**
 		 * 扣血显示文字

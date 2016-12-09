@@ -7,6 +7,7 @@ package dyzm.data.role
 	import dyzm.data.attr.BaseAttrVo;
 	import dyzm.data.attr.GeniusVo;
 	import dyzm.data.buff.BaseBuff;
+	import dyzm.data.buff.BuffPool;
 	import dyzm.data.skill.BaseSkillVo;
 	import dyzm.data.skill.ByAttInfo;
 	import dyzm.data.skill.SkillBlock;
@@ -16,6 +17,7 @@ package dyzm.data.role
 	import dyzm.util.Dict;
 	import dyzm.util.IDict;
 	import dyzm.util.Maths;
+	import dyzm.view.layer.fight.childLayer.mainLayer.BaseRole;
 	import dyzm.view.layer.fight.childLayer.mainLayer.RoleView;
 	
 	import laya.maths.Point;
@@ -141,6 +143,11 @@ package dyzm.data.role
 		public var roleMc:RoleView;
 		
 		/**
+		 * 当前人物显示器
+		 */
+		public var roleSpr:BaseRole;
+		
+		/**
 		 * 当前朝向,右=1,左=-1
 		 */
 		public var curTurn:int = 1;
@@ -237,6 +244,11 @@ package dyzm.data.role
 		
 		public var buffList:Array = [];
 		
+		/**
+		 * 尸体爆炸计时
+		 */
+		public var explodeFrame:int = -1;
+		
 		public function RoleVo()
 		{
 			_keyId = Cfg.getKeyId();
@@ -306,6 +318,15 @@ package dyzm.data.role
 				skillComboTime = 0;
 				skillComboAllTime = time;
 			}
+		}
+		
+		/**
+		 * 是否处于无法被攻击状态
+		 * @return 
+		 */
+		public function isInvincible():Boolean
+		{
+			return explodeFrame != -1 || curInvincibleFrame > 0;
 		}
 		
 		/**
@@ -400,16 +421,18 @@ package dyzm.data.role
 				curAttr.hp -= curAtt;
 				if (curAttr.hp < 0){
 					curAttr.hp = 0;
+					curAttr.armor = 0;
 				}
 			}
-			
 			if (curAtt <= 0 && curAttArmor > 0){
+				Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn, "armor", skill.attSpot.attr.attArmor, isCrit]);
+			}else if (curAttr.armor > 0){
 				Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn, "armor", skill.attSpot.attr.attArmor, isCrit]);
 			}else{
 				Evt.event(ADD_FIRE_EVENT, [firePoint, skill.attSpot.attFireType, y+1, skill.attSpot.attFireRotation * attRole.curTurn, "hp", curAtt, isCrit]);
 			}
 			
-			if ((curAtt > 0 && curAttr.armor == 0) || skill.attSpot.isStiff){ // 扣血了,并且护甲被破
+			if ((curAtt > 0 && curAttr.armor == 0) || skill.attSpot.isStiff || curAttr.hp <= 0){ // 扣血了,并且护甲被破
 				// 清理原来动作
 				if (attState != RoleState.ATT_NORMAL){
 					attState = RoleState.ATT_NORMAL;
@@ -501,14 +524,24 @@ package dyzm.data.role
 		}
 
 		/**
-		 * 添加BUFF
+		 * 添加BUFF,相同buff不可叠加
 		 * @param source
 		 * @param buff
 		 */
-		public function addBuff(source:RoleVo, buff:BaseBuff):void
+		public function addBuff(source:RoleVo, buffType:String):void
 		{
-			buffList.push(buff);
-			buff.add(this, source);
+			for (var i:int = 0; i < buffList.length; i++) 
+			{
+				if (buffList[i].type == buffType) return;
+			}
+			
+			var buff:BaseBuff = BuffPool.getBuff(buffType);
+			var b:Boolean = buff.add(this, source);
+			if (b){
+				buffList.push(buff);
+			}else{
+				BuffPool.inPool(buff);
+			}
 		}
 		
 		/**
@@ -517,7 +550,6 @@ package dyzm.data.role
 		 */
 		public function removeBuff(buff:BaseBuff):void
 		{
-			buff.remove();
 			var index:int = buffList.indexOf(buff);
 			if (index != -1){
 				buffList.removeAt(index);
@@ -570,10 +602,34 @@ package dyzm.data.role
 		}
 		
 		/**
+		 * 死亡爆炸
+		 */
+		public function explode():void
+		{
+			roleSpr.explode();
+			explodeFrame = 120;
+		}
+		
+		/**
 		 * 帧率更新
 		 */
 		public function frameUpdate():void
 		{
+			var r:RoleVo;
+			if (explodeFrame != -1){
+				explodeFrame --;
+				if (explodeFrame == 60){
+					byAttInfo.hitDict = null;
+					for each (r in byAttRoleList.idToObj) 
+					{
+						r.removeHit(this);
+					}
+					byAttRoleList.toEmpty();
+				}else if (explodeFrame == 0){
+					needDel = true;
+				}
+				return;
+			}
 			// buff处理
 			for (var i:int = 0; i < buffList.length; i++) 
 			{
@@ -597,7 +653,6 @@ package dyzm.data.role
 				return;
 			}
 			// 常规状态处理
-			var r:RoleVo;
 			switch(curState)
 			{
 				case RoleState.STATE_NORMAL: // 正常状态
@@ -656,10 +711,11 @@ package dyzm.data.role
 							frameName = TAG_DOWNING;
 							curFrame = 1;
 						}else{
+							curAttr.armor = curAttr.maxArmor;
 							curState = RoleState.STATE_NORMAL;
 							reAction();
 						}
-						curAttr.armor = curAttr.maxArmor;
+						
 					}else{
 						if(byAttInfo.stiffFrame - byAttInfo.curStiffFrame <= 8){
 							curFrame = 17 - (byAttInfo.stiffFrame - byAttInfo.curStiffFrame);

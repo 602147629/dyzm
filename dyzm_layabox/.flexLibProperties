@@ -35,6 +35,9 @@
     <classEntry path="dyzm.manager.Dbg"/>
     <classEntry path="dyzm.data.table.genius.GeniusTable"/>
     <classEntry path="dyzm.data.table.genius.GeniusTableVo"/>
+    <classEntry path="dyzm.data.buff.ExplodeBuff"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.uiLayer.base.ArmorBar"/>
+    <classEntry path="dyzm.view.layer.fight.childLayer.uiLayer.base.HpBar"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

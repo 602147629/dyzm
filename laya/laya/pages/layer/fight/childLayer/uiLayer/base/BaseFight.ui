@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":9,
+    "selecteID":22,
     "props":{"width":1280,"sceneColor":"#000000","height":800},
     "nodeParent":-1,
     "label":"View",
@@ -21,41 +21,41 @@
     "child":[
         {
             "x":15,
-            "type":"ProgressBar",
-            "props":{"y":40,"x":60,"width":400,"var":"hpBar","value":100,"skin":"ui/playerHpbar.png","name":"hpBar","height":20},
+            "type":"Image",
+            "props":{"y":108,"x":67,"width":361,"skin":"ui/headDi.png","pivotY":102,"pivotX":62,"height":94},
             "nodeParent":1,
-            "label":"ProgressBar(hpBar)",
+            "label":"Image",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
             "frames":[
                 {
                     "type":1,
-                    "props":{"y":333,"x":293},
+                    "props":{"y":321,"x":409,"skin":"ui/headDi.png"},
                     "frame":0,
                     "__InPool":false
                 }],
-            "compId":8,
+            "compId":10,
             "child":[
                 ]
         },
         {
             "x":15,
-            "type":"ProgressBar",
-            "props":{"y":20,"x":60,"width":400,"var":"armorBar","value":100,"skin":"ui/playerArmorBar.png","name":"armorBar","height":20},
+            "type":"Image",
+            "props":{"y":15,"x":25,"skin":"ui/head.png"},
             "nodeParent":1,
-            "label":"ProgressBar(armorBar)",
+            "label":"Image",
             "isDirectory":false,
             "isAniNode":true,
             "hasChild":false,
             "frames":[
                 {
                     "type":1,
-                    "props":{"y":169,"x":216,"skin":"ui/progress.png"},
+                    "props":{"y":142,"x":65,"skin":"ui/head.png"},
                     "frame":0,
                     "__InPool":false
                 }],
-            "compId":9,
+            "compId":11,
             "child":[
                 ]
         }],

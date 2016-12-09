@@ -48,7 +48,18 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 			turnContainer.addChild(mc);
 			
 			roleVo.roleMc = mc;
+			roleVo.roleSpr = this;
 		}
+		
+		/**
+		 * 死亡爆炸
+		 */
+		public function explode():void
+		{
+			mc.explode(roleVo);
+			shadow.visible = false;
+		}
+		
 		override public function frameUpdate():void
 		{
 			super.frameUpdate();
@@ -71,6 +82,7 @@ package dyzm.view.layer.fight.childLayer.mainLayer
 				if (mc.curFrame != roleVo.curFrame){
 					mc.childGotoAndStop(roleVo.curFrame - 1);
 				}
+				mc.frameUpdate();
 //				avatar();
 			}
 		}

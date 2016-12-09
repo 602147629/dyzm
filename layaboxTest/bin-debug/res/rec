@@ -38,9 +38,13 @@ role\rightArm1_1.png:1480064455
 role\rightCrus1_1.png:1480064455
 role\rightHand1_1.png:1480064455
 role\rightLeg1_1.png:1480064455
-role\role_1.json:1480565791
+role\role_1.json:1480600182
 role\weapon1_1.png:1480064455
-ui\arrow.png:1479972213
+ui\armorLeft.png:1480778282
+ui\armorMiddle.png:1480778337
+ui\armorRight.png:1480778306
+ui\armorSeparator.png:1480778586
+ui\arrow.png:1480779287
 ui\bg.png:1480305261
 ui\blank.png:1480305261
 ui\btn.png:1479900552
@@ -52,6 +56,11 @@ ui\clip_selectBox.png:1480305261
 ui\clip_tree_arrow.png:1480305261
 ui\clip_tree_folder.png:1480305261
 ui\combobox.png:1480305261
+ui\head.png:1480748277
+ui\headDi.png:1480778919
+ui\headDi2.png:1480950789
+ui\headDi2Xue1.png:1480951144
+ui\hpBar.png:1480778509
 ui\hscroll$bar.png:1480305261
 ui\hscroll$down.png:1480305261
 ui\hscroll$up.png:1480305261
@@ -70,6 +79,7 @@ ui\progress.png:1480305261
 ui\radio.png:1480305261
 ui\radiogroup.png:1480305261
 ui\shadow.png:1480060947
+ui\skillDi.png:1480778956
 ui\smallArmorBar$bar.png:1480305261
 ui\smallArmorBar.png:1480305261
 ui\smallHpBar$bar.png:1480305261

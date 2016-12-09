@@ -20,13 +20,13 @@ package dyzm.data.role.foe
 			h = 280;
 			
 			// 属性配置
-			attr.hp = int.MAX_VALUE;
-			attr.maxHp = int.MAX_VALUE;
+//			attr.hp = int.MAX_VALUE;
+//			attr.maxHp = int.MAX_VALUE;
 			
-//			attr.hp = 10;
-//			attr.maxHp = 10;
-			attr.armor = 0;
-			attr.maxArmor = 0;
+			attr.hp = 10;
+			attr.maxHp = 10;
+			attr.armor = 2;
+			attr.maxArmor = 2;
 			attr.minAtt = 1;
 			attr.maxAtt = 2;
 			attr.attArmor = 1;

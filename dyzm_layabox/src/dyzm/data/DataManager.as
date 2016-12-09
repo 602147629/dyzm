@@ -2,6 +2,7 @@ package dyzm.data
 {
 	import flash.net.SharedObject;
 	
+	import dyzm.data.buff.BuffPool;
 	import dyzm.data.table.genius.GeniusTable;
 	import dyzm.data.table.skill.SkillTable;
 	
@@ -17,6 +18,8 @@ package dyzm.data
 		{
 			SkillTable.init();
 			GeniusTable.init();
+			BuffPool.init();
+			
 			
 			PlayerKeyData.init();
 			PlayerAttrData.init();

@@ -37,10 +37,10 @@ package dyzm.data
 			roleVo.attr.minAtt = 123;
 			roleVo.attr.maxAtt = 123;
 			
-//			roleVo.attr.maxHp = 1;
-//			roleVo.attr.hp = 1;
-			roleVo.attr.maxHp = int.MAX_VALUE;
-			roleVo.attr.hp = int.MAX_VALUE;
+			roleVo.attr.maxHp = 10;
+			roleVo.attr.hp = 10;
+//			roleVo.attr.maxHp = int.MAX_VALUE;
+//			roleVo.attr.hp = int.MAX_VALUE;
 			roleVo.attr.armor = 0;
 			roleVo.attr.maxArmor = 0;
 			

@@ -252,7 +252,7 @@ package dyzm.data
 			skillInfo[SkillBlock.id]	= {type:-1, make:-1, day:0, opened:[]};
 			skillInfo[SkillSLZ.id]		= {type:0, make:-1, day:0, opened:[]};
 			skillInfo[SkillST.id]		= {type:0, make:-1, day:0, opened:[]};
-			skillInfo[SkillJianBSJ.id]	= {type:0, make:-1, day:0, opened:[]};
+			skillInfo[SkillJianBSJ.id]	= {type:1, make:-1, day:0, opened:[1]};
 			
 			// 技能按键绑定初始化
 			skyBind[1] = [SkillKZPG.id];

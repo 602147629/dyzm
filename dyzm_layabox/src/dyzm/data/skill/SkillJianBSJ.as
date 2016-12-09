@@ -2,6 +2,7 @@ package dyzm.data.skill
 {
 	import dyzm.data.RoleState;
 	import dyzm.data.buff.BrokenBuff;
+	import dyzm.data.buff.ExplodeBuff;
 	import dyzm.data.role.RoleVo;
 	import dyzm.data.table.skill.SkillTable;
 	import dyzm.data.table.skill.SkillTableVo;
@@ -38,6 +39,8 @@ package dyzm.data.skill
 		public var actionIndex:int;
 		public var curAttSpot:int;
 		public var phase:int;
+		
+		public var myBuff:Array;
 		
 		public static function getTableVo():SkillTableVo
 		{
@@ -143,7 +146,7 @@ package dyzm.data.skill
 			attSpot.attr.thundAtt = 0;
 			attSpot.attr.toxinAtt = 0;
 			attSpot.attr.critDmg = 0;
-			
+			attSpot.toBuff = null;
 			target = roleVo.maxComboRole;
 			actionList = roleVo.comboInfo[target.keyId].concat();
 			actionIndex = 0;
@@ -220,16 +223,9 @@ package dyzm.data.skill
 								if (type == 2){
 									attSpot.attr.minAtt += roleVo.maxCombo * 0.3;
 									attSpot.attr.maxAtt += roleVo.maxCombo * 0.3;
-								}else {
-									if (type == 1){
-										if (attSpot.toBuff != null){
-											var buff:BrokenBuff = new BrokenBuff();
-											attSpot.toBuff = [buff];
-										}
-									}else{
-										attSpot.toBuff = null;
-									}
 								}
+								attSpot.toBuff = myBuff;
+								
 								attSpot.attr.attArmor = roleVo.curAttr.attArmor;
 								attSpot.attr.iceAtt = roleVo.curAttr.iceAtt;
 								attSpot.attr.fireAtt = roleVo.curAttr.fireAtt;
@@ -262,6 +258,25 @@ package dyzm.data.skill
 				}
 			}
 			return null;
+		}
+		
+		override public function set type(value:int):void
+		{
+			if (_type == value) return;
+			_type = value;
+			if (value == 1){
+				if (myBuff){
+					if (myBuff.length == 1){
+						myBuff.push(BrokenBuff.TYPE);
+					}
+				}else{
+					myBuff = [ExplodeBuff.TYPE, BrokenBuff.TYPE];
+				}
+			}else{
+				if (myBuff == null){
+					myBuff = [ExplodeBuff.TYPE];
+				}
+			}
 		}
 	}
 }

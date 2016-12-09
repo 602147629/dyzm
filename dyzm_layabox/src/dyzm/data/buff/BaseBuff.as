@@ -12,6 +12,7 @@ package dyzm.data.buff
 		 * 发起人
 		 */
 		public var source:RoleVo;
+		public var type:String;
 		public function BaseBuff()
 		{
 		}
@@ -26,11 +27,16 @@ package dyzm.data.buff
 		
 		/**
 		 * buff添加时调用
+		 * @param _target
+		 * @param _source
+		 * @return true表示添加成功
+		 * 
 		 */
-		public function add(_target:RoleVo,_source:RoleVo):void
+		public function add(_target:RoleVo,_source:RoleVo):Boolean
 		{
-			target = target;
+			target = _target;
 			source = _source;
+			return true;
 		}
 		
 		/**
@@ -38,7 +44,10 @@ package dyzm.data.buff
 		 */
 		public function remove():void
 		{
-			
+			target.removeBuff(this);
+			target = null;
+			source = null;
+			BuffPool.inPool(this);
 		}
 	}
 }
